@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавить пользоателей</title>
+</head>
+
+
+<body>
+
+<div>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+    </form>
+</div>
+<div>
+    <form th:action="add" method="post">
+        <input type="text" name="name" placeholder="Введите имя работника" />
+        <input type="text" name="email" placeholder="Введите Email">
+        <button type="submit">Добавить</button>
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+    </form>
+</div>
+
+<form method="post" th:action="filter">
+    <input type="text" name="filterName" placeholder="Поиск по имени">
+    <button type="submit">Найти</button>
+    <input type="hidden"
+           th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}" />
+</form>
+
+
+
+<div>Пользователи</div>
+
+<div>
+    <ul th:each="worker : ${workers}">
+        <li th:text="${worker.id}+' '+${worker.name}+' '+${worker.email}+' '+${worker.usrName}"></li>
+    </ul>
+</div>
+
+<div>
+    <p th:text="${error}" />
+</div>
+
+
+</body>
+</html>
