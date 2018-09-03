@@ -60,8 +60,8 @@ public class AddController {
     }
 
     @PostMapping("/add")
-    public String add(
-            @RequestParam(required = false, defaultValue = "") String filterName,
+  public String add(){
+             /* @RequestParam(required = false, defaultValue = "") String filterName,
             @RequestParam("file") MultipartFile file,
             @AuthenticationPrincipal User user,
             @Valid Worker worker,
@@ -103,7 +103,7 @@ public class AddController {
             model.addAttribute("workers", workers);
             model.addAttribute("error", " ");
             model.addAttribute("filterName", filterName);
-
+*/
             return "add";
 
     }

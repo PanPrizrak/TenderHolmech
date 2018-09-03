@@ -1,8 +1,8 @@
 package com.holmech.tender.application.controller;
 
-import com.example.webfb.application.entity.User;
-import com.example.webfb.application.entity.dto.CaptchaResponseDto;
-import com.example.webfb.application.service.UserService;
+import com.holmech.tender.application.entity.User;
+import com.holmech.tender.application.entity.dto.CaptchaResponseDto;
+import com.holmech.tender.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

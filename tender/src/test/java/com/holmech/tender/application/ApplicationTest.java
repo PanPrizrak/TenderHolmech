@@ -25,4 +25,5 @@ public class ApplicationTest {
         mockMvc.perform(get("/"))
                 .andExpect(content().string(containsString("")));
     }
+}
 

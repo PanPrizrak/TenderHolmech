@@ -1,8 +1,8 @@
 package com.holmech.tender.application.controller;
 
-import com.example.webfb.application.entity.Role;
-import com.example.webfb.application.entity.User;
-import com.example.webfb.application.service.UserService;
+import com.holmech.tender.application.entity.Role;
+import com.holmech.tender.application.entity.User;
+import com.holmech.tender.application.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-@Entity
+@Entity(name = "orders")
 public class Order {
 
     @Id
@@ -17,10 +17,10 @@ public class Order {
 
     private String number;
     private String date;
-
+/*@
     private Worker chairman;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
     private Worker deputy;
 
@@ -30,6 +30,6 @@ public class Order {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
-    private Worker secretary;
+    private Worker secretary;*/
 
 }

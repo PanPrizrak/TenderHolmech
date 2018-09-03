@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class Applicant {
 

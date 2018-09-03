@@ -23,4 +23,8 @@ public class Worker {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id")
     private Set<Contacts> contactsSet;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

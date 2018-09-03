@@ -58,11 +58,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- Migration DB -->
+        <!-- Migration DB
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- e-mail -->
         <dependency>
@@ -76,7 +76,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JAXB -->
+        <!-- JAXB
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -91,7 +91,7 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>2.3.0</version>
-        </dependency>
+        </dependency>-->
 
         <!--lombok-->
         <dependency>
