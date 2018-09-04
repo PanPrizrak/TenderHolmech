@@ -32,7 +32,7 @@
     <#if user??>
         <@l.logout />
     <#else>
-        <button class="btn btn-primary" type="submit"><a href="/login">Sing in</a></button>
+        <a href="/login" class="btn btn-primary " role="button" aria-pressed="true">Sing in</a>
     </#if>
     </div>
 </nav>

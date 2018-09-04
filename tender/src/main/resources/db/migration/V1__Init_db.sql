@@ -107,12 +107,12 @@ create table user_role (user_id bigint not null, roles varchar(255)) engine=MyIS
 create table usr (id bigint not null, activation_code varchar(255), active bit not null, email varchar(255), password varchar(255), username varchar(255), primary key (id)) engine=MyISAM;
 create table worker (id bigint not null, name varchar(255), patronymic varchar(255), position varchar(255), surname varchar(255), worker_id bigint, primary key (id)) engine=MyISAM;
 create table worker_role (id bigint not null, role varchar(255), order_id bigint, worker_id bigint, primary key (id)) engine=MyISAM;
-alter table contacts add constraint FKaqjtw8y1rwj4arhg2nuaqoxel foreign key (contact_id) references worker (id);
-alter table message add constraint FK2ai7p6477u3ljctoks132iaw5 foreign key (applicant_id) references applicant (id);
-alter table message add constraint FKm5j8dtffxtv05qgyq47g4teuw foreign key (tender_id) references tender (id);
-alter table subject add constraint FK9ywwf76ybpbboaovys9iefx2j foreign key (tender_id) references tender (id);
-alter table user_role add constraint FKfpm8swft53ulq2hl11yplpr5 foreign key (user_id) references usr (id);
-alter table worker add constraint FK21w7vc73o3a88pub5vldklcrq foreign key (worker_id) references applicant (id);
-alter table worker_role add constraint FK222gu69tj80gg2vyte1ghx4wh foreign key (order_id) references orders (id);
-alter table worker_role add constraint FKcyvamiq864yg258swbjimhb8s foreign key (worker_id) references worker (id)
+alter table contacts add constraint contacts_worker_fk foreign key (contact_id) references worker (id);
+alter table message add constraint message_applicant_fk foreign key (applicant_id) references applicant (id);
+alter table message add constraint message_tender_fk foreign key (tender_id) references tender (id);
+alter table subject add constraint subject_tender_fk foreign key (tender_id) references tender (id);
+alter table user_role add constraint user_role_user_fk foreign key (user_id) references usr (id);
+alter table worker add constraint worker_applicant_fk foreign key (worker_id) references applicant (id);
+alter table worker_role add constraint worker_role_orders_fk foreign key (order_id) references orders (id);
+alter table worker_role add constraint worker_role_worker_fk foreign key (worker_id) references worker (id)
 

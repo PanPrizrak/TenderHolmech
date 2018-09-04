@@ -1,6 +1,6 @@
 package com.holmech.tender.application;
 
-import com.holmech.tender.application.controller.GreetingController;
+import com.holmech.tender.application.controller.AddController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = GreetingController.class)
+@WebMvcTest(controllers = AddController.class)
 public class ApplicationTest {
 
     @Autowired
