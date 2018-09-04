@@ -24,4 +24,9 @@ public class Applicant {
     @JoinColumn(name = "contact_id")
     private Set<Contacts> contactsSet;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "worker_id")
+    private Set<Worker> workerSet;
+
+
 }

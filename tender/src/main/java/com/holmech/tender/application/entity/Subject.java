@@ -19,12 +19,10 @@ public class Subject {
     private Integer amount;
     private Double price;
     private String code;
-    private String delivery; //cllection
-    private String payment; //cllection
+    private String delivery; //collection
+    private String payment; //collection
 
     @ManyToOne
     @JoinColumn (name = "tender_id")
     private Tender tender;
-
-
 }
