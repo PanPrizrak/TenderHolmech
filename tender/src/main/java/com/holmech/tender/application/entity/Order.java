@@ -17,7 +17,11 @@ public class Order {
 
     private String number;
     private String date;
+
+
 /*@
+
+
     private Worker chairman;
 
     OneToMany(fetch = FetchType.LAZY)

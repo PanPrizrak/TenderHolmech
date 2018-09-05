@@ -1,4 +1,4 @@
-<#import "/templates/parts/common.ftl" as ht>
+<#import "parts/common.ftl" as ht>
 
 <@ht.page>
 <h5>Страница приветствия</h5>
