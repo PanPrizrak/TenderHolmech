@@ -74,21 +74,22 @@
     </div>
 <!--date-->
     <div class="form-group">
-        <div class="well">
-            <div id="datetimepicker4" class="input-append">
-                <input data-format="yyyy-MM-dd" name="date" type="text"></input>
-                <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                </span>
-            </div>
+        <div class='input-group date' id='datetimepicker3'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
         </div>
-        <script type="text/javascript">
-            $(function() {
-                $('#datetimepicker4').datetimepicker({
-                pickTime: false
-                });
-            });
-        </script>
+
+
+         <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker3').datetimepicker({
+                            format: 'LT'
+                        });
+                    });
+         </script>
+
     </div>
 <!--stage-->
 <div class="form-group">
