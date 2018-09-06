@@ -2,8 +2,10 @@ package com.holmech.tender.application.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -16,7 +18,10 @@ public class Order {
     private Long id;
 
     private String number;
-    private String date;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //@NotBlank(message="pleas fil date")
+    private Date date;
 
 
 /*@

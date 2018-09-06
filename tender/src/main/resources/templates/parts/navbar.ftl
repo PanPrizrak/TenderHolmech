@@ -13,7 +13,7 @@
                 <a class="nav-link" href="/">Главная</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="/add">Журнал</a>
+                <a class="nav-link" href="/journal">Журнал</a>
             </li>
             <#if isAdmin>
             <li class="nav-item ">
