@@ -17,7 +17,7 @@ public class Worker {
 
     private String position;
     private String surname;
-    private String name;
+    private String nameW;
     private String patronymic;
 
     @OneToMany(fetch = FetchType.LAZY)

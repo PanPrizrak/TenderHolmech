@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface WorkerRepository extends CrudRepository<Worker, Long> {
 
-    Iterable<Worker> findByName(String name);
+    Iterable<Worker> findByNameW(String nameW);
 
 }

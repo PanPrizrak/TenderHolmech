@@ -20,14 +20,14 @@ public class Tender {
 
     @NotBlank(message="pleas fil number")
     //@Length(max = 255, message = "max long")
-    private String number;
+    private String numberT;
 
     @NotBlank(message="pleas fil name")
-    private String name;
+    private String nameT;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     //@NotBlank(message="pleas fil date")
-    private Date date;
+    private Date dateT;
 
     @NotBlank(message="pleas fil stage")
     private String stage;

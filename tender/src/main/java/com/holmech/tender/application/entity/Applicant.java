@@ -16,7 +16,7 @@ public class Applicant {
     private Long id;
 
 
-    private  String name;
+    private  String nameA;
     private  String address;
     private  String pan;
 

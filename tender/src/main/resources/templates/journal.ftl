@@ -29,11 +29,11 @@
 
     <tbody>
     <tr>
-        <th scope="row">${tender.number}</th>
-        <td>${tender.date}?date</td>
-        <td>${tender.name}</td>
+        <th scope="row">${tender.numberT}</th>
+        <td>${tender.dateT?date}</td>
+        <td>${tender.nameT}</td>
         <td>${tender.stage}</td>
-        <td>${tender.order.date}  ${tender.order.number}</td>
+        <td>№ ${tender.order.numberO} от ${tender.order.dateO?date}</td>
         <td><form action="journal/delete" method="post" >
             <input type="hidden" name="idtender" value=${tender.id} />
             <button type="submit">Удалить</button>
@@ -54,46 +54,31 @@
         <form action="journal" method="post" enctype="multipart/form-data">
 <!--number-->
     <div class="form-group">
-                <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')}"
-                       value="<#if tender??>${tender.number}</#if>" name="number" placeholder="Введите номер"/>
-                <#if numberError??>
+                <input type="text" class="form-control ${(numberTError??)?string('is-invalid', '')} col-sm-4"
+                       value="<#if tender??>${tender.numberT}</#if>" name="numberT" placeholder="Введите номер"/>
+                <#if numberTError??>
                     <div class="invalid-feedback">
-                        ${numberError}
+                        ${numberTError}
                     </div>
                 </#if>
     </div>
 <!--name-->
     <div class="form-group">
-        <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')}"
-               value="<#if tender??>${tender.name}</#if>" name="name" placeholder="Введите краткое название"/>
-        <#if nameError??>
+        <input type="text" class="form-control ${(nameTError??)?string('is-invalid', '')} col-sm-4"
+               value="<#if tender??>${tender.nameT}</#if>" name="nameT" placeholder="Введите краткое название"/>
+        <#if nameTError??>
         <div class="invalid-feedback">
-            ${nameError}
+            ${nameTError}
         </div>
     </#if>
     </div>
 <!--date-->
     <div class="form-group">
-        <div class='input-group date' id='datetimepicker3'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-time"></span>
-                            </span>
-        </div>
-
-
-         <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker3').datetimepicker({
-                            format: 'LT'
-                        });
-                    });
-         </script>
-
+        <input type="date" class="form-control col-sm-2" id="date" name="dateT" placeholder="Дата" required>
     </div>
 <!--stage-->
 <div class="form-group">
-    <input type="text" class="form-control ${(stageError??)?string('is-invalid', '')}"
+    <input type="text" class="form-control ${(stageError??)?string('is-invalid', '')} col-sm-4"
            value="<#if tender??>${tender.stage}</#if>" name="stage" placeholder="Введите этап"/>
     <#if stageError??>
     <div class="invalid-feedback">
@@ -103,7 +88,7 @@
 </div>
 <!--priceFactor-->
 <div class="form-group">
-    <input type="text" class="form-control ${(priceFactorError??)?string('is-invalid', '')}"
+    <input type="text" class="form-control ${(priceFactorError??)?string('is-invalid', '')} col-sm-4"
            value="<#if tender??>${tender.priceFactor}</#if>" name="priceFactor" placeholder="Введите фатор цены"/>
     <#if priceFactorError??>
     <div class="invalid-feedback">
@@ -113,7 +98,7 @@
 </div>
 <!--paymentFactor-->
 <div class="form-group">
-    <input type="text" class="form-control ${(paymentFactorError??)?string('is-invalid', '')}"
+    <input type="text" class="form-control ${(paymentFactorError??)?string('is-invalid', '')} col-sm-4"
            value="<#if tender??>${tender.paymentFactor}</#if>" name="paymentFactor" placeholder="Введите фактор условия оплаты"/>
     <#if paymentFactorError??>
     <div class="invalid-feedback">
@@ -130,11 +115,11 @@
 </div>
 <!--order.number-->
 <div class="form-group">
-    <input type="text" class="form-control ${(numberError??)?string('is-invalid', '')}"
-           value="<#if order??>${order.number}</#if>" name="paymentFactor" placeholder="Введите номер приказа"/>
-    <#if numberError??>
+    <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
+           value="<#if order??>${order.numberO}</#if>" name="order.namberO" placeholder="Введите номер приказа"/>
+    <#if numberOError??>
     <div class="invalid-feedback">
-        ${numberError}
+        ${numberOError}
     </div>
 </#if>
 </div>
@@ -142,23 +127,7 @@
 <div class="form-group">
     <div class="container">
         <div class="row">
-            <div class='col-sm-6'>
-                <div class="form-group">
-                    <div class='input-group date' id='datetimepicker3'>
-                        <input type='text' class="form-control" />
-                        <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                    </div>
-                </div>
-            </div>
-            <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker3').datetimepicker({
-                    format: 'LT'
-                });
-            });
-        </script>
+            <input type="date" class="form-control col-sm-2" id="date" name="dateO" placeholder="Дата"  required/><!---->
         </div>
     </div>
 </div>

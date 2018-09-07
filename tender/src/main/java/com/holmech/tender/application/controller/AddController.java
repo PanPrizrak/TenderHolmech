@@ -31,7 +31,7 @@ public class AddController {
         // JOptionPane.showMessageDialog(null, filterName);
 
         if (filterName != null && !filterName.isEmpty()) {
-            bufWorkers = workerRepository.findByName(filterName);
+            bufWorkers = workerRepository.findByNameW(filterName);
             if (bufWorkers.iterator().hasNext()) {
                 workers = bufWorkers;
                 error = " ";

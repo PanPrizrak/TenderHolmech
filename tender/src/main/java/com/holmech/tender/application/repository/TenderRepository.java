@@ -4,5 +4,5 @@ import com.holmech.tender.application.entity.Tender;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TenderRepository extends CrudRepository<Tender,Long> {
-    Iterable<Tender> findByName(String filter);
+    Iterable<Tender> findByNameT(String filter);
 }

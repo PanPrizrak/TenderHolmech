@@ -17,11 +17,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String number;
+    private String numberO;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     //@NotBlank(message="pleas fil date")
-    private Date date;
+    private Date dateO;
 
 
 /*@

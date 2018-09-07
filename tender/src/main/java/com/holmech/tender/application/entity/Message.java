@@ -14,9 +14,9 @@ public class Message {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
 
-    private String number;
+    private String numberM;
 
-    private String date;
+    private String dateM;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "applicant_id")

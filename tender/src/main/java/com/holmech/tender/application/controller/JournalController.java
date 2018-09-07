@@ -37,7 +37,7 @@ public class JournalController {
         Iterable<Tender> tenders;
 
         if (filter != null && !filter.isEmpty()) {
-            tenders = tenderRepository.findByName(filter);
+            tenders = tenderRepository.findByNameT(filter);
         } else {
             tenders = tenderRepository.findAll();
         }
@@ -71,6 +71,7 @@ public class JournalController {
 
             model.addAttribute("tender", null);
 
+            System.out.println("!!!!!!!!!!!!!!!!!!!"+tender.getDateT().toString());
             tenderRepository.save(tender);
         }
 
