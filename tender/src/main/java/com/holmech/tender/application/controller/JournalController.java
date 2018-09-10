@@ -86,8 +86,8 @@ public class JournalController {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
 
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+            if (!uploadDir.isDirectory()) {
+                uploadDir.mkdirs();
             }
 
             String uuidFile = UUID.randomUUID().toString();

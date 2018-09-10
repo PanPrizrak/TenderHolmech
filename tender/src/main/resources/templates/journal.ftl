@@ -116,7 +116,7 @@
 <!--order.number-->
 <div class="form-group">
     <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
-           value="<#if order??>${order.numberO}</#if>" name="order.namberO" placeholder="Введите номер приказа"/>
+           value="<#if order??>${order.numberO}</#if>" name="numberO" placeholder="Введите номер приказа"/>
     <#if numberOError??>
     <div class="invalid-feedback">
         ${numberOError}
