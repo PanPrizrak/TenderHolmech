@@ -2,6 +2,7 @@ package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.excelparser.ExcelParser;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
-@Controller
+@Controller("/journal")
 public class JournalController {
 
     @Autowired
@@ -32,7 +36,7 @@ public class JournalController {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @GetMapping("/journal")
+    @GetMapping()
     public String journal(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Tender> tenders;
 
@@ -47,7 +51,7 @@ public class JournalController {
         return "journal";
     }
 
-    @PostMapping("/journal")
+    @PostMapping()
     public String add(
             @Valid Order order,
             @Valid Tender tender,
@@ -99,13 +103,17 @@ public class JournalController {
         }
     }
 
-    @PostMapping("/journal/delete")
+    @PostMapping()
     public String deleteJournal(@RequestParam("idtender") Long idtender, Model model) {
 
-        tenderRepository.deleteById(idtender);
+        /*tenderRepository.deleteById(idtender);
         Iterable<Tender> tenders = tenderRepository.findAll();
 
-        model.addAttribute("tenders", tenders);
+        model.addAttribute("tenders", tenders);*/
+        Tender bufTender = tenderRepository.findOne(idtender);
+
+
+        ExcelParser.parseJournal(new File("src/resources/uploads/"+bufTender.getFilename()));
 
         return "journal";
     }

@@ -4,7 +4,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <form method="get" action="/journal" class="form-inline">
-            <input type="text" name="filter" class="form-control" value="${filter?ifExists}" placeholder="Поиск по названию" />
+            <input type="text" name="filter" class="form-control" value="${filter?if_exists}" placeholder="Поиск по названию" />
             <button type="submit" class="btn btn-primary ml-2">Поиск</button>
         </form>
     </div>
@@ -21,6 +21,8 @@
         <th scope="col">Краткое название</th>
         <th scope="col">Этап</th>
         <th scope="col">Номер и дата приказа</th>
+        <th scope="col">Действие</th>
+        <th scope="col">Файл</th>
 
     </tr>
     </thead>
@@ -29,15 +31,18 @@
 
     <tbody>
     <tr>
-        <th scope="row">${tender.numberT}</th>
+        <th scope="row">№ ${tender.numberT}</th>
         <td>${tender.dateT?date}</td>
         <td>${tender.nameT}</td>
         <td>${tender.stage}</td>
         <td>№ ${tender.order.numberO} от ${tender.order.dateO?date}</td>
-        <td><form action="journal/delete" method="post" >
+        <td><form action="journal" method="post" >
             <input type="hidden" name="idtender" value=${tender.id} />
-            <button type="submit">Удалить</button>
+            <button type="submit">Выполнить импорт</button>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
+        </form></td>
+        <td><#if tender.filename??> <a href="/xlsx/${tender.filename}" download="">${tender.filename?keep_after(".")}</a><#else>
+            No message </#if>
         </form></td>
     </tr>
     </tbody>
@@ -54,13 +59,26 @@
         <form action="journal" method="post" enctype="multipart/form-data">
 <!--number-->
     <div class="form-group">
-                <input type="text" class="form-control ${(numberTError??)?string('is-invalid', '')} col-sm-4"
+        <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">№</span>
+                </div>
+                <input type="text" id="numberTender" class="form-control ${(numberTError??)?string('is-invalid', '')} col-sm-4"
                        value="<#if tender??>${tender.numberT}</#if>" name="numberT" placeholder="Введите номер"/>
                 <#if numberTError??>
                     <div class="invalid-feedback">
                         ${numberTError}
                     </div>
                 </#if>
+            <script>
+            //Код jQuery, установливающий маску для ввода телефона элементу input
+            //1. После загрузки страницы,  когда все элементы будут доступны выполнить...
+            $(function(){
+            //2. Получить элемент, к которому необходимо добавить маску
+            $("#numberTender").mask("9999-999999");
+            });
+            </script>
+        </div>
     </div>
 <!--name-->
     <div class="form-group">
