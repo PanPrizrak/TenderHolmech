@@ -18,24 +18,24 @@ public class Tender {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message="pleas fil number")
+    //@NotBlank(message="pleas fil number")
     //@Length(max = 255, message = "max long")
     private String numberT;
 
-    @NotBlank(message="pleas fil name")
+    //@NotBlank(message="pleas fil name")
     private String nameT;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     //@NotBlank(message="pleas fil date")
     private Date dateT;
 
-    @NotBlank(message="pleas fil stage")
+    //@NotBlank(message="pleas fil stage")
     private String stage;
 
-    @NotBlank(message="pleas fil priceFactor")
+    //@NotBlank(message="pleas fil priceFactor")
     private String priceFactor;
 
-    @NotBlank(message="pleas fil paymentFactor")
+    //@NotBlank(message="pleas fil paymentFactor")
     private String paymentFactor;
 
     private String filename;
