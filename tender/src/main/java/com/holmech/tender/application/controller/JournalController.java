@@ -1,8 +1,11 @@
 package com.holmech.tender.application.controller;
 
+import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.excelparser.ApplicantParseExcel;
 import com.holmech.tender.application.excelparser.ExcelParser;
+import com.holmech.tender.application.repository.ApplicantReposirory;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,11 +24,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-@Controller("/journal")
+@Controller
+@RequestMapping("/journal")
 public class JournalController {
 
     @Autowired
@@ -32,6 +35,9 @@ public class JournalController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ApplicantReposirory applicantReposirory;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -53,36 +59,40 @@ public class JournalController {
 
     @PostMapping()
     public String add(
+            @RequestParam(required = false, name="idtender") Long idtender,
             @Valid Order order,
             @Valid Tender tender,
             BindingResult bindingResult,
             Model model,
-            @RequestParam("file") MultipartFile file
+            @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
 
-        orderRepository.save(order);
-
-        tender.setOrder(order);
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-
-            model.mergeAttributes(errorsMap);
-            model.addAttribute("tender", tender);
-            model.addAttribute("oder", order);
-        } else {
-            saveFile(tender, file);
-
-            model.addAttribute("tender", null);
-
-            System.out.println("!!!!!!!!!!!!!!!!!!!"+tender.getDateT().toString());
-            tenderRepository.save(tender);
+        if(idtender!=null){
+            ExcelParser bufExcel = new ExcelParser();
+            Optional<Tender> bufTender = tenderRepository.findById(idtender);
+            String bufPath = new String(new File("").getAbsoluteFile()+"/tender/src/main/resources/uploads/"+bufTender.get().getFilename());
+            ArrayList<Applicant> applicants = ApplicantParseExcel.parse(new File(bufPath));
+            for(int i = 0 ; i < applicants.size();i++){ applicantReposirory.save(applicants.get(i));}
+            model.addAttribute("tender",null);
         }
-
-        Iterable<Tender> tenders = tenderRepository.findAll();
-
-        model.addAttribute("tenders", tenders);
-
+        else {
+            orderRepository.save(order);
+            tender.setOrder(order);
+            if (bindingResult.hasErrors()) {
+                Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+                model.mergeAttributes(errorsMap);
+                model.addAttribute("tender", tender);
+                model.addAttribute("oder", order);
+            } else {
+                saveFile(tender, file);
+                model.addAttribute("tender", null);
+                System.out.println("!!!!!!!!!!!!!!!!!!!" + tender.getDateT().toString());
+                tenderRepository.save(tender);
+            }
+        }
+            Iterable<Tender> tenders = tenderRepository.findAll();
+            model.addAttribute("tenders", tenders);
+        System.out.println(model.containsAttribute("tender"));
         return "journal";
     }
 
@@ -103,18 +113,13 @@ public class JournalController {
         }
     }
 
-    @PostMapping()
+    /*@PostMapping()
     public String deleteJournal(@RequestParam("idtender") Long idtender, Model model) {
 
         /*tenderRepository.deleteById(idtender);
         Iterable<Tender> tenders = tenderRepository.findAll();
 
-        model.addAttribute("tenders", tenders);*/
-        Tender bufTender = tenderRepository.findOne(idtender);
+        model.addAttribute("tenders", tenders);*
 
-
-        ExcelParser.parseJournal(new File("src/resources/uploads/"+bufTender.getFilename()));
-
-        return "journal";
-    }
+    }*/
 }

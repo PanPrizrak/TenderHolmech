@@ -10,15 +10,19 @@ import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.calculations.Bal;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
+import com.holmech.tender.application.repository.ApplicantReposirory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +32,10 @@ public class ExcelParser {
     static XSSFRow row;
     private static float cenaK = (float) 0.8;
     private static float otsK = (float) 0.2;
-    
+
+    @Autowired
+    private ApplicantReposirory applicantReposirory;
+
     private static void getRaschet(ObjT t, float maxC, float minC, int maxO, int minO) {
 
         if (maxC != minC) {
@@ -335,7 +342,8 @@ public class ExcelParser {
         }
     }//!!!!!!!!!!!!!!!End parse
 
-    public static void parseJournal(File fileJournal) {
+
+    public void parseJournal(File fileJournal) {
         XSSFWorkbook workbook = null;
         try {
             workbook = new XSSFWorkbook(fileJournal);
@@ -355,26 +363,37 @@ public class ExcelParser {
 
         while (rowIterator.hasNext()) {
             row = (XSSFRow) rowIterator.next();
-            buf = new ObjT();
 
-            while (row.getCell(i) != null) {
-                bufNum++;
-                i++;
-            }
+
 
             Applicant bufApplicant = new Applicant();
-            if (bufNum > 0 && row.getCell(0).getStringCellValue().contains("№ Лота")) {
+            if (bufNum > 0 && !row.getCell(0).getStringCellValue().contains("№ Лота")) {
                 i = 0;
+                ArrayList<Integer> appliclots = new ArrayList<>();
                 while (i < bufNum) {
-                    ArrayList<Integer> appliclots = new ArrayList<>();
+
                     if (i == 0) {
+                        bufApplicant.setId((long) 1);
                         bufApplicant.setNameA(row.getCell(i).getStringCellValue());
+                        bufApplicant.setAddress("");
+                        bufApplicant.setPan("");
+                        bufApplicant.setContactsSet(Collections.emptySet());
+                        bufApplicant.setWorkerSet(Collections.emptySet());
                     } else {
                         if (row.getCell(i) != null)
                             appliclots.add((int) row.getCell(i).getNumericCellValue());
                         else
                             appliclots.add((int) 0);
                     }
+                    i++;
+                    System.out.println(appliclots.size());
+                }
+
+             applicantReposirory.save(bufApplicant);
+            } else {
+                while (row.getCell(i) != null) {
+                    bufNum++;
+                    i++;
                 }
             }
         }

@@ -36,7 +36,7 @@
         <td>${tender.nameT}</td>
         <td>${tender.stage}</td>
         <td>№ ${tender.order.numberO} от ${tender.order.dateO?date}</td>
-        <td><form action="journal" method="post" >
+        <td><form action="/journal" method="post" >
             <input type="hidden" name="idtender" value=${tender.id} />
             <button type="submit">Выполнить импорт</button>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
@@ -64,7 +64,7 @@
                     <span class="input-group-text">№</span>
                 </div>
                 <input type="text" id="numberTender" class="form-control ${(numberTError??)?string('is-invalid', '')} col-sm-4"
-                       value="<#if tender??>${tender.numberT}</#if>" name="numberT" placeholder="Введите номер"/>
+                       value="${numberT?if_exists}" name="numberT" placeholder="Введите номер"/>
                 <#if numberTError??>
                     <div class="invalid-feedback">
                         ${numberTError}
@@ -83,7 +83,7 @@
 <!--name-->
     <div class="form-group">
         <input type="text" class="form-control ${(nameTError??)?string('is-invalid', '')} col-sm-4"
-               value="<#if tender??>${tender.nameT}</#if>" name="nameT" placeholder="Введите краткое название"/>
+               value="${nameT?if_exists}" name="nameT" placeholder="Введите краткое название"/>
         <#if nameTError??>
         <div class="invalid-feedback">
             ${nameTError}
@@ -97,7 +97,7 @@
 <!--stage-->
 <div class="form-group">
     <input type="text" class="form-control ${(stageError??)?string('is-invalid', '')} col-sm-4"
-           value="<#if tender??>${tender.stage}</#if>" name="stage" placeholder="Введите этап"/>
+           value="${stage?if_exists}" name="stage" placeholder="Введите этап"/>
     <#if stageError??>
     <div class="invalid-feedback">
         ${stageError}
@@ -107,7 +107,7 @@
 <!--priceFactor-->
 <div class="form-group">
     <input type="text" class="form-control ${(priceFactorError??)?string('is-invalid', '')} col-sm-4"
-           value="<#if tender??>${tender.priceFactor}</#if>" name="priceFactor" placeholder="Введите фатор цены"/>
+           value="${priceFactor?if_exists}" name="priceFactor" placeholder="Введите фатор цены"/>
     <#if priceFactorError??>
     <div class="invalid-feedback">
         ${priceFactorError}
@@ -117,7 +117,7 @@
 <!--paymentFactor-->
 <div class="form-group">
     <input type="text" class="form-control ${(paymentFactorError??)?string('is-invalid', '')} col-sm-4"
-           value="<#if tender??>${tender.paymentFactor}</#if>" name="paymentFactor" placeholder="Введите фактор условия оплаты"/>
+           value="${paymentFactor?if_exists}" name="paymentFactor" placeholder="Введите фактор условия оплаты"/>
     <#if paymentFactorError??>
     <div class="invalid-feedback">
         ${paymentFactorError}
@@ -134,7 +134,7 @@
 <!--order.number-->
 <div class="form-group">
     <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
-           value="<#if order??>${order.numberO}</#if>" name="numberO" placeholder="Введите номер приказа"/>
+           value="${numberO?if_exists}" name="numberO" placeholder="Введите номер приказа"/>
     <#if numberOError??>
     <div class="invalid-feedback">
         ${numberOError}

@@ -25,4 +25,8 @@ public class Subject {
     @ManyToOne
     @JoinColumn (name = "tender_id")
     private Tender tender;
+
+    @ManyToOne
+    @JoinColumn(name = "applicant_id")
+    private Applicant applicant;
 }
