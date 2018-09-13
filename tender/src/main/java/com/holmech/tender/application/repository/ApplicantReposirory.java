@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ApplicantReposirory extends CrudRepository<Applicant, Long> {
 
-    Iterable<Applicant> findByNameA(String name);
+    Applicant findByNameA(String name);
 }

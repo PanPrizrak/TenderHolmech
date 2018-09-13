@@ -8,6 +8,7 @@ import com.holmech.tender.application.excelparser.ExcelParser;
 import com.holmech.tender.application.repository.ApplicantReposirory;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.service.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,14 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
 @Controller
 @RequestMapping("/journal")
 public class JournalController {
+
+    private final ApplicantService applicantService;
 
     @Autowired
     private TenderRepository tenderRepository;
@@ -41,6 +42,10 @@ public class JournalController {
 
     @Value("${upload.path}")
     private String uploadPath;
+
+    public JournalController(ApplicantService applicantService) {
+        this.applicantService = applicantService;
+    }
 
     @GetMapping()
     public String journal(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
@@ -71,8 +76,7 @@ public class JournalController {
             ExcelParser bufExcel = new ExcelParser();
             Optional<Tender> bufTender = tenderRepository.findById(idtender);
             String bufPath = new String(new File("").getAbsoluteFile()+"/tender/src/main/resources/uploads/"+bufTender.get().getFilename());
-            ArrayList<Applicant> applicants = ApplicantParseExcel.parse(new File(bufPath));
-            for(int i = 0 ; i < applicants.size();i++){ applicantReposirory.save(applicants.get(i));}
+            applicantService.addApplicants(ApplicantParseExcel.parse(new File(bufPath)));
             model.addAttribute("tender",null);
         }
         else {
