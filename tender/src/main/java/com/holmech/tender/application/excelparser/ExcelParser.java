@@ -10,14 +10,13 @@ import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.calculations.Bal;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
-import com.holmech.tender.application.repository.ApplicantReposirory;
+import com.holmech.tender.application.repository.ApplicantRepository;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import javax.swing.*;
 import java.io.*;
@@ -34,7 +33,7 @@ public class ExcelParser {
     private static float otsK = (float) 0.2;
 
     @Autowired
-    private ApplicantReposirory applicantReposirory;
+    private ApplicantRepository applicantReposirory;
 
     private static void getRaschet(ObjT t, float maxC, float minC, int maxO, int minO) {
 

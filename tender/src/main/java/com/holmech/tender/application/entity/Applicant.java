@@ -1,13 +1,12 @@
 package com.holmech.tender.application.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Data
-//@NoArgsConstructor
 @Entity
 public class Applicant {
 
@@ -19,6 +18,10 @@ public class Applicant {
     private  String nameA;
     private  String address;
     private  String pan;
+
+    @Transient
+    private ArrayList<Integer> lots;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id")

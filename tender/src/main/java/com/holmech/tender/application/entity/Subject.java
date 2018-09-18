@@ -21,6 +21,7 @@ public class Subject {
     private String code;
     private String delivery; //collection
     private String payment; //collection
+    private Integer numberS;//number lot subject
 
     @ManyToOne
     @JoinColumn (name = "tender_id")

@@ -3,6 +3,7 @@ package com.holmech.tender.application.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Data
 @Entity

@@ -1,18 +1,16 @@
 package com.holmech.tender.application.service;
 
 import com.holmech.tender.application.entity.Applicant;
-import com.holmech.tender.application.excelparser.ApplicantParseExcel;
-import com.holmech.tender.application.repository.ApplicantReposirory;
+import com.holmech.tender.application.repository.ApplicantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.ArrayList;
 
 @Service
 public class ApplicantService  {
     @Autowired
-    ApplicantReposirory applicantReposirory;
+    ApplicantRepository applicantReposirory;
 
     public boolean isApplicant(Applicant applicant) {
         Applicant applicantFromDB = applicantReposirory.findByNameA(applicant.getNameA());
@@ -31,10 +29,8 @@ public class ApplicantService  {
     }
 
     public void addApplicants(ArrayList<Applicant> applicants) {
-        Applicant applicant;
         for(int i = 0 ; i < applicants.size();i++){
-            applicant = applicants.get(i);
-            addApplicant(applicant);
+            addApplicant(applicants.get(i));
         }
     }
 }

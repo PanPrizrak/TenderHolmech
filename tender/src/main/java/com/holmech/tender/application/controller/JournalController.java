@@ -1,15 +1,12 @@
 package com.holmech.tender.application.controller;
 
-import com.holmech.tender.application.entity.Applicant;
-import com.holmech.tender.application.entity.Order;
-import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.entity.*;
 import com.holmech.tender.application.excelparser.ApplicantParseExcel;
-import com.holmech.tender.application.excelparser.ExcelParser;
-import com.holmech.tender.application.repository.ApplicantReposirory;
-import com.holmech.tender.application.repository.OrderRepository;
-import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.repository.*;
 import com.holmech.tender.application.service.ApplicantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.holmech.tender.application.service.DocumentsService;
+import com.holmech.tender.application.service.SubjectService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,27 +22,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping("/journal")
 public class JournalController {
 
+    //initial in lombook anatation @AllArgsConstructor
     private final ApplicantService applicantService;
+    private final TenderRepository tenderRepository;
+    private final OrderRepository orderRepository;
+    private final DocumentsService documentsService;
+    private final SubjectService subjectService;
 
-    @Autowired
-    private TenderRepository tenderRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private ApplicantReposirory applicantReposirory;
 
     @Value("${upload.path}")
     private String uploadPath;
-
-    public JournalController(ApplicantService applicantService) {
-        this.applicantService = applicantService;
-    }
 
     @GetMapping()
     public String journal(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
@@ -64,7 +55,7 @@ public class JournalController {
 
     @PostMapping()
     public String add(
-            @RequestParam(required = false, name="idtender") Long idtender,
+            @RequestParam(required = false, name = "idtender") Long idtender,
             @Valid Order order,
             @Valid Tender tender,
             BindingResult bindingResult,
@@ -72,14 +63,15 @@ public class JournalController {
             @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
 
-        if(idtender!=null){
-            ExcelParser bufExcel = new ExcelParser();
+        if (idtender != null) {
             Optional<Tender> bufTender = tenderRepository.findById(idtender);
-            String bufPath = new String(new File("").getAbsoluteFile()+"/tender/src/main/resources/uploads/"+bufTender.get().getFilename());
-            applicantService.addApplicants(ApplicantParseExcel.parse(new File(bufPath)));
-            model.addAttribute("tender",null);
-        }
-        else {
+            String bufPath = new String(new File("").getAbsoluteFile() + "/tender/src/main/resources/uploads/" + bufTender.get().getFilename());
+            ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
+            applicantService.addApplicants(applicantArrayList);//save applicants
+            documentsService.addDocumentsFromExcel(bufTender, applicantArrayList);//save in documents
+            subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
+            model.addAttribute("tender", null);
+        } else {
             orderRepository.save(order);
             tender.setOrder(order);
             if (bindingResult.hasErrors()) {
@@ -94,11 +86,14 @@ public class JournalController {
                 tenderRepository.save(tender);
             }
         }
-            Iterable<Tender> tenders = tenderRepository.findAll();
-            model.addAttribute("tenders", tenders);
+        Iterable<Tender> tenders = tenderRepository.findAll();
+        model.addAttribute("tenders", tenders);
         System.out.println(model.containsAttribute("tender"));
         return "journal";
     }
+
+
+
 
     private void saveFile(@Valid Tender tender, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {

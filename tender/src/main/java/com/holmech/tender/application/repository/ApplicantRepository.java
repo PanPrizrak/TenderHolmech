@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ApplicantReposirory extends CrudRepository<Applicant, Long> {
+public interface ApplicantRepository extends CrudRepository<Applicant, Long> {
 
     Applicant findByNameA(String name);
 }

@@ -56,6 +56,7 @@ public class ApplicantParseExcel {
                     }
                     i++;
                 }
+                bufApplicant.setLots(appliclots);
                 applicants.add(bufApplicant);
             } else {
                 while (row.getCell(i) != null) {
