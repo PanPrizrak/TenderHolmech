@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@AllArgsConstructor
+
 @Controller
 @RequestMapping("/journal")
 public class JournalController {
@@ -34,6 +34,17 @@ public class JournalController {
     private final DocumentsService documentsService;
     private final SubjectService subjectService;
 
+    public JournalController(ApplicantService applicantService,
+                             TenderRepository tenderRepository,
+                             OrderRepository orderRepository,
+                             DocumentsService documentsService,
+                             SubjectService subjectService) {
+        this.applicantService = applicantService;
+        this.tenderRepository = tenderRepository;
+        this.orderRepository = orderRepository;
+        this.documentsService = documentsService;
+        this.subjectService = subjectService;
+    }
 
     @Value("${upload.path}")
     private String uploadPath;
