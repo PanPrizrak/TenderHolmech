@@ -1,12 +1,14 @@
 package com.holmech.tender.application.controller;
 
-import com.holmech.tender.application.entity.*;
+import com.holmech.tender.application.entity.Applicant;
+import com.holmech.tender.application.entity.Order;
+import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.ApplicantParseExcel;
-import com.holmech.tender.application.repository.*;
+import com.holmech.tender.application.repository.OrderRepository;
+import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.ApplicantService;
 import com.holmech.tender.application.service.DocumentsService;
 import com.holmech.tender.application.service.SubjectService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -108,7 +113,8 @@ public class JournalController {
 
 
     private void saveFile(@Valid Tender tender, @RequestParam("file") MultipartFile file) throws IOException {
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {//getOriginalFilename work  only in chrome
+            System.out.println(file.getName().toString() + " getOrigi" + file.getOriginalFilename());
             File uploadDir = new File(uploadPath);
 
             if (!uploadDir.isDirectory()) {

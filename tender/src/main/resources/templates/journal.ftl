@@ -31,7 +31,7 @@
 
     <tbody>
     <tr>
-        <th scope="row">№ ${tender.numberT}</th>
+        <th scope="row"><a href="/tender/${tender.numberT}">№ ${tender.numberT}</a></th>
         <td>${tender.dateT?date}</td>
         <td>${tender.nameT}</td>
         <td>${tender.stage}</td>
