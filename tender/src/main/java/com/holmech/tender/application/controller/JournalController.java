@@ -77,10 +77,13 @@ public class JournalController {
         if (idtender != null) {
             Optional<Tender> bufTender = tenderRepository.findById(idtender);
             String bufPath = new String(new File("").getAbsoluteFile() + "/tender/src/main/resources/uploads/" + bufTender.get().getFilename());
-            ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
-            applicantService.addApplicants(applicantArrayList);//save applicants
-            documentsService.addDocumentsFromExcel(bufTender, applicantArrayList);//save in documents
-            subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
+            if (!documentsService.isDocuments(bufTender.get())) {
+                ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
+                applicantService.addApplicants(applicantArrayList);//save applicants
+                if (documentsService.addDocumentsFromExcel(bufTender, applicantArrayList)) {//save in documents
+                    subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
+                }
+            }
             model.addAttribute("tender", null);
         } else {
             orderRepository.save(order);
@@ -102,8 +105,6 @@ public class JournalController {
         System.out.println(model.containsAttribute("tender"));
         return "journal";
     }
-
-
 
 
     private void saveFile(@Valid Tender tender, @RequestParam("file") MultipartFile file) throws IOException {

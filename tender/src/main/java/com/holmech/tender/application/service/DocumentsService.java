@@ -3,6 +3,7 @@ package com.holmech.tender.application.service;
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Documents;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.repository.ApplicantRepository;
 import com.holmech.tender.application.repository.DocumentsRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,26 +14,44 @@ import java.util.Optional;
 public class DocumentsService {
 
     private final DocumentsRepository documentsRepository;
+    private final ApplicantRepository applicantRepository;
 
-    public DocumentsService(DocumentsRepository documentsRepository) {
+    public DocumentsService(DocumentsRepository documentsRepository,
+                            ApplicantRepository applicantRepository) {
         this.documentsRepository = documentsRepository;
+        this.applicantRepository = applicantRepository;
     }
 
-    public void addDocumentsFromExcel(Optional<Tender> bufTender,
-                                      ArrayList<Applicant> applicantArrayList) {
-        Documents documents = new Documents();
-        for (Applicant bufApplicant : applicantArrayList) {
-            for (int i = 0; i < bufApplicant.getLots().size(); i++) {
-                int bufQuantityLots = bufApplicant.getLots().get(i);
-                if (bufQuantityLots != 0) {
-                    for (int j = 0; j <= bufQuantityLots; j++) {
-                        documents.setTender(bufTender.get());
-                        documents.setApplicant(bufApplicant);
-                        documentsRepository.save(documents);
-                    }
-                }
-            }
-
+    private boolean isDocumentsInExcel(Tender tender, Applicant applicant) {
+        Documents documentsFromDB = documentsRepository.findByTenderAndApplicant(tender, applicant);
+        if (documentsFromDB != null) {
+            return true;
         }
+        return false;
+    }
+
+    public boolean isDocuments(Tender tender) {
+        Iterable<Documents> documentsFromDB = documentsRepository.findByTender(tender);
+        if (documentsFromDB != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addDocumentsFromExcel(Optional<Tender> bufTender,
+                                         ArrayList<Applicant> applicantArrayList) {
+        Documents documents;
+        for (Applicant bufApplicant : applicantArrayList) {
+            if (isDocumentsInExcel(bufTender.get(), applicantRepository.findByNameA(bufApplicant.getNameA()))) {
+                return false;
+            } else {
+                documents = new Documents();
+                documents.setTender(bufTender.get());
+                documents.setApplicant(applicantRepository.findByNameA(bufApplicant.getNameA()));
+                documentsRepository.save(documents);
+            }
+        }
+        return true;
     }
 }
+
