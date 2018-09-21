@@ -1,17 +1,4 @@
-<#import "parts/common.ftl" as ht>
-
-<@ht.page>
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <form method="get" action="/journal" class="form-inline">
-            <input type="text" name="filter" class="form-control" value="${filter?if_exists}" placeholder="Поиск по названию" />
-            <button type="submit" class="btn btn-primary ml-2">Поиск</button>
-        </form>
-    </div>
-</div>
-
-
-<div>Журнал тендеров</div>
+<div>Претенденты</div>
 
 <table class="table">
     <thead>
