@@ -2,19 +2,23 @@
 
 <@ht.page>
 
-<div>Организации</div>
+<div>Предложения</div>
 
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">№</th>
-        <th scope="col">Название</th>
-        <th scope="col">Адрес</th>
-        <th scope="col">УНП</th>
+        <th scope="col">№ лота</th>
+        <th scope="col">Название предприятия</th>
+        <th scope="col">Отсрочка</th>
+        <th scope="col">Ед. изм.</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена. за ед. с НДС</th>
+        <th scope="col">Код ОКРБ</th>
+        <th scope="col">Условия оплаты</th>
     </tr>
     </thead>
 
-    <#list applicants as applicant>
+   <!-- <#list applicants as applicant>
 
     <tbody>
     <tr>
@@ -25,7 +29,7 @@
     </tr>
     </tbody>
 
-</#list>
+</#list>-->
 </table>
 
 </@ht.page>
