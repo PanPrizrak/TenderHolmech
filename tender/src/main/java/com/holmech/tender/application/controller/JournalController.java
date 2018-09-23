@@ -59,7 +59,7 @@ public class JournalController {
         Iterable<Tender> tenders;
 
         if (filter != null && !filter.isEmpty()) {
-            tenders = tenderRepository.findByNameT(filter);
+            tenders = tenderRepository.findAll();//findByNameT(filter);
         } else {
             tenders = tenderRepository.findAll();
         }

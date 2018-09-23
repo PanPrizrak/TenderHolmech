@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface TenderRepository extends CrudRepository<Tender,Long> {
-    Iterable<Tender> findByNameT(String filter);
+    Tender findByNameT(String filter);
 }

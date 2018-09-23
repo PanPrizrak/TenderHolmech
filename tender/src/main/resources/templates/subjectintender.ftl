@@ -1,9 +1,3 @@
-<#import "parts/common.ftl" as ht>
-
-<@ht.page>
-
-<div>Предложения</div>
-
 <table class="table">
     <thead>
     <tr>
@@ -14,22 +8,53 @@
         <th scope="col">Количество</th>
         <th scope="col">Цена. за ед. с НДС</th>
         <th scope="col">Код ОКРБ</th>
-        <th scope="col">Условия оплаты</th>
+        <th scope="col">Условия поставки</th>
     </tr>
     </thead>
 
-   <!-- <#list applicants as applicant>
+    <#list subjects as subject>
 
     <tbody>
     <tr>
-        <th scope="row">${applicant.id}</th>
-        <td>${applicant.nameA}</td>
-        <td>${applicant.address?if_exists}</td>
-        <td>${address.pan?if_exists}</td>
+
+        <td><th scope="row">${subject.numberS}</th>
+        <td>${subject.applicant.nameA}</td>
+            <!--col-sm-4    ?if_exists   -->
+           "${subject.payment}"
+
+        </td>
+        <td>
+            <input type="text" class="form-control"
+                   value="${subject.units}"
+                   name="subject.units"
+                   placeholder="Введите ед. изм."/>
+        </td>
+           <td>
+            <input type="text" class="form-control"
+                   value="${subject.amount}"
+                   name="subject.amount"
+                   placeholder="Введите количество"/>
+        </td>
+           <td>
+            <input type="text" class="form-control"
+                   value="${subject.price}"
+                   name="subject.price"
+                   placeholder="Введите цену"/>
+        </td>
+           <td>
+            <input type="text" class="form-control"
+                   value="${subject.code}"
+                   name="subject.code"
+                   placeholder="Введите код ОКРБ"/>
+        </td>
+           <td>
+            <input type="text" class="form-control"
+                   value="${subject.delivery}"
+                   name="subject.delivery"
+                   placeholder="Введите условия поставки"/>
+        </td>
     </tr>
     </tbody>
 
-</#list>-->
+</#list>
 </table>
-
-</@ht.page>
