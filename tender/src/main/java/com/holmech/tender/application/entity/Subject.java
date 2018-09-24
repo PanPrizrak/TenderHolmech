@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,4 +31,5 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "applicant_id")
     private Applicant applicant;
+
 }

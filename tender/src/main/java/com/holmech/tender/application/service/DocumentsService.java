@@ -32,7 +32,7 @@ public class DocumentsService {
 
     public boolean isDocuments(Tender tender) {
         Iterable<Documents> documentsFromDB = documentsRepository.findByTender(tender);
-        if (documentsFromDB != null) {
+        if (documentsFromDB.iterator().hasNext()) {
             return true;
         }
         return false;

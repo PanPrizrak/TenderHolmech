@@ -1,7 +1,8 @@
-<form method="post">
+<form modelAttribute="mySubject"  method="post">
 <table class="table">
     <thead>
     <tr>
+        <th scope="col">№ п/п</th>
         <th scope="col">№ лота</th>
         <th scope="col">Название предприятия</th>
         <th scope="col">Отсрочка</th>
@@ -18,7 +19,7 @@
 
     <tbody>
     <tr>
-
+        <td>${subject?index}</td>
         <th scope="row">${subject.numberS}</th>
         <td>${subject.applicant.nameA}</td>
         <td>
