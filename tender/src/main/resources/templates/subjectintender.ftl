@@ -1,8 +1,7 @@
-<form modelAttribute="mySubject"  method="post">
+<form modelAttribute="subjectForm"  method="post">
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">№ п/п</th>
         <th scope="col">№ лота</th>
         <th scope="col">Название предприятия</th>
         <th scope="col">Отсрочка</th>
@@ -15,11 +14,11 @@
     </tr>
     </thead>
 
-    <#list subjects as subject>
+    <#list subjectForm.subjectList as subject>
 
     <tbody>
     <tr>
-        <td>${subject?index}</td>
+        <td></td>
         <th scope="row">${subject.numberS}</th>
         <td>${subject.applicant.nameA}</td>
         <td>
@@ -31,37 +30,37 @@
         <td>
             <input type="text" class="form-control"
                    value="${subject.nameS?if_exists}"
-                   name="nameS"
+                   name="subjectList[${subject?index}].nameS"
                    placeholder="Название"/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subject.units?if_exists}"
-                   name="units"
+                   name="subjectList[${subject?index}].units"
                    placeholder="ед. изм."/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subject.amount?if_exists}"
-                   name="amount"
+                   name="subjectList[${subject?index}].amount"
                    placeholder="количество"/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subject.price?if_exists}"
-                   name="price"
+                   name="subjectList[${subject?index}].price"
                    placeholder="цена"/>
         </td>
            <td>
             <input type="text" class="form-control"
                    value="${subject.code?if_exists}"
-                   name="code"
+                   name="subjectList[${subject?index}].code"
                    placeholder="код ОКРБ"/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subject.delivery?if_exists}"
-                   name="delivery"
+                   name="subjectList[${subject?index}].delivery"
                    placeholder="условия поставки"/>
         </td>
     </tr>

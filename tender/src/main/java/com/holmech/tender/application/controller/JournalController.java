@@ -55,17 +55,10 @@ public class JournalController {
     private String uploadPath;
 
     @GetMapping()
-    public String journal(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String journal(Model model) {
         Iterable<Tender> tenders;
-
-        if (filter != null && !filter.isEmpty()) {
-            tenders = tenderRepository.findAll();//findByNameT(filter);
-        } else {
-            tenders = tenderRepository.findAll();
-        }
-
+        tenders = tenderRepository.findAll();
         model.addAttribute("tenders", tenders);
-        model.addAttribute("filter", filter);
         return "journal";
     }
 

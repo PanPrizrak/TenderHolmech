@@ -1,13 +1,15 @@
 package com.holmech.tender.application.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Subject {
 
@@ -31,5 +33,12 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "applicant_id")
     private Applicant applicant;
+
+    @Transient
+    private ArrayList<Subject> subjectList;
+
+    Subject (ArrayList<Subject> subjects){
+        subjectList = subjects;
+    }
 
 }

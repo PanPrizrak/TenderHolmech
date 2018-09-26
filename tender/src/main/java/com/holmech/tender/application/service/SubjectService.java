@@ -8,6 +8,7 @@ import com.holmech.tender.application.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,7 @@ public class SubjectService {
     }
 
     public void addSubjectFromExcel(Optional<Tender> bufTender,
-                                     ArrayList<Applicant> applicantArrayList) {
+                                    ArrayList<Applicant> applicantArrayList) {
         Subject subject;
         for (Applicant bufApplicant : applicantArrayList) {
             for (int i = 0; i < bufApplicant.getLots().size(); i++) {// определение количества лотов претендента
@@ -39,6 +40,19 @@ public class SubjectService {
                 }
             }
 
+        }
+    }
+
+    public Iterable<Subject> findByTenderNumberT(Tender tenderFromDB){
+        return subjectRepository.findByTender(tenderFromDB);
+    }
+
+    public void updateSubjectList(List<Subject> subjectList) {
+        Subject subject;
+        for (Subject subjects : subjectList) {
+            subject = new Subject();
+            subject = subjects;
+            subjectRepository.save(subject);
         }
     }
 }
