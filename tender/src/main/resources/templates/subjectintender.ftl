@@ -18,13 +18,15 @@
 
     <tbody>
     <tr>
-        <td></td>
+        <input type="hidden" value="${subject.id}" name="subjectList[${subject?index}].id"/>
         <th scope="row">${subject.numberS}</th>
+        <input type="hidden" value="${subject.numberS}" name="subjectList[${subject?index}].numberS"/>
         <td>${subject.applicant.nameA}</td>
+        <input type="hidden" value='${subject.applicant.nameA}' name="subjectList[${subject?index}].applicantNameA"/>
         <td>
             <input type="text" class="form-control"
                    value="${subject.payment?if_exists}"
-                   name="payment"
+                   name="subjectList[${subject?index}].payment"
                    placeholder="Отсрочка"/>
         </td>
         <td>
@@ -63,6 +65,7 @@
                    name="subjectList[${subject?index}].delivery"
                    placeholder="условия поставки"/>
         </td>
+        <input type="hidden" value="${subject.tender.numberT}" name="subjectList[${subject?index}].tenderNumberT"/>
     </tr>
     </tbody>
 

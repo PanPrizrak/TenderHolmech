@@ -20,22 +20,6 @@ import java.util.List;
 @Controller
 public class TenderController {
 
-    /*@InitBinder
-    public void initBinder(Subject dataBinder) {
-        Object target = dataBinder.getTarget();
-        if (target == null) {
-            return;
-        }
-        System.out.println("Target=" + target);
-
-        if (target.getClass() == Subject.class) {
-
-            // Register to handle the conversion between the multipart object
-            // and byte array.
-            dataBinder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-        }
-    }*/
-
     private final TenderRepository tenderRepository;
     private final SubjectService subjectService;
 
@@ -47,7 +31,7 @@ public class TenderController {
     @GetMapping("/tender/{numberT}")
     public ModelAndView get(@PathVariable String numberT) {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
-        Iterable<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
+        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         SubjectForm subjectForm = new SubjectForm();
         subjectForm.setSubjectList((List<Subject>) subjects);
         return new ModelAndView("tender" , "subjectForm", subjectForm);

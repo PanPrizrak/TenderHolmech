@@ -29,16 +29,13 @@ public class Subject {
     @ManyToOne
     @JoinColumn (name = "tender_id")
     private Tender tender;
+    @Transient
+    private String tenderNumberT;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id")
     private Applicant applicant;
-
     @Transient
-    private ArrayList<Subject> subjectList;
-
-    Subject (ArrayList<Subject> subjects){
-        subjectList = subjects;
-    }
+    private String applicantNameA;
 
 }

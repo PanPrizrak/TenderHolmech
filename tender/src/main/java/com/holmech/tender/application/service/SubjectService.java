@@ -5,6 +5,8 @@ import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.repository.ApplicantRepository;
 import com.holmech.tender.application.repository.SubjectRepository;
+import com.holmech.tender.application.repository.TenderRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,11 +18,14 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final ApplicantRepository applicantRepository;
+    private final TenderRepository tenderRepository;
 
     public SubjectService(SubjectRepository subjectRepository,
-                          ApplicantRepository applicantRepository) {
+                          ApplicantRepository applicantRepository,
+                          TenderRepository tenderRepository) {
         this.subjectRepository = subjectRepository;
         this.applicantRepository = applicantRepository;
+        this.tenderRepository = tenderRepository;
     }
 
     public void addSubjectFromExcel(Optional<Tender> bufTender,
@@ -43,14 +48,16 @@ public class SubjectService {
         }
     }
 
-    public Iterable<Subject> findByTenderNumberT(Tender tenderFromDB){
-        return subjectRepository.findByTender(tenderFromDB);
+    public List<Subject> findByTenderNumberT(Tender tenderFromDB){
+        return subjectRepository.findByTender(tenderFromDB,Sort.by("id").ascending());
     }
 
     public void updateSubjectList(List<Subject> subjectList) {
         Subject subject;
         for (Subject subjects : subjectList) {
             subject = new Subject();
+            subjects.setApplicant(applicantRepository.findByNameA(subjects.getApplicantNameA()));
+            subjects.setTender(tenderRepository.findByNumberT(subjects.getTenderNumberT()));
             subject = subjects;
             subjectRepository.save(subject);
         }
