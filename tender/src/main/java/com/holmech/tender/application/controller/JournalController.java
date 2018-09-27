@@ -82,7 +82,6 @@ public class JournalController {
                     subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
                 }
             }
-            ApplicantParseExcel.saveInExcel(subjectService.findByTenderNumberT(bufTender.get()), new File(bufPath));
             model.addAttribute("tender", null);
         } else {
             orderRepository.save(order);
