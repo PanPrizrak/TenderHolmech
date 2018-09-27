@@ -1,6 +1,7 @@
 package com.holmech.tender.application.excelparser;
 
 import com.holmech.tender.application.entity.Applicant;
+import com.holmech.tender.application.entity.Subject;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -8,10 +9,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,14 +23,7 @@ public class ApplicantParseExcel {
 
     public static ArrayList<Applicant> parse( File fileJournal) {
 
-        XSSFWorkbook workbook = null;
-        try {
-            workbook = new XSSFWorkbook(fileJournal);
-        } catch (IOException ex) {
-            Logger.getLogger(ExcelParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        }
+        XSSFWorkbook workbook = getSheets(fileJournal);
 
         //Заполнение из таблицы экселя
         XSSFSheet spreadsheet = workbook.getSheetAt(1);
@@ -67,4 +63,25 @@ public class ApplicantParseExcel {
         }
         return applicants;
     }//end parseJournal
+
+    private static XSSFWorkbook getSheets(File fileJournal) {
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(fileJournal);
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelParser.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+
+    public static void saveInExcel(List<Subject> subjectList, File fileJournal) throws IOException {
+        XSSFWorkbook workbook = getSheets(fileJournal);
+        Write write = new Write(workbook);
+        write.writeSubjetInExcel(subjectList);
+        FileOutputStream outputStream = new FileOutputStream(fileJournal);
+        workbook.write(outputStream);
+        workbook.close();
+    }
 }

@@ -8,10 +8,8 @@ import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.SubjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -38,15 +36,17 @@ public class TenderController {
     }
 
     @PostMapping("/tender/{numberT}")
-    public ModelAndView save(@PathVariable String numberT, @ModelAttribute("subjectForm") SubjectForm subjectForm) {
+    public ModelAndView save(@PathVariable String numberT,
+                             @ModelAttribute("subjectForm") SubjectForm subjectForm,
+                             @RequestParam(required = false, name = "file") MultipartFile file) {
         System.out.println(subjectForm);
         System.out.println(subjectForm.getSubjectList());
         List<Subject> subjects = subjectForm.getSubjectList();
         if(null != subjects && subjects.size() > 0) {
-            subjectService.updateSubjectList(subjects);
-            /*for (Subject subject : subjects) {
-                System.out.printf("!!!!!!!!!!!!!!!!!!Iter subjects == " + subject.toString());//"%s \t %s \n", contact.getFirstname(), contact.getLastname()
-            }*/
+           // subjectService.updateSubjectList(subjects);
+            for (Subject subject : subjects) {
+                System.out.println("!!!!!!!!!!!!!!!!!!Iter subjects == " + subject.toString());//"%s \t %s \n", contact.getFirstname(), contact.getLastname()
+            }
         }
 
         return new ModelAndView("tender" , "subjectForm", subjectForm);

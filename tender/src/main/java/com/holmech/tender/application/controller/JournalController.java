@@ -74,7 +74,7 @@ public class JournalController {
 
         if (idtender != null) {
             Optional<Tender> bufTender = tenderRepository.findById(idtender);
-            String bufPath = new String(new File("").getAbsoluteFile() + "/tender/src/main/resources/uploads/" + bufTender.get().getFilename());
+            String bufPath = new String(uploadPath + bufTender.get().getFilename());
             if (!documentsService.isDocuments(bufTender.get())) {
                 ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
                 applicantService.addApplicants(applicantArrayList);//save applicants
@@ -82,6 +82,7 @@ public class JournalController {
                     subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
                 }
             }
+            ApplicantParseExcel.saveInExcel(subjectService.findByTenderNumberT(bufTender.get()), new File(bufPath));
             model.addAttribute("tender", null);
         } else {
             orderRepository.save(order);

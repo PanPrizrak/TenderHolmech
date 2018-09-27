@@ -8,9 +8,13 @@ package com.holmech.tender.application.excelparser;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -20,6 +24,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author User
  */
+@Data
+@NoArgsConstructor
 public class Write {
 
     private ArrayList<ObjT> objTs;
@@ -27,48 +33,11 @@ public class Write {
     private ArrayList<Znach> znachs;
     private XSSFWorkbook workbook;
 
-    public Write() {
-    }
-
-    public Write(ArrayList<ObjT> objTs, ArrayList<ObjT> bals, ArrayList<Znach> znachs, XSSFWorkbook workbook) {
-        this.objTs = objTs;
-        this.parSravs = bals;
-        this.znachs = znachs;
+    public Write(XSSFWorkbook workbook) {
         this.workbook = workbook;
     }
 
-    public ArrayList<ObjT> getObjTs() {
-        return objTs;
-    }
 
-    public void setObjTs(ArrayList<ObjT> objTs) {
-        this.objTs = objTs;
-    }
-
-    public ArrayList<ObjT> getParSravs() {
-        return parSravs;
-    }
-
-    public void setParSravs(ArrayList<ObjT> parSravs) {
-        this.parSravs = parSravs;
-    }
-
-    public ArrayList<Znach> getZnachs() {
-        return znachs;
-    }
-
-    public void setZnachs(ArrayList<Znach> znachs) {
-        this.znachs = znachs;
-    }
-
-    public XSSFWorkbook getWorkbook() {
-        return workbook;
-    }
-
-    public void setWorkbook(XSSFWorkbook workbook) {
-        this.workbook = workbook;
-    }
-    
     //Запись оценочной таблицы
     public void writeObj() {
         XSSFSheet sheet = workbook.createSheet("Оценка общая");
@@ -191,7 +160,7 @@ public class Write {
         for (int i = 0; i < znachs.size(); i++) {
             Row row = znachM.createRow(i);
             Znach bufO = new Znach(znachs.get(i));
-            for (int j = 0; j < 5; j++) { // меншье 13 тк кол-во полей ObjT 14
+            for (int j = 0; j < 5; j++) { //
                 Cell cell = row.createCell(j);
                 switch (j) {
                     case 0:
@@ -212,6 +181,101 @@ public class Write {
                 }//switch
             }
         }
-    }
+    }//Запись минимальной цены по лоту
+
+    //Запись минимальной цены по лоту
+    public void writeSubjetInExcel(List<Subject> subjectList) {
+
+        XSSFSheet sabjSheet;
+
+        if(workbook.getSheet("После вскрытия") != null){
+            sabjSheet = workbook.getSheet("После вскрытия");
+        } else {
+            sabjSheet = workbook.createSheet("После вскрытия");
+        }
+        String buf = "№ лота!" +
+                "Название предприятия!" +
+                "Отсрочка!" +
+                "Название продукта!" +
+                "Ед. изм.!" +
+                "Количество!" +
+                "Цена. за ед. с НДС!" +
+                "Код ОКРБ!" +
+                "Условия поставки";
+        String[] bufTopName = buf.split("!");
+        for (int i = 0  ; i <= subjectList.size(); i++) {
+            Row row = sabjSheet.createRow(i);
+            Subject bufSubject = subjectList.get(i-1);
+            for (int j = 0; j < 9; j++) { //
+                Cell cell = row.createCell(j);
+                switch (j) {
+                    case 0:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((Integer) bufSubject.getNumberS());
+                        }
+                        break;
+                    case 1:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getApplicant().getNameA());
+                        }
+                        break;
+                    case 2:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getPayment());
+                        }
+                        break;
+                    case 3:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getNameS());
+                        }
+                        break;
+                    case 4:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getUnits());
+                        }
+                        break;
+                    case 5:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((Integer) bufSubject.getAmount());
+                        }
+                        break;
+                    case 6:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((Double) bufSubject.getPrice());
+                        }
+                        break;
+                    case 7:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getCode());
+                        }
+                        break;
+                    case 8:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubject.getDelivery());
+                        }
+                        break;
+
+                }//switch
+            }
+        }
+    }//Запись subject
 
 }

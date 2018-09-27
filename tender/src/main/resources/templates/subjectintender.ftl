@@ -1,4 +1,4 @@
-<form modelAttribute="subjectForm"  method="post">
+<form modelAttribute="subjectForm"  method="post" enctype="multipart/form-data">
 <table class="table">
     <thead>
     <tr>
@@ -71,6 +71,14 @@
 
 </#list>
 </table>
+
+    <!--filename-->
+    <div class="form-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" name="file">
+            <label class="custom-file-label col-sm-4" for="customFile">Выберите файл</label>
+        </div>
+    </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Добавить</button>
