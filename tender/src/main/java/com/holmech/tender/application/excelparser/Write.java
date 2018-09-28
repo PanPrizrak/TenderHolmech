@@ -6,10 +6,6 @@
 package com.holmech.tender.application.excelparser;
 
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
@@ -20,8 +16,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
  * @author User
  */
 @Data
@@ -42,8 +40,8 @@ public class Write {
     public void writeObj() {
         XSSFSheet sheet = workbook.createSheet("Оценка общая");
         for (int i = 0;
-                i < objTs.size();
-                i++) {
+             i < objTs.size();
+             i++) {
             Row row = sheet.createRow(i);
             ObjT bufO = new ObjT(objTs.get(i));
             for (int j = 0; j < 14; j++) { // меншье 13 тк кол-во полей ObjT 14
@@ -100,8 +98,8 @@ public class Write {
     public void writePar() {
         XSSFSheet sheetP = workbook.createSheet("Оценка попарная");
         for (int i = 0;
-                i < parSravs.size();
-                i++) {
+             i < parSravs.size();
+             i++) {
             Row row = sheetP.createRow(i);
             ObjT bufO = new ObjT(parSravs.get(i));
             for (int j = 0; j < 14; j++) { // меншье 13 тк кол-во полей ObjT 14
@@ -188,7 +186,7 @@ public class Write {
 
         XSSFSheet sabjSheet;
 
-        if(workbook.getSheet("После вскрытия") != null){
+        if (workbook.getSheet("После вскрытия") != null) {
             sabjSheet = workbook.getSheet("После вскрытия");
         } else {
             sabjSheet = workbook.createSheet("После вскрытия");
@@ -203,9 +201,13 @@ public class Write {
                 "Код ОКРБ!" +
                 "Условия поставки";
         String[] bufTopName = buf.split("!");
-        for (int i = 0  ; i <= subjectList.size(); i++) {
+        for (int i = 0; i <= subjectList.size(); i++) {
             Row row = sabjSheet.createRow(i);
-            Subject bufSubject = subjectList.get(i-1);
+            Subject bufSubject = null;
+            if (i > 0) {
+                bufSubject = subjectList.get(i - 1);
+            }
+
             for (int j = 0; j < 9; j++) { //
                 Cell cell = row.createCell(j);
                 switch (j) {
@@ -248,14 +250,22 @@ public class Write {
                         if ((i == 0)) {
                             cell.setCellValue((String) bufTopName[j]);
                         } else {
-                            cell.setCellValue((Integer) bufSubject.getAmount());
+                            if (bufSubject.getAmount() != null) {
+                                cell.setCellValue((Integer) bufSubject.getAmount());
+                            } else {
+                                cell.setCellValue(0);
+                            }
                         }
                         break;
                     case 6:
                         if ((i == 0)) {
                             cell.setCellValue((String) bufTopName[j]);
                         } else {
-                            cell.setCellValue((Double) bufSubject.getPrice());
+                            if (bufSubject.getPrice() != null) {
+                                cell.setCellValue((Double) bufSubject.getPrice());
+                            } else {
+                                cell.setCellValue(0);
+                            }
                         }
                         break;
                     case 7:

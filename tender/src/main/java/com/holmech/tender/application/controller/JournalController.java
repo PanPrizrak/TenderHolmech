@@ -74,7 +74,7 @@ public class JournalController {
 
         if (idtender != null) {
             Optional<Tender> bufTender = tenderRepository.findById(idtender);
-            String bufPath = new String(uploadPath + bufTender.get().getFilename());
+            String bufPath = new String(uploadPath + "\\" + bufTender.get().getFilename());
             if (!documentsService.isDocuments(bufTender.get())) {
                 ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
                 applicantService.addApplicants(applicantArrayList);//save applicants

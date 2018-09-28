@@ -46,9 +46,9 @@ public class TenderController {
     public ModelAndView save(@PathVariable String numberT,
                              @ModelAttribute("subjectForm") SubjectForm subjectForm,
                              @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
-        String bufPath = uploadPath + "/" + tenderRepository.findByNumberT(numberT).getFilename();
+        String bufPath = uploadPath + "\\" + tenderRepository.findByNumberT(numberT).getFilename();
         List<Subject> subjects = null;
-        if(file.isEmpty()) {
+        if (file.isEmpty()) {
             subjects = subjectForm.getSubjectList();
         } else {
             Tender tenderFromDB = tenderRepository.findByNumberT(numberT);

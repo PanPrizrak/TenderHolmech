@@ -64,7 +64,4 @@ public class ApplicantParseExcel {
         return applicants;
     }//end parseJournal
 
-
-
-
 }

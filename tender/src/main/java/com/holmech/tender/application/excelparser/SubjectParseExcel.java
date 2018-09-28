@@ -3,15 +3,15 @@ package com.holmech.tender.application.excelparser;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.repository.ApplicantRepository;
-import com.holmech.tender.application.service.ApplicantService;
+//import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,16 +20,32 @@ public class SubjectParseExcel {
 
     private static ApplicantRepository applicantRepository;
     private static XSSFRow row;
+    @Value("${upload.path")
+    private static String uploadPath;
 
 
 
-    public static void saveInExcel(List<Subject> subjectList, File fileJournal) throws IOException {
+    public static void saveInExcel(List<Subject> subjectList, File fileJournal) {
         XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
         Write write = new Write(workbook);
         write.writeSubjetInExcel(subjectList);
-        FileOutputStream outputStream = new FileOutputStream(fileJournal);
-        workbook.write(outputStream);
-        workbook.close();
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(fileJournal);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<Subject> readFromExcel(File fileJournal, Tender tender){
@@ -43,7 +59,7 @@ public class SubjectParseExcel {
             row = (XSSFRow) rowIterator.next();
 
             Subject bufSubject = new Subject();
-            if (bufNum > 0 && !row.getCell(0).getStringCellValue().contains("№ Лота")) {
+            if (bufNum > 0 ) {//&& !row.getCell(0).getStringCellValue().contains("№ Лота")
                 i = 0;
                 while (i < bufNum) {
                   switch (i) {

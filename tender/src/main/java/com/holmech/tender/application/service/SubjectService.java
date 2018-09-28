@@ -52,7 +52,7 @@ public class SubjectService {
                 }
             }
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath + bufTender.get().getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath +"\\"+ bufTender.get().getFilename())));
     }
 
     public List<Subject> findByTenderNumberT(Tender tenderFromDB){
@@ -70,6 +70,6 @@ public class SubjectService {
             subject = subjects;
             subjectRepository.save(subject);
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath +"\\"+ bufTender.getFilename())));
     }
 }

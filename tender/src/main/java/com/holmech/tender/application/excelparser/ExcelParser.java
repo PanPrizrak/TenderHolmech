@@ -314,7 +314,7 @@ public class ExcelParser {
             objT.get(bals.get(i).getPos()).setRang((int) bals.get(i).getRang());
         }
 
-        Write writeTab = new Write (objT, parSrav, znachs, workbook);
+        Write writeTab = new Write ();
 
         writeTab.writeObj();
         writeTab.writePar();
