@@ -23,7 +23,7 @@ public class ApplicantParseExcel {
 
     public static ArrayList<Applicant> parse( File fileJournal) {
 
-        XSSFWorkbook workbook = getSheets(fileJournal);
+        XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
 
         //Заполнение из таблицы экселя
         XSSFSheet spreadsheet = workbook.getSheetAt(1);
@@ -64,24 +64,7 @@ public class ApplicantParseExcel {
         return applicants;
     }//end parseJournal
 
-    private static XSSFWorkbook getSheets(File fileJournal) {
-        XSSFWorkbook workbook = null;
-        try {
-            workbook = new XSSFWorkbook(fileJournal);
-        } catch (IOException ex) {
-            Logger.getLogger(ExcelParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidFormatException e) {
-            e.printStackTrace();
-        }
-        return workbook;
-    }
 
-    public static void saveInExcel(List<Subject> subjectList, File fileJournal) throws IOException {
-        XSSFWorkbook workbook = getSheets(fileJournal);
-        Write write = new Write(workbook);
-        write.writeSubjetInExcel(subjectList);
-        FileOutputStream outputStream = new FileOutputStream(fileJournal);
-        workbook.write(outputStream);
-        workbook.close();
-    }
+
+
 }

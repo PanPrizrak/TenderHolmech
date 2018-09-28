@@ -3,7 +3,7 @@ package com.holmech.tender.application.service;
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.excelparser.ApplicantParseExcel;
+import com.holmech.tender.application.excelparser.SubjectParseExcel;
 import com.holmech.tender.application.repository.ApplicantRepository;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class SubjectService {
                 }
             }
         }
-        ApplicantParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath + bufTender.get().getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath + bufTender.get().getFilename())));
     }
 
     public List<Subject> findByTenderNumberT(Tender tenderFromDB){
@@ -71,6 +70,6 @@ public class SubjectService {
             subject = subjects;
             subjectRepository.save(subject);
         }
-        ApplicantParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
     }
 }

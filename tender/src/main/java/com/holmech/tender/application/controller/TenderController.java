@@ -2,6 +2,7 @@ package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.excelparser.SubjectParseExcel;
 import com.holmech.tender.application.form.SubjectForm;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
@@ -45,16 +46,19 @@ public class TenderController {
     public ModelAndView save(@PathVariable String numberT,
                              @ModelAttribute("subjectForm") SubjectForm subjectForm,
                              @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
-        System.out.println(subjectForm);
-        System.out.println(subjectForm.getSubjectList());
-        List<Subject> subjects = subjectForm.getSubjectList();
-        if (null != subjects && subjects.size() > 0) {
-            // subjectService.updateSubjectList(subjects);
-            for (Subject subject : subjects) {
-                System.out.println("!!!!!!!!!!!!!!!!!!Iter subjects == " + subject.toString());//"%s \t %s \n", contact.getFirstname(), contact.getLastname()
-            }
+        String bufPath = uploadPath + "/" + tenderRepository.findByNumberT(numberT).getFilename();
+        List<Subject> subjects = null;
+        if(file.isEmpty()) {
+            subjects = subjectForm.getSubjectList();
+        } else {
+            Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
+            file.transferTo(new File(new String(bufPath)));
+            subjects = SubjectParseExcel.readFromExcel(new File(bufPath), tenderFromDB);
         }
-        file.transferTo(new File(new String(uploadPath + "/" + tenderRepository.findByNumberT(numberT).getFilename())));
+        if (null != subjects && subjects.size() > 0) {
+            subjectService.updateSubjectList(subjects);
+        }
+        subjectForm.setSubjectList((List<Subject>) subjects);
         return new ModelAndView("tender", "subjectForm", subjectForm);
     }
 }
