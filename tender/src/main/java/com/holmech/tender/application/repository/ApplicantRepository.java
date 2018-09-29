@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ApplicantRepository extends CrudRepository<Applicant, Long> {
 
-    Applicant findByNameA(String name);
+    Applicant findByNameA(String nameA);
 }

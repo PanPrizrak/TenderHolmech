@@ -1,5 +1,6 @@
 package com.holmech.tender.application.controller;
 
+import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.SubjectParseExcel;
@@ -39,6 +40,7 @@ public class TenderController {
         List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         SubjectForm subjectForm = new SubjectForm();
         subjectForm.setSubjectList((List<Subject>) subjects);
+        System.out.println(subjects.get(1).getPrice());
         return new ModelAndView("tender", "subjectForm", subjectForm);
     }
 
@@ -51,9 +53,9 @@ public class TenderController {
         if (file.isEmpty()) {
             subjects = subjectForm.getSubjectList();
         } else {
-            Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
             file.transferTo(new File(new String(bufPath)));
-            subjects = SubjectParseExcel.readFromExcel(new File(bufPath), tenderFromDB);
+            List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
+            subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel,subjectForm.getSubjectList());
         }
         if (null != subjects && subjects.size() > 0) {
             subjectService.updateSubjectList(subjects);

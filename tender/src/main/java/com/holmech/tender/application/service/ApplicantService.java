@@ -33,4 +33,9 @@ public class ApplicantService  {
             addApplicant(applicants.get(i));
         }
     }
+
+    public Applicant findByNameA(String bufApplicantNameA){
+        bufApplicantNameA = bufApplicantNameA.replace('"', '\"');
+        return applicantReposirory.findByNameA(bufApplicantNameA);
+    }
 }

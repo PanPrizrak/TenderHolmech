@@ -4,7 +4,6 @@ import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.SubjectParseExcel;
-import com.holmech.tender.application.repository.ApplicantRepository;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,14 +23,15 @@ public class SubjectService {
     private String uploadPath;
 
     private final SubjectRepository subjectRepository;
-    private final ApplicantRepository applicantRepository;
+    private final ApplicantService applicantService;
     private final TenderRepository tenderRepository;
 
+
     public SubjectService(SubjectRepository subjectRepository,
-                          ApplicantRepository applicantRepository,
+                          ApplicantService applicantService,
                           TenderRepository tenderRepository) {
         this.subjectRepository = subjectRepository;
-        this.applicantRepository = applicantRepository;
+        this.applicantService = applicantService;
         this.tenderRepository = tenderRepository;
     }
 
@@ -46,17 +46,17 @@ public class SubjectService {
                         subject = new Subject();
                         subject.setNumberS(i + 1);
                         subject.setTender(bufTender.get());
-                        subject.setApplicant(applicantRepository.findByNameA(bufApplicant.getNameA()));
+                        subject.setApplicant(applicantService.findByNameA(bufApplicant.getNameA()));
                         subjectRepository.save(subject);
                     }
                 }
             }
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath +"\\"+ bufTender.get().getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath + "\\" + bufTender.get().getFilename())));
     }
 
-    public List<Subject> findByTenderNumberT(Tender tenderFromDB){
-        return subjectRepository.findByTender(tenderFromDB,Sort.by("id").ascending());
+    public List<Subject> findByTenderNumberT(Tender tenderFromDB) {
+        return subjectRepository.findByTender(tenderFromDB, Sort.by("id").ascending());
     }
 
     public void updateSubjectList(List<Subject> subjectList) throws IOException {
@@ -64,12 +64,23 @@ public class SubjectService {
         Tender bufTender = null;
         for (Subject subjects : subjectList) {
             subject = new Subject();
-            subjects.setApplicant(applicantRepository.findByNameA(subjects.getApplicantNameA()));
+            subjects.setApplicant(applicantService.findByNameA(subjects.getApplicantNameA()));
             bufTender = tenderRepository.findByNumberT(subjects.getTenderNumberT());
             subjects.setTender(bufTender);
             subject = subjects;
             subjectRepository.save(subject);
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath +"\\"+ bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + "\\" + bufTender.getFilename())));
+    }
+
+    public List<Subject> setApplicantInSubjectList(List<Subject> subjectList, List<Subject> subjectListWithId) throws IOException {
+        ArrayList<Subject> bufSubjectList = new ArrayList<Subject>();
+        for (int i = 0; i < subjectList.size(); i++) {
+            Subject bufSubject = subjectList.get(i);
+            bufSubject.setId(subjectListWithId.get(i).getId());
+            bufSubject.setTenderNumberT(subjectListWithId.get(i).getTenderNumberT());
+            bufSubjectList.add(bufSubject);
+        }
+        return bufSubjectList;
     }
 }

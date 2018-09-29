@@ -1,10 +1,9 @@
 package com.holmech.tender.application.excelparser;
 
+import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.repository.ApplicantRepository;
-//import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.openxml4j.opc.OPCPackage;
+import com.holmech.tender.application.service.ApplicantService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,16 +15,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 public class SubjectParseExcel {
 
-    private static ApplicantRepository applicantRepository;
+
     private static XSSFRow row;
+
     @Value("${upload.path")
     private static String uploadPath;
 
-
-
     public static void saveInExcel(List<Subject> subjectList, File fileJournal) {
+
         XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
         Write write = new Write(workbook);
         write.writeSubjetInExcel(subjectList);
@@ -48,7 +48,8 @@ public class SubjectParseExcel {
         }
     }
 
-    public static ArrayList<Subject> readFromExcel(File fileJournal, Tender tender){
+    public static ArrayList<Subject> readFromExcel(File fileJournal){
+        ApplicantService applicantService = new ApplicantService();
         XSSFSheet spreadsheet = ParseExcel.getSheets(fileJournal).getSheet("После вскрытия");
         Iterator<Row> rowIterator = spreadsheet.iterator();
         ArrayList<Subject> subjects = new ArrayList<Subject>();
@@ -72,12 +73,13 @@ public class SubjectParseExcel {
                             break;
                         case 1:
                             if (row.getCell(i) != null) {
-                                bufSubject.setApplicant(applicantRepository.findByNameA(row.getCell(i).getStringCellValue()));
+                                String bufApplicantName = row.getCell(i).getStringCellValue();
+                                bufSubject.setApplicantNameA(bufApplicantName);
                             }
                             break;
                         case 2:
                             if (row.getCell(i) != null) {
-                                bufSubject.setPayment(row.getCell(i).getStringCellValue());
+                                bufSubject.setPayment(String.valueOf(row.getCell(i).getNumericCellValue()));
                             } else {
                                 bufSubject.setPayment("");
                             }
@@ -125,7 +127,6 @@ public class SubjectParseExcel {
                             }
                             break;
                     }//switch
-                    bufSubject.setTender(tender);
                     i++;
                 }
                 subjects.add(bufSubject);
