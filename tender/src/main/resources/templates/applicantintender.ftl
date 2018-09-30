@@ -1,47 +1,78 @@
-<#list subjects as subject>
+<form modelAttribute="documentsForm"  method="post" enctype="multipart/form-data">
+<#list documentsForm as documents>
 
-<tbody>
-<tr>
-
-    <th scope="row">${subject.numberS}</th>
-    <td>${subject.applicant.nameA}</td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.payment?if_exists}"
-               name="subject.payment"
-               placeholder="Введите Отсрочка"/>
-    </td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.units?if_exists}"
-               name="subject.units"
-               placeholder="Введите ед. изм."/>
-    </td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.amount?if_exists}"
-               name="subject.amount"
-               placeholder="Введите количество"/>
-    </td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.price?if_exists}"
-               name="subject.price"
-               placeholder="Введите цену"/>
-    </td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.code?if_exists}"
-               name="subject.code"
-               placeholder="Введите код ОКРБ"/>
-    </td>
-    <td>
-        <input type="text" class="form-control"
-               value="${subject.delivery?if_exists}"
-               name="subject.delivery"
-               placeholder="Введите условия поставки"/>
-    </td>
-</tr>
-</tbody>
+<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    ${documents.applicant.nameA}
+</a>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <form>
+            <div class="form-group row">
+                <label for="applicantNameA" class="col-sm-2 col-form-label col-form-label-lg">Наименование предприятия</label>
+                <div class="col-sm-10">
+                    <input type="text" value='${documents.applicant.nameA}' name="documentsForm[${documents?index}].applicant.nameA" class="form-control form-control-lg" id="applicantNameA" placeholder="Наименование предприятия">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="applicantAddress" class="col-sm-2 col-form-label col-form-label-lg">Наименование предприятия</label>
+                <div class="col-sm-10">
+                    <input type="text" value='${documents.applicant.address}' name="documentsForm[${documents?index}].applicant.address" class="form-control form-control-lg" id="applicantAddress" placeholder="Адрес предприятия">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="applicantPAN" class="col-sm-2 col-form-label col-form-label-lg">Наименование предприятия</label>
+                <div class="col-sm-10">
+                    <input type="text" value='${documents.applicant.pan}' name="documentsForm[${documents?index}].applicant.pan" class="form-control form-control-lg" id="applicantPAN" placeholder="УНП предприятия">
+                </div>
+            </div>
+        </form>
+        <form class="was-validated">
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.registration}'
+                       name="documentsForm[${documents?index}].registration" class="custom-control-input" id="documentsRegitration" required>
+                <label class="custom-control-label" for="documentsRegitration">Сертификат регистрации</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.charter}'
+                       name="documentsForm[${documents?index}].charter" class="custom-control-input" id="documentsCharter" required>
+                <label class="custom-control-label" for="documentsCharter">Устав предприятия</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.bankreference}'
+                       name="documentsForm[${documents?index}].bankreference" class="custom-control-input" id="documentsBankreference" required>
+                <label class="custom-control-label" for="documentsBankreference">Спарвка из банка</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.dealer}'
+                       name="documentsForm[${documents?index}].dealer" class="custom-control-input" id="documentsDealer" required>
+                <label class="custom-control-label" for="documentsDealer">Дилерский сертификат</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.product}'
+                       name="documentsForm[${documents?index}].product" class="custom-control-input" id="documentsProduct" required>
+                <label class="custom-control-label" for="documentsProduct">Сертификат товара</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox"
+                       value='${documents.feedback}'
+                       name="documentsForm[${documents?index}].feedback" class="custom-control-input" id="documentsFeaadback" required>
+                <label class="custom-control-label" for="documentsFeaadback">Отзыв</label>
+                <div class="invalid-feedback">Example invalid feedback text</div>
+            </div>
+        </form>
+    </div>
+</div>
 
 </#list>
+</form>

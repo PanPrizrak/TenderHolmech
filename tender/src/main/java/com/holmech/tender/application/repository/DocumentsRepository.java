@@ -5,9 +5,11 @@ import com.holmech.tender.application.entity.Documents;
 import com.holmech.tender.application.entity.Tender;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface DocumentsRepository extends CrudRepository<Documents, Long> {
 
     Documents findByTenderAndApplicant(Tender tender, Applicant applicant);
 
-    Iterable<Documents> findByTender(Tender tender);
+    List<Documents> findByTender(Tender tender);
 }

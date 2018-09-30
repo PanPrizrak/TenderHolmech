@@ -1,10 +1,13 @@
 package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.Applicant;
+import com.holmech.tender.application.entity.Documents;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.SubjectParseExcel;
+import com.holmech.tender.application.form.DocumentsForm;
 import com.holmech.tender.application.form.SubjectForm;
+import com.holmech.tender.application.repository.DocumentsRepository;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.SubjectService;
@@ -28,20 +31,30 @@ public class TenderController {
 
     private final TenderRepository tenderRepository;
     private final SubjectService subjectService;
+    private final DocumentsRepository documentsRepository;
 
-    public TenderController(TenderRepository tenderRepository, SubjectService subjectService) {
+    public TenderController(TenderRepository tenderRepository,
+                            SubjectService subjectService,
+                            DocumentsRepository documentsRepository) {
         this.tenderRepository = tenderRepository;
         this.subjectService = subjectService;
+        this.documentsRepository = documentsRepository;
     }
 
     @GetMapping("/tender/{numberT}")
-    public ModelAndView get(@PathVariable String numberT) {
+    public List<ModelAndView> get(@PathVariable String numberT) {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         SubjectForm subjectForm = new SubjectForm();
         subjectForm.setSubjectList((List<Subject>) subjects);
+        List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
+        DocumentsForm documentsForm = new DocumentsForm();
+        documentsForm.setDocumentsList((List<Documents>) documents);
         System.out.println(subjects.get(1).getPrice());
-        return new ModelAndView("tender", "subjectForm", subjectForm);
+        ArrayList<ModelAndView> modelAndViewArrayList = new ArrayList<ModelAndView>();
+        modelAndViewArrayList.add(new ModelAndView("tender", "subjectForm", subjectForm));
+        modelAndViewArrayList.add(new ModelAndView("tender", "DocumentsForm", documentsForm));
+        return modelAndViewArrayList;
     }
 
     @PostMapping("/tender/{numberT}")

@@ -49,7 +49,7 @@
         </td>
         <td>
             <input type="text" class="form-control"
-                   value="${subject.price?if_exists}"
+                   value="#{subject.price?if_exists}"
                    name="subjectList[${subject?index}].price"
                    placeholder="цена"/>
         </td>
