@@ -1,27 +1,28 @@
-<form modelAttribute="subjectForm"  method="post" enctype="multipart/form-data">
-<table class="table">
+<form modelAttribute="subjectAndDocumentsForm"  method="post" enctype="multipart/form-data">
+<table class="table table-bordered table-hover table-sm table-responsive">
     <thead>
-    <tr>
-        <th scope="col">№ лота</th>
-        <th scope="col">Название предприятия</th>
-        <th scope="col">Отсрочка</th>
-        <th scope="col">Название продукта</th>
-        <th scope="col">Ед. изм.</th>
-        <th scope="col">Количество</th>
-        <th scope="col">Цена. за ед. с НДС</th>
-        <th scope="col">Код ОКРБ</th>
-        <th scope="col">Условия поставки</th>
+    <tr >
+        <th scope="col" >№ лота</th> <!--class="col-sm-0"-->
+        <th scope="col" class="col-sm-1">Название предприятия</th>
+        <th scope="col" >Отсрочка</th>
+        <th scope="col" class="col-sm-1">Название продукта</th>
+        <th scope="col" >Ед. изм.</th>
+        <th scope="col" >Количество</th>
+        <th scope="col" >Цена. за ед. с НДС</th>
+        <th scope="col" >Код ОКРБ</th>
+        <th scope="col" >Условия поставки</th>
+
     </tr>
     </thead>
 
-    <#list subjectForm.subjectList as subject>
+    <#list subjectAndDocumentsForm.subjectList as subject>
 
     <tbody>
-    <tr>
+    <tr >
         <input type="hidden" value="${subject.id}" name="subjectList[${subject?index}].id"/>
         <th scope="row">${subject.numberS}</th>
         <input type="hidden" value="${subject.numberS}" name="subjectList[${subject?index}].numberS"/>
-        <td>${subject.applicant.nameA}</td>
+        <div class="col-sm-1"><td>${subject.applicant.nameA}</td></div>
         <input type="hidden" value='${subject.applicant.nameA}' name="subjectList[${subject?index}].applicantNameA"/>
         <td>
             <input type="text" class="form-control"
@@ -29,12 +30,12 @@
                    name="subjectList[${subject?index}].payment"
                    placeholder="Отсрочка"/>
         </td>
-        <td>
+        <div class="col-sm-1"> <td>
             <input type="text" class="form-control"
                    value="${subject.nameS?if_exists}"
                    name="subjectList[${subject?index}].nameS"
                    placeholder="Название"/>
-        </td>
+        </td></div>
         <td>
             <input type="text" class="form-control"
                    value="${subject.units?if_exists}"
