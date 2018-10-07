@@ -12,7 +12,7 @@ public class WorkerR {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long idWR;
 
     @OneToOne
     @JoinColumn(name = "order_id")

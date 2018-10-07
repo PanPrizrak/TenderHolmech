@@ -42,9 +42,7 @@ public class TenderController {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
-        System.out.println("!!!!!!!!!! Size documents " + documents.size() + " !!!!!!!!!");
         SubjectAndDocumentsForm subjectAndDocumentsForm = new SubjectAndDocumentsForm(subjects,documents);
-
         return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
     }
 

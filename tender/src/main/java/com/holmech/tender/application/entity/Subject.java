@@ -15,7 +15,7 @@ public class Subject {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private Long id;
+    private Long idS;
 
     private String nameS;
     private String units;

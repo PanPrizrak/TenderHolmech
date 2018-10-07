@@ -12,7 +12,7 @@ public class Applicant {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private Long id;
+    private Long idA;
 
 
     private  String nameA;

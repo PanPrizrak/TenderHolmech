@@ -16,7 +16,7 @@ public class Tender {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    private Long idT;
 
     //@NotBlank(message="pleas fil number")
     //@Length(max = 255, message = "max long")

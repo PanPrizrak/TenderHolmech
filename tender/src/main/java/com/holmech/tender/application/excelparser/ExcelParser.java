@@ -372,7 +372,7 @@ public class ExcelParser {
                 while (i < bufNum) {
 
                     if (i == 0) {
-                        bufApplicant.setId((long) 1);
+                        bufApplicant.setIdA((long) 1);
                         bufApplicant.setNameA(row.getCell(i).getStringCellValue());
                         bufApplicant.setAddress("");
                         bufApplicant.setPan("");

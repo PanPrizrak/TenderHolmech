@@ -11,7 +11,7 @@ public class Documents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long idD;
 
     private boolean registration;
 

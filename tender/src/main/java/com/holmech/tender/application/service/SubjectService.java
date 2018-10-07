@@ -56,7 +56,7 @@ public class SubjectService {
     }
 
     public List<Subject> findByTenderNumberT(Tender tenderFromDB) {
-        return subjectRepository.findByTender(tenderFromDB, Sort.by("id").ascending());
+        return subjectRepository.findByTender(tenderFromDB, Sort.by("idS").ascending());
     }
 
     public void updateSubjectList(List<Subject> subjectList) throws IOException {
@@ -77,7 +77,7 @@ public class SubjectService {
         ArrayList<Subject> bufSubjectList = new ArrayList<Subject>();
         for (int i = 0; i < subjectList.size(); i++) {
             Subject bufSubject = subjectList.get(i);
-            bufSubject.setId(subjectListWithId.get(i).getId());
+            bufSubject.setIdS(subjectListWithId.get(i).getIdS());
             bufSubject.setTenderNumberT(subjectListWithId.get(i).getTenderNumberT());
             bufSubjectList.add(bufSubject);
         }

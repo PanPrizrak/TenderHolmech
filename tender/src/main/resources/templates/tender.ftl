@@ -13,10 +13,10 @@
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-subjects" role="tabpanel" aria-labelledby="nav-subjects-tab">
-        <#include "subjectintender.ftl" />
+        <#include "parts/subjectintender.ftl" />
     </div>
     <div class="tab-pane fade" id="nav-applicants" role="tabpanel" aria-labelledby="nav-applicants-tab">
-        <#include "applicantintender.ftl" />
+        <#include "parts/applicantintender.ftl" />
     </div>
 </div>
 

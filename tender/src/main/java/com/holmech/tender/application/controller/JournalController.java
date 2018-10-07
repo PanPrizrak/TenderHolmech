@@ -4,6 +4,8 @@ import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.ApplicantParseExcel;
+import com.holmech.tender.application.form.SubjectAndDocumentsForm;
+import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.ApplicantService;
@@ -13,11 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -65,6 +65,7 @@ public class JournalController {
     @PostMapping()
     public String add(
             @RequestParam(required = false, name = "idtender") Long idtender,
+            @ModelAttribute("tenderForm") TenderForm tenderform,
             @Valid Order order,
             @Valid Tender tender,
             BindingResult bindingResult,
@@ -101,7 +102,8 @@ public class JournalController {
         Iterable<Tender> tenders = tenderRepository.findAll();
         model.addAttribute("tenders", tenders);
         System.out.println(model.containsAttribute("tender"));
-        return "journal";
+        TenderForm tenderForm = new TenderForm();
+        return "joirnal";
     }
 
 
@@ -122,14 +124,4 @@ public class JournalController {
             tender.setFilename(resultFilename);
         }
     }
-
-    /*@PostMapping()
-    public String deleteJournal(@RequestParam("idtender") Long idtender, Model model) {
-
-        /*tenderRepository.deleteById(idtender);
-        Iterable<Tender> tenders = tenderRepository.findAll();
-
-        model.addAttribute("tenders", tenders);*
-
-    }*/
-}
+}//JournalController
