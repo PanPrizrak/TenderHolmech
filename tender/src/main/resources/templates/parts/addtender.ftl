@@ -27,8 +27,9 @@
 <!--name-->
     <div class="form-group">
         <input type="text" class="form-control ${(nameTError??)?string('is-invalid', '')} col-sm-4"
-               value="${tenderForm.tender.nameT?if_exists}" name="tenderForm[0].nameT" placeholder="Введите краткое название"/>
+               value="2018.01.01" name="tenderForm[0].nameT" placeholder="Введите краткое название"/>
         <#if nameTError??>
+        <!--${tenderForm.tender.nameT?if_exists}-->
         <div class="invalid-feedback">
             ${nameTError}
         </div>
