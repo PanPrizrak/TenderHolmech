@@ -22,10 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Controller
@@ -55,17 +52,23 @@ public class JournalController {
     private String uploadPath;
 
     @GetMapping()
-    public String journal(Model model) {
+    public ModelAndView journal(Model model) {
         Iterable<Tender> tenders;
         tenders = tenderRepository.findAll();
         model.addAttribute("tenders", tenders);
-        return "journal";
+        Tender tennderBuf = getLastTender();
+        return new ModelAndView("journal", "tenderForm", new TenderForm(tennderBuf,tennderBuf.getOrder()));
+    }
+
+    private Tender getLastTender() {
+        List<Tender> tenderList = (List<Tender>) tenderRepository.findAll();
+        return tenderList.get(tenderList.size()-1);
     }
 
     @PostMapping()
-    public String add(
+    public ModelAndView add(
             @RequestParam(required = false, name = "idtender") Long idtender,
-            @ModelAttribute("tenderForm") TenderForm tenderform,
+            @ModelAttribute("tenderForm") TenderForm tenderForm,
             @Valid Order order,
             @Valid Tender tender,
             BindingResult bindingResult,
@@ -85,25 +88,23 @@ public class JournalController {
             }
             model.addAttribute("tender", null);
         } else {
-            orderRepository.save(order);
-            tender.setOrder(order);
+            orderRepository.save(tenderForm.getOrder());
+            tender.setOrder(tenderForm.getOrder());
             if (bindingResult.hasErrors()) {
                 Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
                 model.mergeAttributes(errorsMap);
                 model.addAttribute("tender", tender);
                 model.addAttribute("oder", order);
             } else {
-                saveFile(tender, file);
+                saveFile(tenderForm.getTender(), file);
                 model.addAttribute("tender", null);
-                System.out.println("!!!!!!!!!!!!!!!!!!!" + tender.getDateT().toString());
                 tenderRepository.save(tender);
             }
         }
         Iterable<Tender> tenders = tenderRepository.findAll();
         model.addAttribute("tenders", tenders);
-        System.out.println(model.containsAttribute("tender"));
-        TenderForm tenderForm = new TenderForm();
-        return "joirnal";
+        tenderForm = new TenderForm(getLastTender(),getLastTender().getOrder());
+        return new ModelAndView("journal","tenderForm",tenderForm);
     }
 
 

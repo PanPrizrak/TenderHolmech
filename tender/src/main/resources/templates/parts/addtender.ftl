@@ -1,4 +1,4 @@
-    <div class="form-group mt-3">
+<div class="form-group mt-3">
 <form action="journal" modelAttribute="tenderForm" method="post" enctype="multipart/form-data">
 
 <!--number-->
@@ -8,7 +8,7 @@
                     <span class="input-group-text">№</span>
                 </div>
                 <input type="text" id="numberTender" class="form-control ${(numberTError??)?string('is-invalid', '')} col-sm-4"
-                       value="${tenderForm.tender.numberT?if_exists}" name="tenderForm[0].numberT" placeholder="Введите номер"/>
+                       value="${tenderForm.tender.numberT?if_exists}" name="tenderForm.tender[0].numberT" placeholder="Введите номер"/>
                 <#if numberTError??>
                     <div class="invalid-feedback">
                         ${numberTError}
@@ -27,22 +27,25 @@
 <!--name-->
     <div class="form-group">
         <input type="text" class="form-control ${(nameTError??)?string('is-invalid', '')} col-sm-4"
-               value="2018.01.01" name="tenderForm[0].nameT" placeholder="Введите краткое название"/>
+               value="${tenderForm.tender.nameT?if_exists}" name="tenderForm.tender[0].nameT" placeholder="Введите краткое название"/>
         <#if nameTError??>
-        <!--${tenderForm.tender.nameT?if_exists}-->
         <div class="invalid-feedback">
             ${nameTError}
         </div>
-    </#if>
+        </#if>
     </div>
-<!--date-->
+<!--date<#setting date_format="yyyy-MM-dd">
+<#setting locale="en_US">-->
+
+
+
     <div class="form-group">
-        <input type="date" value="${tenderForm.tender.dateT?date}"  class="form-control col-sm-2" id="date" name="tenderForm[0].dateT" required>
+        <input type="date" value="${tenderForm.tender.dateT?iso_utc?date}"  class="form-control col-sm-2" id="date" name="tenderForm.tender[0].dateT" required>
     </div>
 <!--stage-->
 <div class="form-group">
     <input type="text" class="form-control ${(stageError??)?string('is-invalid', '')} col-sm-4"
-           value="${tenderForm.tender.stage?if_exists}" name="tenderForm[0].stage" placeholder="Введите этап"/>
+           value="${tenderForm.tender.stage?if_exists}" name="tenderForm.tender[0].stage" placeholder="Введите этап"/>
     <#if stageError??>
     <div class="invalid-feedback">
         ${stageError}
@@ -52,7 +55,7 @@
 <!--priceFactor-->
 <div class="form-group">
     <input type="text" class="form-control ${(priceFactorError??)?string('is-invalid', '')} col-sm-4"
-           value="${tenderForm.tender.priceFactor?if_exists}" name="tenderForm[0].priceFactor" placeholder="Введите фатор цены"/>
+           value="${tenderForm.tender.priceFactor?if_exists}" name="tenderForm.tender[0].priceFactor" placeholder="Введите фатор цены"/>
     <#if priceFactorError??>
     <div class="invalid-feedback">
         ${priceFactorError}
@@ -62,7 +65,7 @@
 <!--paymentFactor-->
 <div class="form-group">
     <input type="text" class="form-control ${(paymentFactorError??)?string('is-invalid', '')} col-sm-4"
-           value="${tenderForm.tender.paymentFactor?if_exists}" name="tenderForm[0].paymentFactor" placeholder="Введите фактор условия оплаты"/>
+           value="${tenderForm.tender.paymentFactor?if_exists}" name="tenderForm.tender[0].paymentFactor" placeholder="Введите фактор условия оплаты"/>
     <#if paymentFactorError??>
     <div class="invalid-feedback">
         ${paymentFactorError}
@@ -80,18 +83,18 @@
 <!--order.number-->
 <div class="form-group">
     <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
-           value="${tenderForm.order.numberO?if_exists}" name="tenderForm[0].numberO" placeholder="Введите номер приказа"/>
+           value="${tenderForm.order.numberO?if_exists}" name="tenderForm.order[0].numberO" placeholder="Введите номер приказа"/>
     <#if numberOError??>
     <div class="invalid-feedback">
         ${numberOError}
     </div>
-</#if>
+    </#if>
 </div>
 <!--order.date-->
 <div class="form-group">
     <div class="container">
         <div class="row">
-            <input type="date" value="${tenderForm.order.dateO?date}" class="form-control col-sm-2" id="date" name="tenderForm[0].dateO" required/>
+            <input type="date" value="${tenderForm.order.dateO?iso_utc?date}" class="form-control col-sm-2" id="date" name="tenderForm.order[0].dateO" required/>
         </div>
     </div>
 </div>
