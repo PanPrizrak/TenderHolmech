@@ -43,7 +43,7 @@
         </form></td>
         <td><#if tender.filename??> <a href="/xlsx/${tender.filename}" download="">${tender.filename?keep_after(".")}</a><#else>
           <a href="/editTender/${tender.numberT}">Добавить файл</a> </#if>
-        </form></td>
+        </td>
     </tr>
     </tbody>
 

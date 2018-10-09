@@ -41,7 +41,7 @@ public class Tender {
     private String filename;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "oreder_id")
+    @JoinColumn(name = "order_id")
     private Order order;
 
 }

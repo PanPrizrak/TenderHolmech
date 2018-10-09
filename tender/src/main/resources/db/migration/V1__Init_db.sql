@@ -31,7 +31,7 @@ numbert varchar(255),
 payment_factor varchar(255),
 price_factor varchar(255),
 stage varchar(255),
-oreder_id bigint,
+order_id bigint,
 primary key (idt)) engine=MyISAM;
 
 create table user_role (user_id bigint not null, roles varchar(255)) engine=MyISAM;
@@ -43,7 +43,7 @@ alter table message add constraint message_applicant_fk foreign key (applicant_i
 alter table message add constraint message_tender_fk foreign key (tender_id) references tender (idt);
 alter table subject add constraint subject_applicant_fk foreign key (applicant_id) references applicant (ida);
 alter table subject add constraint subject_tender_fk foreign key (tender_id) references tender (idt);
-alter table tender add constraint tender_orders_fk foreign key (oreder_id) references orders (ido);
+alter table tender add constraint tender_orders_fk foreign key (order_id) references orders (ido);
 alter table user_role add constraint user_role_user_fk foreign key (user_id) references usr (id);
 alter table worker add constraint worker_applicant_fk foreign key (worker_id) references applicant (ida);
 alter table worker_role add constraint worker_role_orders_fk foreign key (order_id) references orders (ido);
