@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class EditTenderController {
@@ -31,7 +33,9 @@ public class EditTenderController {
     private ModelAndView editTender(@PathVariable String numberT)
     {
         Tender bufTender = tenderRepository.findByNumberT(numberT);
-        TenderForm tenderForm = new TenderForm(bufTender,bufTender.getOrder());
+        ArrayList<Tender> tenferBufList = new ArrayList<>();
+        tenferBufList.add(bufTender);
+        TenderForm tenderForm = new TenderForm(tenferBufList);
         return new ModelAndView("editTender","tenderForm", tenderForm);
     }
 
@@ -44,7 +48,7 @@ public class EditTenderController {
                             @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
         Tender bufTender = tenderRepository.findByNumberT(numberT);
-        model.addAttribute("tender", bufTender);
+        model.addAttribute("tenderList", bufTender);
         model.addAttribute("order",bufTender.getOrder());
         return "editTender";
     }

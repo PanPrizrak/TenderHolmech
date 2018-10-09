@@ -4,7 +4,6 @@ import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.excelparser.ApplicantParseExcel;
-import com.holmech.tender.application.form.SubjectAndDocumentsForm;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
@@ -52,12 +51,10 @@ public class JournalController {
     private String uploadPath;
 
     @GetMapping()
-    public ModelAndView journal(Model model) {
-        Iterable<Tender> tenders;
-        tenders = tenderRepository.findAll();
-        model.addAttribute("tenders", tenders);
-        Tender tennderBuf = getLastTender();
-        return new ModelAndView("journal", "tenderForm", new TenderForm(tennderBuf,tennderBuf.getOrder()));
+    public ModelAndView journal() {
+        List<Tender> tenders;
+        tenders = (List<Tender>) tenderRepository.findAll();
+        return new ModelAndView("journal", "tenderForm", new TenderForm(tenders));
     }
 
     private Tender getLastTender() {
@@ -86,24 +83,24 @@ public class JournalController {
                     subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
                 }
             }
-            model.addAttribute("tender", null);
+            model.addAttribute("tenderList", null);
         } else {
-            orderRepository.save(tenderForm.getOrder());
-            tender.setOrder(tenderForm.getOrder());
+            orderRepository.save(tenderForm.getTenderList().get(0).getOrder());
+            tender.setOrder(tenderForm.getTenderList().get(0).getOrder());
             if (bindingResult.hasErrors()) {
                 Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
                 model.mergeAttributes(errorsMap);
-                model.addAttribute("tender", tender);
+                model.addAttribute("tenderList", tender);
                 model.addAttribute("oder", order);
             } else {
-                saveFile(tenderForm.getTender(), file);
-                model.addAttribute("tender", null);
+                saveFile(tenderForm.getTenderList().get(0), file);
+                model.addAttribute("tenderList", null);
                 tenderRepository.save(tender);
             }
         }
-        Iterable<Tender> tenders = tenderRepository.findAll();
+        List<Tender> tenders = (List<Tender>) tenderRepository.findAll();
         model.addAttribute("tenders", tenders);
-        tenderForm = new TenderForm(getLastTender(),getLastTender().getOrder());
+        tenderForm = new TenderForm(tenders);
         return new ModelAndView("journal","tenderForm",tenderForm);
     }
 

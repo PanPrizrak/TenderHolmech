@@ -37,16 +37,16 @@ public class TenderController {
         this.documentsRepository = documentsRepository;
     }
 
-    @GetMapping("/tender/{numberT}")
+    @GetMapping("/tenderList/{numberT}")
     public ModelAndView get(@PathVariable String numberT) {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
         SubjectAndDocumentsForm subjectAndDocumentsForm = new SubjectAndDocumentsForm(subjects,documents);
-        return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
+        return new ModelAndView("tenderList", "subjectAndDocumentsForm", subjectAndDocumentsForm);
     }
 
-    @PostMapping("/tender/{numberT}")
+    @PostMapping("/tenderList/{numberT}")
     public ModelAndView save(@PathVariable String numberT,
                              @ModelAttribute("subjectAndDocumentsForm") SubjectAndDocumentsForm subjectAndDocumentsForm,
                              @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
@@ -63,6 +63,6 @@ public class TenderController {
             subjectService.updateSubjectList(subjects);
         }
         subjectAndDocumentsForm.setSubjectList((List<Subject>) subjects);
-        return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
+        return new ModelAndView("tenderList", "subjectAndDocumentsForm", subjectAndDocumentsForm);
     }
 }

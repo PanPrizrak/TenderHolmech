@@ -1,15 +1,7 @@
 <#import "parts/common.ftl" as ht>
 
 <@ht.page>
-<!--<div class="form-row">
-    <div class="form-group col-md-6">
-        <form method="get" action="/journal" class="form-inline">
-            <input type="text" name="filter" class="form-control" value="${filter?if_exists}" placeholder="Поиск по названию" />
-            <button type="submit" class="btn btn-primary ml-2">Поиск</button>
-        </form>
-    </div>
-</div>-->
-
+<form modelAttribute="tenderForm">
 
 <div>Журнал тендеров</div>
 
@@ -27,7 +19,7 @@
     </tr>
     </thead>
 
-    <#list tenders as tender>
+    <#list tenderForm.tenderList as tender>
 
     <tbody>
     <tr>
