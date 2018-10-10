@@ -1,4 +1,9 @@
 # User-specific stuff
-.idea
+.idea/**/workspace.xml
+.idea/**/dbnavigator.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 *.log
 application-dev.properties
