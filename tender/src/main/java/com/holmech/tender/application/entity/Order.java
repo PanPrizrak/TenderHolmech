@@ -1,5 +1,6 @@
 package com.holmech.tender.application.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,21 +25,8 @@ public class Order {
     private Date dateO;
 
 
-/*@
-
-
-    private Worker chairman;
-
-    OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
-    private Worker deputy;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
-    private Set<Worker> memberofcommission;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
-    private Worker secretary;*/
-
+    public Order(String numberO, Date dateO) {
+        this.numberO = numberO;
+        this.dateO = dateO;
+    }
 }

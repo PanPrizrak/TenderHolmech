@@ -1,5 +1,5 @@
 <div class="form-group mt-3">
-<form action="journal" modelAttribute="tenderForm" method="post" enctype="multipart/form-data">
+<form modelAttribute="tenderForm" method="post" enctype="multipart/form-data">
 
 <!--number-->
     <div class="form-group">

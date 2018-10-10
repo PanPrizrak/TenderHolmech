@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as ht>
 
 <@ht.page>
-<form modelAttribute="tenderForm">
+<form modelAttribute="tenderForm" method="post">
 
 <div>Журнал тендеров</div>
 

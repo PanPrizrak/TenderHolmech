@@ -49,10 +49,17 @@
                    placeholder="количество"/>
         </td>
         <td>
+            <#if subject.price??>
             <input type="text" class="form-control"
                    value="#{subject.price?if_exists}"
                    name="subjectList[${subject?index}].price"
                    placeholder="цена"/>
+            <#else>
+                <input type="text" class="form-control"
+                       value="${subject.price?if_exists}"
+                       name="subjectList[${subject?index}].price"
+                       placeholder="цена"/>
+            </#if>
         </td>
            <td>
             <input type="text" class="form-control"

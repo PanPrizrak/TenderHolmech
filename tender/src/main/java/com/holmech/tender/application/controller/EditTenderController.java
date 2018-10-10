@@ -42,9 +42,10 @@ public class EditTenderController {
                                     @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
         Tender tenderBuf = tenderForm.getTenderList().get(0);
+        tenderBuf.setIdT(tenderService.findByNumberT(numberT).getIdT());
         tenderService.saveTender(file, tenderBuf);
         List<Tender> tenders = tenderService.findAll();
         TenderForm tenderBufForm = new TenderForm(tenders);
-        return new ModelAndView("journal", "tenderForm", tenderBufForm);
+        return new ModelAndView("editTender", "tenderForm", tenderBufForm);
     }
 }
