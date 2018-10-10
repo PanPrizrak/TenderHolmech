@@ -38,15 +38,15 @@ public class DocumentsService {
         return false;
     }
 
-    public boolean addDocumentsFromExcel(Optional<Tender> bufTender,
+    public boolean addDocumentsFromExcel(Tender bufTender,
                                          ArrayList<Applicant> applicantArrayList) {
         Documents documents;
         for (Applicant bufApplicant : applicantArrayList) {
-            if (isDocumentsInExcel(bufTender.get(), applicantRepository.findByNameA(bufApplicant.getNameA()))) {
+            if (isDocumentsInExcel(bufTender, applicantRepository.findByNameA(bufApplicant.getNameA()))) {
                 return false;
             } else {
                 documents = new Documents();
-                documents.setTender(bufTender.get());
+                documents.setTender(bufTender);
                 documents.setApplicant(applicantRepository.findByNameA(bufApplicant.getNameA()));
                 documentsRepository.save(documents);
             }

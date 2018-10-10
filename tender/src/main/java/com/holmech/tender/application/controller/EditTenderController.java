@@ -4,6 +4,7 @@ import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.service.TenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,17 +23,17 @@ import java.util.List;
 @Controller
 public class EditTenderController {
 
-    private final TenderRepository tenderRepository;
+    private final TenderService tenderService;
 
 
-    public EditTenderController(TenderRepository tenderRepository) {
-        this.tenderRepository = tenderRepository;
+    public EditTenderController(TenderService tenderService) {
+        this.tenderService = tenderService;
     }
 
     @GetMapping("/editTender/{numberT}")
     private ModelAndView editTender(@PathVariable String numberT)
     {
-        Tender bufTender = tenderRepository.findByNumberT(numberT);
+        Tender bufTender = tenderService.findByNumberT(numberT);
         ArrayList<Tender> tenferBufList = new ArrayList<>();
         tenferBufList.add(bufTender);
         TenderForm tenderForm = new TenderForm(tenferBufList);
@@ -41,15 +42,11 @@ public class EditTenderController {
 
     @PostMapping("/editTender/{numberT}")
     private String editTender(@PathVariable String numberT,
-                            @Valid Order order,
-                            @Valid Tender tender,
-                            BindingResult bindingResult,
-                            Model model,
+
                             @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
-        Tender bufTender = tenderRepository.findByNumberT(numberT);
-        model.addAttribute("tenderList", bufTender);
-        model.addAttribute("order",bufTender.getOrder());
+        Tender bufTender = tenderService.findByNumberT(numberT);
+
         return "editTender";
     }
 }

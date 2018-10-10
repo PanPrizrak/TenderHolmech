@@ -35,7 +35,7 @@ public class SubjectService {
         this.tenderRepository = tenderRepository;
     }
 
-    public void addSubjectFromExcel(Optional<Tender> bufTender,
+    public void addSubjectFromExcel(Tender bufTender,
                                     ArrayList<Applicant> applicantArrayList) throws IOException {
         Subject subject;
         for (Applicant bufApplicant : applicantArrayList) {
@@ -45,14 +45,14 @@ public class SubjectService {
                     for (int j = 0; j < bufQuantityLots; j++) {
                         subject = new Subject();
                         subject.setNumberS(i + 1);
-                        subject.setTender(bufTender.get());
+                        subject.setTender(bufTender);
                         subject.setApplicant(applicantService.findByNameA(bufApplicant.getNameA()));
                         subjectRepository.save(subject);
                     }
                 }
             }
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender.get()), new File(new String(uploadPath + "\\" + bufTender.get().getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + "\\" + bufTender.getFilename())));
     }
 
     public List<Subject> findByTenderNumberT(Tender tenderFromDB) {
