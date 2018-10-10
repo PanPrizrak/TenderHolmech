@@ -23,11 +23,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="44de383e-6ce8-412a-93a7-b68cf5ec7ef2">
-        <schema name="tender" object-types="function, procedure, table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="44de383e-6ce8-412a-93a7-b68cf5ec7ef2">
@@ -66,7 +62,7 @@
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="5.6" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />

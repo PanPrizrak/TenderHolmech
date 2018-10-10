@@ -8,10 +8,7 @@ import com.holmech.tender.application.service.TenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,22 +28,23 @@ public class EditTenderController {
     }
 
     @GetMapping("/editTender/{numberT}")
-    private ModelAndView editTender(@PathVariable String numberT)
-    {
+    private ModelAndView editTender(@PathVariable String numberT) {
         Tender bufTender = tenderService.findByNumberT(numberT);
         ArrayList<Tender> tenferBufList = new ArrayList<>();
         tenferBufList.add(bufTender);
         TenderForm tenderForm = new TenderForm(tenferBufList);
-        return new ModelAndView("editTender","tenderForm", tenderForm);
+        return new ModelAndView("editTender", "tenderForm", tenderForm);
     }
 
     @PostMapping("/editTender/{numberT}")
-    private String editTender(@PathVariable String numberT,
-
-                            @RequestParam(required = false, name = "file") MultipartFile file
+    private ModelAndView editTender(@PathVariable String numberT,
+                                    @ModelAttribute("tenderForm") TenderForm tenderForm,
+                                    @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
-        Tender bufTender = tenderService.findByNumberT(numberT);
-
-        return "editTender";
+        Tender tenderBuf = tenderForm.getTenderList().get(0);
+        tenderService.saveTender(file, tenderBuf);
+        List<Tender> tenders = tenderService.findAll();
+        TenderForm tenderBufForm = new TenderForm(tenders);
+        return new ModelAndView("journal", "tenderForm", tenderBufForm);
     }
 }
