@@ -8,6 +8,7 @@ import com.holmech.tender.application.repository.DocumentsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +53,10 @@ public class DocumentsService {
             }
         }
         return true;
+    }
+
+    public void updateDocumentsList(List<Documents> documents){
+        documentsRepository.saveAll(documents);
     }
 }
 

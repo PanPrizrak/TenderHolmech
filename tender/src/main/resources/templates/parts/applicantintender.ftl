@@ -4,13 +4,14 @@
 <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#collapseExample${documents?index}" role="button" aria-expanded="false" aria-controls="collapseExample">
     ${documents.applicant.nameA}
 </a>
-</p>
+
 <div class="collapse" id="collapseExample${documents?index}">
     <div class="card card-body">
         <form>
             <div class="form-group row">
                 <label for="applicantNameA" class="col-sm-2 col-form-label col-form-label-lg">Наименование предприятия</label>
                 <div class="col-sm-10">
+                    <input type="hidden" value="#{documents.applicant.idA}" name="documentsForm[${documents?index}].applicant.idA" />
                     <input type="text" value='${documents.applicant.nameA?if_exists}' name="documentsForm[${documents?index}].applicant.nameA" class="form-control form-control-lg" id="applicantNameA" placeholder="Наименование предприятия">
                 </div>
             </div>
@@ -29,6 +30,7 @@
         </form>
         <form class="was-validated">
             <div class="custom-control custom-checkbox mb-3">
+                <input type="hidden" value="#{documents.idD}" name="documentsForm[${documents?index}].idD" />
                 <input type="checkbox"
                        value='${documents.registration?c}'
                        name="documentsForm[${documents?index}].registration" class="custom-control-input" id="documentsRegitration" required>
@@ -75,4 +77,8 @@
 </div>
 
 </#list>
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</div>
+<input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </form>

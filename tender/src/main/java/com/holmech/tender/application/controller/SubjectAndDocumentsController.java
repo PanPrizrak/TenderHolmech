@@ -7,6 +7,7 @@ import com.holmech.tender.application.excelparser.SubjectParseExcel;
 import com.holmech.tender.application.form.SubjectAndDocumentsForm;
 import com.holmech.tender.application.repository.DocumentsRepository;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.service.DocumentsService;
 import com.holmech.tender.application.service.SubjectService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class TenderController {
+public class SubjectAndDocumentsController {
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -28,13 +29,16 @@ public class TenderController {
     private final TenderRepository tenderRepository;
     private final SubjectService subjectService;
     private final DocumentsRepository documentsRepository;
+    private final DocumentsService documentsService;
 
-    public TenderController(TenderRepository tenderRepository,
-                            SubjectService subjectService,
-                            DocumentsRepository documentsRepository) {
+    public SubjectAndDocumentsController(TenderRepository tenderRepository,
+                                         SubjectService subjectService,
+                                         DocumentsRepository documentsRepository,
+                                         DocumentsService documentsService) {
         this.tenderRepository = tenderRepository;
         this.subjectService = subjectService;
         this.documentsRepository = documentsRepository;
+        this.documentsService = documentsService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -50,6 +54,7 @@ public class TenderController {
     public ModelAndView save(@PathVariable String numberT,
                              @ModelAttribute("subjectAndDocumentsForm") SubjectAndDocumentsForm subjectAndDocumentsForm,
                              @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
+        Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         String bufPath = uploadPath + tenderRepository.findByNumberT(numberT).getFilename();
         List<Subject> subjects = null;
         if (file.isEmpty()) {
@@ -62,7 +67,9 @@ public class TenderController {
         if (null != subjects && subjects.size() > 0) {
             subjectService.updateSubjectList(subjects);
         }
+        documentsService.updateDocumentsList(subjectAndDocumentsForm.getDocumentsList());
         subjectAndDocumentsForm.setSubjectList((List<Subject>) subjects);
+        subjectAndDocumentsForm.setDocumentsList(documentsRepository.findByTender(tenderFromDB));
         return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
     }
 }
