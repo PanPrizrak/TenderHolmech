@@ -52,7 +52,7 @@ public class SubjectService {
                 }
             }
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + "\\" + bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
     }
 
     public List<Subject> findByTenderNumberT(Tender tenderFromDB) {
@@ -70,7 +70,7 @@ public class SubjectService {
             subject = subjects;
             subjectRepository.save(subject);
         }
-        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + "\\" + bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
     }
 
     public List<Subject> setApplicantInSubjectList(List<Subject> subjectList, List<Subject> subjectListWithId) throws IOException {

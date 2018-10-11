@@ -69,7 +69,7 @@ public class JournalController {
 
         if (idtender != null) {
             Tender bufTender = tenderService.findById(idtender);
-            String bufPath = new String(uploadPath + "/" + bufTender.getFilename());// for win '/' as '\\'
+            String bufPath = new String(uploadPath + bufTender.getFilename());// for win '/' as '\\'
             if (!documentsService.isDocuments(bufTender)) {
                 ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
                 applicantService.addApplicants(applicantArrayList);//save applicants

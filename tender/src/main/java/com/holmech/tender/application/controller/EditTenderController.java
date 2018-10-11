@@ -30,9 +30,9 @@ public class EditTenderController {
     @GetMapping("/editTender/{numberT}")
     private ModelAndView editTender(@PathVariable String numberT) {
         Tender bufTender = tenderService.findByNumberT(numberT);
-        ArrayList<Tender> tenferBufList = new ArrayList<>();
-        tenferBufList.add(bufTender);
-        TenderForm tenderForm = new TenderForm(tenferBufList);
+        ArrayList<Tender> tenderBufList = new ArrayList<>();
+        tenderBufList.add(bufTender);
+        TenderForm tenderForm = new TenderForm(tenderBufList);
         return new ModelAndView("editTender", "tenderForm", tenderForm);
     }
 

@@ -37,7 +37,7 @@ public class ApplicantParseExcel {
             row = (XSSFRow) rowIterator.next();
 
             Applicant bufApplicant = new Applicant();
-            if (bufNum > 0 && !row.getCell(0).getStringCellValue().contains("№ Лота")) {
+            if (bufNum > 0) {
                 i = 0;
                 ArrayList<Integer> appliclots = new ArrayList<>();
                 while (i < bufNum) {

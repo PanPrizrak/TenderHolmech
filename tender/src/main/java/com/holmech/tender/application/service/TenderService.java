@@ -32,11 +32,15 @@ public class TenderService {
     public void saveTender(@RequestParam(required = false, name = "file") MultipartFile file, Tender tenderBuf) throws IOException {
         Order orderBuf = tenderBuf.getOrder();
         if (tenderBuf.getIdT() != null) {
-            orderBuf.setIdO(this.findById(tenderBuf.getIdT()).getOrder().getIdO());
+            Tender tenderFromDB = tenderRepository.findById(tenderBuf.getIdT()).get();
+            Long idBuf = tenderFromDB.getOrder().getIdO();
+            orderBuf.setIdO(idBuf);
             orderRepository.save(orderBuf);
+        } else {
+            orderRepository.save(orderBuf);
+            tenderBuf.setOrder(orderRepository.findLastOrder());
         }
-        orderRepository.save(orderBuf);
-        tenderBuf.setOrder(orderRepository.findLastOrder());
+
         saveFile(tenderBuf, file);
         tenderRepository.save(tenderBuf);
     }
