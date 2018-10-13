@@ -57,17 +57,21 @@ public class SubjectAndDocumentsController {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         String bufPath = uploadPath + tenderRepository.findByNumberT(numberT).getFilename();
         List<Subject> subjects = null;
-        if (file.isEmpty()) {
-            subjects = subjectAndDocumentsForm.getSubjectList();
-        } else {
-            file.transferTo(new File(new String(bufPath)));
-            List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
-            subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel, subjectAndDocumentsForm.getSubjectList());
+        if(file != null) {
+            if (file.isEmpty()) {
+                subjects = subjectAndDocumentsForm.getSubjectList();
+            } else {
+                file.transferTo(new File(new String(bufPath)));
+                List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
+                subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel, subjectAndDocumentsForm.getSubjectList());
+            }
         }
         if (null != subjects && subjects.size() > 0) {
             subjectService.updateSubjectList(subjects);
         }
-        documentsService.updateDocumentsList(subjectAndDocumentsForm.getDocumentsList());
+        if(subjectAndDocumentsForm.getDocumentsList() != null) {
+            documentsService.updateDocumentsList(subjectAndDocumentsForm.getDocumentsList());
+        }
         subjectAndDocumentsForm.setSubjectList((List<Subject>) subjects);
         subjectAndDocumentsForm.setDocumentsList(documentsRepository.findByTender(tenderFromDB));
         return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
