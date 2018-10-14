@@ -65,6 +65,7 @@ public class SubjectAndDocumentsController {
                 List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
                 subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel, subjectAndDocumentsForm.getSubjectList());
             }
+
         }
         if (null != subjects && subjects.size() > 0) {
             subjectService.updateSubjectList(subjects);

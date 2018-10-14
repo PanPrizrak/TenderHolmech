@@ -1,14 +1,13 @@
-<form modelAttribute="subjectAndDocumentsForm"  method="post">
+<form modelAttribute="subjectAndDocumentsForm" method="post">
 
     <#list subjectAndDocumentsForm.documentsList as documents>
-
     <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#collapseExample${documents?index}" role="button" aria-expanded="false" aria-controls="collapseExample">
         ${documents.applicant.nameA}
     </a>
 <!--Applicant-->
     <div class="collapse" id="collapseExample${documents?index}">
         <div class="card card-body">
-            <form>
+
                 <div class="form-group row">
                     <label for="applicantNameA" class="col-sm-2 col-form-label col-form-label-lg">Наименование предприятия</label>
                     <div class="col-sm-10">
@@ -37,54 +36,74 @@
                                placeholder="УНП предприятия">
                     </div>
                 </div>
-            </form>
-<!--documents <input type="hidden" name="_documentsList[${documents?index}].registration" value="on" />-->
-            <form class="was-validated">
-                <div class="mb-3">
-                    <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
-                    <input type="checkbox"
-                           value='${documents.registration?c}'
-                           name="documentsList[${documents?index}].registration"  />
 
-                    <label >Сертификат регистрации</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+<!--documents <input type="hidden" name="_documentsList[${documents?index}].registration" value="on" />-->
+
+                <div class="form-group row">
+                <h1>Претендент ${documents.applicant.nameA} предоставил следующие документы:</h1>
+                    <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
+                    ${documents.registration?c}
+                    <label >Сертификат регистрации:</label>
+                    <#assign trueBuf = "${documents.registration?then('checked',' ')}"
+                             falseBuf = "${documents.registration?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].registration"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].registration"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-                <div class="mb-3">
-                    <input type="checkbox"
-                           value='${documents.charter?c}'
-                           name="documentsList[${documents?index}].charter" >
-                    <label >Устав предприятия</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+                <div class="form-group row">
+                    <label >Устав предприятия:</label>
+                    <#assign trueBuf = "${documents.charter?then('checked',' ')}"
+                            falseBuf = "${documents.charter?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].charter"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].charter"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox"
-                           value='${documents.bankreference?c}'
-                           name="documentsList[${documents?index}].bankreference" class="custom-control-input" id="documentsBankreference" required>
-                    <label class="custom-control-label" for="documentsBankreference">Спарвка из банка</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+                <div class="form-group row">
+                    ${documents.bankreference?c}
+                    <label>Спарвка из банка:</label>
+                    <#assign trueBuf = "${documents.bankreference?then('checked',' ')}"
+                            falseBuf = "${documents.bankreference?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].bankreference"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].bankreference"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox"
-                           value='${documents.dealer?c}'
-                           name="documentsList[${documents?index}].dealer" class="custom-control-input" id="documentsDealer" required>
-                    <label class="custom-control-label" for="documentsDealer">Дилерский сертификат</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+                <div class="form-group row">
+                    <label>Дилерский сертификат:</label>
+                    <#assign trueBuf = "${documents.dealer?then('checked',' ')}"
+                            falseBuf = "${documents.dealer?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].dealer"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].dealer"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox"
-                           value='${documents.product?c}'
-                           name="documentsList[${documents?index}].product" class="custom-control-input" id="documentsProduct" required>
-                    <label class="custom-control-label" for="documentsProduct">Сертификат товара</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+                <div class="form-group row">
+                    <label>Сертификат товара:</label>
+                    <#assign trueBuf = "${documents.product?then('checked',' ')}"
+                            falseBuf = "${documents.product?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].product"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].product"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox"
-                           value='${documents.feedback?c}'
-                           name="documentsList[${documents?index}].feedback" class="custom-control-input" id="documentsFeaadback" required>
-                    <label class="custom-control-label" for="documentsFeaadback">Отзыв</label>
-                    <div class="invalid-feedback">Example invalid feedback text</div>
+                <div class="form-group row">
+                    <label>Отзыв:</label>
+                    <#assign trueBuf = "${documents.feedback?then('checked',' ')}"
+                            falseBuf = "${documents.feedback?then(' ','checked')}"
+                    >
+                    <input type="radio" name="documentsList[${documents?index}].feedback"
+                           value="true" ${trueBuf}>Да</input>
+                    <input type="radio" name="documentsList[${documents?index}].feedback"
+                           value="false" ${falseBuf}>Нет</input>
                 </div>
-            </form>
+
         </div>
 
         <div class="form-group">
@@ -95,6 +114,11 @@
     </div>
     <p></p>
 
-</#list>
+    </#list>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</div>
+<input type="hidden" name="_csrf" value="${_csrf.token}"/>
 
 </form>

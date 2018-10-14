@@ -29,4 +29,5 @@ public class Documents {
     @ManyToOne
     @JoinColumn(name = "tender_id")
     private Tender tender;
+
 }
