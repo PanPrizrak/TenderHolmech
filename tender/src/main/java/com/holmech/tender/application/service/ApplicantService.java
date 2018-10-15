@@ -12,12 +12,10 @@ public class ApplicantService  {
     @Autowired
     ApplicantRepository applicantReposirory;
 
-    public boolean isApplicant(Applicant applicant) {
-        Applicant applicantFromDB = applicantReposirory.findByNameA(applicant.getNameA());
-        if (applicantFromDB != null) {
-            return true;
+    public void addApplicants(ArrayList<Applicant> applicants) {
+        for(int i = 0 ; i < applicants.size();i++){
+            addApplicant(applicants.get(i));
         }
-        return false;
     }
 
     public boolean addApplicant(Applicant applicant) {
@@ -28,14 +26,20 @@ public class ApplicantService  {
         return true;
     }
 
-    public void addApplicants(ArrayList<Applicant> applicants) {
-        for(int i = 0 ; i < applicants.size();i++){
-            addApplicant(applicants.get(i));
+    public boolean isApplicant(Applicant applicant) {
+        Applicant applicantFromDB = applicantReposirory.findByNameA(applicant.getNameA());
+        if (applicantFromDB != null) {
+            return true;
         }
+        return false;
     }
 
     public Applicant findByNameA(String bufApplicantNameA){
         bufApplicantNameA = bufApplicantNameA.replace('"', '\"');
         return applicantReposirory.findByNameA(bufApplicantNameA);
+    }
+
+    public void updateApplicant(Applicant applicant){
+        applicantReposirory.save(applicant);
     }
 }

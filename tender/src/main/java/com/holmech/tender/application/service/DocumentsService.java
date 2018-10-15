@@ -9,18 +9,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DocumentsService {
 
     private final DocumentsRepository documentsRepository;
-    private final ApplicantRepository applicantRepository;
+    private final ApplicantService applicantService;
 
     public DocumentsService(DocumentsRepository documentsRepository,
-                            ApplicantRepository applicantRepository) {
+                            ApplicantService applicantService) {
         this.documentsRepository = documentsRepository;
-        this.applicantRepository = applicantRepository;
+        this.applicantService = applicantService;
     }
 
     private boolean isDocumentsInExcel(Tender tender, Applicant applicant) {
@@ -43,12 +42,12 @@ public class DocumentsService {
                                          ArrayList<Applicant> applicantArrayList) {
         Documents documents;
         for (Applicant bufApplicant : applicantArrayList) {
-            if (isDocumentsInExcel(bufTender, applicantRepository.findByNameA(bufApplicant.getNameA()))) {
+            if (isDocumentsInExcel(bufTender, applicantService.findByNameA(bufApplicant.getNameA()))) {
                 return false;
             } else {
                 documents = new Documents();
                 documents.setTender(bufTender);
-                documents.setApplicant(applicantRepository.findByNameA(bufApplicant.getNameA()));
+                documents.setApplicant(applicantService.findByNameA(bufApplicant.getNameA()));
                 documentsRepository.save(documents);
             }
         }
@@ -56,6 +55,9 @@ public class DocumentsService {
     }
 
     public void updateDocumentsList(List<Documents> documents){
+        for(Documents document: documents) {
+            applicantService.updateApplicant(document.getApplicant());
+        }
         documentsRepository.saveAll(documents);
     }
 }
