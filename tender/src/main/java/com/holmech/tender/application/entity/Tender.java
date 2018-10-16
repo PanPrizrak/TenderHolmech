@@ -44,4 +44,7 @@ public class Tender {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Transient
+    private boolean isDocuments;
+
 }

@@ -23,10 +23,14 @@ public class TenderService {
 
     private final OrderRepository orderRepository;
     private final TenderRepository tenderRepository;
+    private final DocumentsService documentsService;
 
-    public TenderService(OrderRepository orderRepository, TenderRepository tenderRepository) {
+    public TenderService(OrderRepository orderRepository,
+                         TenderRepository tenderRepository,
+                         DocumentsService documentsService) {
         this.orderRepository = orderRepository;
         this.tenderRepository = tenderRepository;
+        this.documentsService = documentsService;
     }
 
     public void saveTender(@RequestParam(required = false, name = "file") MultipartFile file, Tender tenderBuf) throws IOException {
@@ -69,7 +73,13 @@ public class TenderService {
     }
 
     public List<Tender> findAll() {
-        return (List<Tender>) tenderRepository.findAll();
+        List<Tender> tenderList = (List<Tender>) tenderRepository.findAll();
+        for(Tender tender: tenderList){
+            if(documentsService.isDocuments(tender)){
+                tender.setDocuments(true);
+            }
+        }
+        return tenderList;
     }
 
     public Tender findByNumberT(String numberT) {
