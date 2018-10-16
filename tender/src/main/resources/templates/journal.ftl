@@ -23,7 +23,13 @@
 
     <tbody>
     <tr>
-        <th scope="row"><a href="/tender/${tender.numberT}">№ ${tender.numberT}</a></th>
+        <th scope="row">
+        <#if tender.documents>
+          <a href="/tender/${tender.numberT}">№ ${tender.numberT}</a>
+        <#else>
+          № ${tender.numberT}
+        </#if>
+        </th>
         <td>${tender.dateT?date}</td>
         <td>${tender.nameT}</td>
         <td>${tender.stage}</td>

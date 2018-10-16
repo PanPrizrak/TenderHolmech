@@ -45,6 +45,6 @@ public class Tender {
     private Order order;
 
     @Transient
-    private boolean isDocuments;
+    private boolean documents;
 
 }
