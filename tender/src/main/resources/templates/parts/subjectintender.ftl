@@ -30,7 +30,8 @@
                    name="subjectList[${subject?index}].payment"
                    placeholder="Отсрочка"/>
         </td>
-        <div class="col-sm-1"> <td>
+        <div class="col-sm-1">
+        <td>
             <input type="text" class="form-control"
                    value="${subject.nameS?if_exists}"
                    name="subjectList[${subject?index}].nameS"

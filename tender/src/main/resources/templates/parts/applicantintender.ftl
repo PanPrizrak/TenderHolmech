@@ -37,23 +37,56 @@
                     </div>
                 </div>
 
-<!--documents <input type="hidden" name="_documentsList[${documents?index}].registration" value="on" />-->
+<!--documents-->
+
+            <!-- HTML Code: Place this code in the document's body (between the 'body' tags) where the table should appear -->
+            <table class="GeneratedTable">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Codes by Quackit.com -->
 
                 <div class="form-group row">
-                <h1>Претендент ${documents.applicant.nameA} предоставил следующие документы:</h1>
+
                     <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
-                    ${documents.registration?c}
-                    <label >Сертификат регистрации:</label>
+                    <input type="hidden" value="${documents.tender.idT}" name="documentsList[${documents?index}].tender.idT" />
+                    ${"Сертификат регистрации:"?right_pad(30,"_")}]
+
+
                     <#assign trueBuf = "${documents.registration?then('checked',' ')}"
                              falseBuf = "${documents.registration?then(' ','checked')}"
                     >
+
                     <input type="radio" name="documentsList[${documents?index}].registration"
                            value="true" ${trueBuf}>Да</input>
                     <input type="radio" name="documentsList[${documents?index}].registration"
                            value="false" ${falseBuf}>Нет</input>
                 </div>
                 <div class="form-group row">
-                    <label >Устав предприятия:</label>
+                    <label >${"Устав предприятия:"?right_pad(30,"f")}]</label>
+
                     <#assign trueBuf = "${documents.charter?then('checked',' ')}"
                             falseBuf = "${documents.charter?then(' ','checked')}"
                     >
@@ -63,8 +96,7 @@
                            value="false" ${falseBuf}>Нет</input>
                 </div>
                 <div class="form-group row">
-                    ${documents.bankreference?c}
-                    <label>Спарвка из банка:</label>
+                    <label>${"Спарвка из банка:"?right_pad(5)}</label>
                     <#assign trueBuf = "${documents.bankreference?then('checked',' ')}"
                             falseBuf = "${documents.bankreference?then(' ','checked')}"
                     >
@@ -74,7 +106,7 @@
                            value="false" ${falseBuf}>Нет</input>
                 </div>
                 <div class="form-group row">
-                    <label>Дилерский сертификат:</label>
+                    <label>${"Дилерский сертификат:"?right_pad(5)}</label>
                     <#assign trueBuf = "${documents.dealer?then('checked',' ')}"
                             falseBuf = "${documents.dealer?then(' ','checked')}"
                     >
@@ -84,7 +116,7 @@
                            value="false" ${falseBuf}>Нет</input>
                 </div>
                 <div class="form-group row">
-                    <label>Сертификат товара:</label>
+                   <label>${"Сертификат товара:"?right_pad(5)}</label>
                     <#assign trueBuf = "${documents.product?then('checked',' ')}"
                             falseBuf = "${documents.product?then(' ','checked')}"
                     >
@@ -94,7 +126,7 @@
                            value="false" ${falseBuf}>Нет</input>
                 </div>
                 <div class="form-group row">
-                    <label>Отзыв:</label>
+                    <label>${"Отзыв:"?right_pad(5)}</label>
                     <#assign trueBuf = "${documents.feedback?then('checked',' ')}"
                             falseBuf = "${documents.feedback?then(' ','checked')}"
                     >
@@ -103,14 +135,7 @@
                     <input type="radio" name="documentsList[${documents?index}].feedback"
                            value="false" ${falseBuf}>Нет</input>
                 </div>
-
         </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Добавить</button>
-        </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-
     </div>
     <p></p>
 

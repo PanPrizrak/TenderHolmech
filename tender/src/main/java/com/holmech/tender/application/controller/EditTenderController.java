@@ -27,16 +27,16 @@ public class EditTenderController {
         this.tenderService = tenderService;
     }
 
-    @GetMapping("/editTender/{numberT}")
+    @GetMapping("/tender/{numberT}")
     private ModelAndView editTender(@PathVariable String numberT) {
         Tender bufTender = tenderService.findByNumberT(numberT);
         ArrayList<Tender> tenderBufList = new ArrayList<>();
         tenderBufList.add(bufTender);
         TenderForm tenderForm = new TenderForm(tenderBufList);
-        return new ModelAndView("editTender", "tenderForm", tenderForm);
+        return new ModelAndView("tender", "tenderForm", tenderForm);
     }
 
-    @PostMapping("/editTender/{numberT}")
+    @PostMapping("/tender/{numberT}")
     private ModelAndView editTender(@PathVariable String numberT,
                                     @ModelAttribute("tenderForm") TenderForm tenderForm,
                                     @RequestParam(required = false, name = "file") MultipartFile file
@@ -46,6 +46,6 @@ public class EditTenderController {
         tenderService.saveTender(file, tenderBuf);
         List<Tender> tenders = tenderService.findAll();
         TenderForm tenderBufForm = new TenderForm(tenders);
-        return new ModelAndView("editTender", "tenderForm", tenderBufForm);
+        return new ModelAndView("tender", "tenderForm", tenderBufForm);
     }
 }

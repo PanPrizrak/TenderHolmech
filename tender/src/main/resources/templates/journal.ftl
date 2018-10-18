@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as ht>
 
 <@ht.page>
-<form modelAttribute="tenderForm" method="post">
+<form modelAttribute="tenderForm" method="post" enctype="multipart/form-data">
 
 <div>Журнал тендеров</div>
 
@@ -13,8 +13,7 @@
         <th scope="col">Краткое название</th>
         <th scope="col">Этап</th>
         <th scope="col">Номер и дата приказа</th>
-        <th scope="col">Действие</th>
-        <th scope="col">Файл</th>
+        <th scope="col">Документы</th>
 
     </tr>
     </thead>
@@ -22,32 +21,29 @@
     <#list tenderForm.tenderList as tender>
 
     <tbody>
+    <#if tender?index gt 0>
     <tr>
         <th scope="row">
         <#if tender.documents>
-          <a href="/tender/${tender.numberT}">№ ${tender.numberT}</a>
+          <a href="/sad/${tender.numberT}">№ ${tender.numberT}</a><!-- sad - subject and documents-->
         <#else>
           № ${tender.numberT}
         </#if>
         </th>
         <td>${tender.dateT?date}</td>
-        <td>${tender.nameT}</td>
+        <td> <a href="/tender/${tender.numberT}">${tender.nameT}</a></td>
         <td>${tender.stage}</td>
         <td>№ ${tender.order.numberO} от ${tender.order.dateO?date}</td>
-        <td><form action="/journal" method="post" >
-            <input type="hidden" name="idtender" value=${tender.idT} />
-            <button type="submit">Выполнить импорт</button>
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        </form></td>
         <td><#if tender.filename??> <a href="/xlsx/${tender.filename}" download="">${tender.filename?keep_after(".")}</a><#else>
-          <a href="/editTender/${tender.numberT}">Добавить файл</a> </#if>
+          Нет документов </#if>
         </td>
     </tr>
+    </#if>
     </tbody>
+
 
 </#list>
 </table>
-
 
 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Добавить тендер
@@ -55,5 +51,5 @@
 <div class="collapse <#if tender??>show</#if>" id="collapseExample">
 <#include "parts/addtender.ftl" />
 </div>
-
+</form>
 </@ht.page>

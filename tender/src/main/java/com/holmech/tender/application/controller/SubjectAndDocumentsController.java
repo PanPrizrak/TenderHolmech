@@ -41,20 +41,17 @@ public class SubjectAndDocumentsController {
         this.documentsService = documentsService;
     }
 
-    @GetMapping("/tender/{numberT}")
+    @GetMapping("/sad/{numberT}")
     public ModelAndView get(@PathVariable String numberT) {
-        Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
-        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
-        List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
-        SubjectAndDocumentsForm subjectAndDocumentsForm = new SubjectAndDocumentsForm(subjects,documents);
-        return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
+        return new ModelAndView("sad", "subjectAndDocumentsForm", getSubjectAndDocumentsForm(numberT));
     }
 
-    @PostMapping("/tender/{numberT}")
+
+
+    @PostMapping("/sad/{numberT}")
     public ModelAndView save(@PathVariable String numberT,
                              @ModelAttribute("subjectAndDocumentsForm") SubjectAndDocumentsForm subjectAndDocumentsForm,
                              @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
-        Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
         String bufPath = uploadPath + tenderRepository.findByNumberT(numberT).getFilename();
         List<Subject> subjects = null;
         if(file != null) {
@@ -65,7 +62,6 @@ public class SubjectAndDocumentsController {
                 List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
                 subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel, subjectAndDocumentsForm.getSubjectList());
             }
-
         }
         if (null != subjects && subjects.size() > 0) {
             subjectService.updateSubjectList(subjects);
@@ -73,8 +69,14 @@ public class SubjectAndDocumentsController {
         if(subjectAndDocumentsForm.getDocumentsList() != null) {
             documentsService.updateDocumentsList(subjectAndDocumentsForm.getDocumentsList());
         }
-        subjectAndDocumentsForm.setSubjectList((List<Subject>) subjects);
-        subjectAndDocumentsForm.setDocumentsList(documentsRepository.findByTender(tenderFromDB));
-        return new ModelAndView("tender", "subjectAndDocumentsForm", subjectAndDocumentsForm);
+        return new ModelAndView("sad", "subjectAndDocumentsForm", getSubjectAndDocumentsForm(numberT));
+    }
+
+    @org.jetbrains.annotations.NotNull
+    private SubjectAndDocumentsForm getSubjectAndDocumentsForm(@PathVariable String numberT) {
+        Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
+        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
+        List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
+        return new SubjectAndDocumentsForm(subjects,documents);
     }
 }

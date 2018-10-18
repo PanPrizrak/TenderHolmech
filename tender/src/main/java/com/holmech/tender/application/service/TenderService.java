@@ -1,7 +1,9 @@
 package com.holmech.tender.application.service;
 
+import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.excelparser.ApplicantParseExcel;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,13 +26,19 @@ public class TenderService {
     private final OrderRepository orderRepository;
     private final TenderRepository tenderRepository;
     private final DocumentsService documentsService;
+    private final ApplicantService applicantService;
+    private final SubjectService subjectService;
 
     public TenderService(OrderRepository orderRepository,
                          TenderRepository tenderRepository,
-                         DocumentsService documentsService) {
+                         DocumentsService documentsService,
+                         ApplicantService applicantService,
+                         SubjectService subjectService) {
         this.orderRepository = orderRepository;
         this.tenderRepository = tenderRepository;
         this.documentsService = documentsService;
+        this.applicantService = applicantService;
+        this.subjectService = subjectService;
     }
 
     public void saveTender(@RequestParam(required = false, name = "file") MultipartFile file, Tender tenderBuf) throws IOException {
@@ -41,29 +50,36 @@ public class TenderService {
             orderRepository.save(orderBuf);
         } else {
             orderRepository.save(orderBuf);
-            tenderBuf.setOrder(orderRepository.findLastOrder());
+            Order orderFromDBBuf = orderRepository.findByNumberO(orderBuf.getNumberO());
+            tenderBuf.setOrder(orderFromDBBuf);
         }
-
         saveFile(tenderBuf, file);
         tenderRepository.save(tenderBuf);
+        ImportFromExcel(tenderRepository.findByNumberT(tenderBuf.getNumberT()));
     }
 
 
     private void saveFile(Tender tender, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {//getOriginalFilename work  only in chrome
-            System.out.println(file.getName().toString() + " getOrigi" + file.getOriginalFilename());
             File uploadDir = new File(uploadPath);
-
             if (!uploadDir.isDirectory()) {
                 uploadDir.mkdirs();
             }
-
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-
+            file.transferTo(new File(uploadPath + resultFilename));
             tender.setFilename(resultFilename);
+        }
+    }
+
+    private void ImportFromExcel(Tender bufTender) throws IOException {
+        String bufPath = new String(uploadPath + bufTender.getFilename());
+        if (!documentsService.isDocuments(bufTender)) {
+            ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
+            applicantService.addApplicants(applicantArrayList);//save applicants
+            if (documentsService.addDocumentsFromExcel(bufTender, applicantArrayList)) {//save in documents
+                subjectService.addSubjectFromExcel(bufTender, applicantArrayList);
+            }
         }
     }
 
