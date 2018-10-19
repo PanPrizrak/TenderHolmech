@@ -12,17 +12,37 @@
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-tender" role="tabpanel" aria-labelledby="nav-tender-tab">
-       Этап     / Дествия                       /           Файлы
-       Вскрытие / Сформировать протокол вскртия /           Протокол
-       Снижение
-        цены    / Пригласить участников на
-                    процедуру снижения цены     /           Приглашения
-       Принятия
-        решения / Сформировать протокол принятия
-                    решения                                 Протокол принятия решения
-                  Сообщить участникам о
-                    результатах                 /           Результат
+        <table class="table table-bordered table-hover table-sm table-primary">
+            <thead>
+            <tr>
+                <th>Этап</th>
+                <th>Дествия</th>
+                <th>Файлы</th>
+            </tr>
+            </thead>
 
+            <tbody>
+            <tr>
+                <td>Вскрытие</td>
+                <td>Сформировать протокол вскртия</td>
+                <td>Протокол</td>
+            </tr>
+            <tr>
+                <td>Снижение цены</td>
+                <td>Пригласить участников на процедуру снижения цены</td>
+                <td>Приглашения</td>
+            </tr>
+            <tr>
+                <td rowspan="2">Принятия решения</td>
+                <td>Сформировать протокол принятия решения</td>
+                <td>Протокол</td>
+            </tr>
+            <tr>
+                <td>Сообщить участникам о результатах</td>
+                <td>Результат</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <div class="tab-pane fade" id="nav-editTender" role="tabpanel" aria-labelledby="nav-editTender-tab">
         <#include "parts/addtender.ftl" />

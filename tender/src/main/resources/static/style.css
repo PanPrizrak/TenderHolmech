@@ -1,29 +1,25 @@
 body {
     color: #00008B;
 }
-<!-- CSS Code: Place this code in the document's head (between the 'head' tags) -->
 <style>
-table.GeneratedTable {
-  width: 80%;
+table.DocumentsTable {
+  width: 50%;
   background-color: #ffffff;
-  border-collapse: collapse;
-  border-width: 2px;
-  border-color: #ffcc00;
+border-collapse: separate;
+  border-width: 1px;
+  border-color: #ffffff;
   border-style: solid;
   color: #000000;
 }
 
-table.GeneratedTable td, table.GeneratedTable th {
-  border-width: 2px;
-  border-color: #ffcc00;
+table.DocumentsTable td, table.GeneratedTable th {
+  border-width: 1px;
+  border-color: #ffffff;
   border-style: solid;
-  padding: 3pc;
+  padding: 1pc;
 }
 
-table.GeneratedTable thead {
-  background-color: #ffcc00;
+table.DocumentsTable thead {
+  background-color: #ffffff;
 }
 </style>
-
-
-
