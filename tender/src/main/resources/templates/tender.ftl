@@ -24,25 +24,43 @@
             <tbody>
             <tr>
                 <td>Вскрытие</td>
-                <td>Сформировать протокол вскртия</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('valueActions').value='Generate autopsy protocol'; return false;">
+                        Сформировать протокол вскртия
+                    </button>
+                </td>
                 <td>Протокол</td>
             </tr>
             <tr>
                 <td>Снижение цены</td>
-                <td>Пригласить участников на процедуру снижения цены</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('valueActions').value='Invite members to the price reduction procedure'; return false;">
+                        Пригласить участников на процедуру снижения цены
+                    </button>
+                </td>
                 <td>Приглашения</td>
             </tr>
             <tr>
                 <td rowspan="2">Принятия решения</td>
-                <td>Сформировать протокол принятия решения</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('valueActions').value='Form a decision protocol'; return false;">
+                        Сформировать протокол принятия решения
+                    </button>
+                </td>
                 <td>Протокол</td>
             </tr>
             <tr>
-                <td>Сообщить участникам о результатах</td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('valueActions').value='Notify participants about the results'; return false;">
+                        Сообщить участникам о результатах
+                    </button>
+                </td>
                 <td>Результат</td>
             </tr>
             </tbody>
         </table>
+        <input type = "hidden" name = "actions" id="valueActions" value = "" />
+
     </div>
     <div class="tab-pane fade" id="nav-editTender" role="tabpanel" aria-labelledby="nav-editTender-tab">
         <#include "parts/addtender.ftl" />
