@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class EditTenderController {
+public class ActionAndEditTenderController {
 
     private final TenderService tenderService;
 
 
-    public EditTenderController(TenderService tenderService) {
+    public ActionAndEditTenderController(TenderService tenderService) {
         this.tenderService = tenderService;
     }
 
@@ -38,12 +38,30 @@ public class EditTenderController {
 
     @PostMapping("/tender/{numberT}")
     private ModelAndView editTender(@PathVariable String numberT,
+                                    @RequestParam(required = false, defaultValue = "") String action,
                                     @ModelAttribute("tenderForm") TenderForm tenderForm,
                                     @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
-        Tender tenderBuf = tenderForm.getTenderList().get(0);
-        tenderBuf.setIdT(tenderService.findByNumberT(numberT).getIdT());
-        tenderService.saveTender(file, tenderBuf);
+        if(action.isEmpty()) {
+            Tender tenderBuf = tenderForm.getTenderList().get(0);
+            tenderBuf.setIdT(tenderService.findByNumberT(numberT).getIdT());
+            tenderService.saveTender(file, tenderBuf);
+        } else {
+            switch (action){
+                case "Generate autopsy protocol":{
+                    break;
+                }
+                case "Invite members to the price reduction procedure":{
+                    break;
+                }
+                case "Form a decision protocol":{
+                 break;
+                }
+                case "Notify participants about the results":{
+                    break;
+                }
+            }
+        }
         List<Tender> tenders = tenderService.findAll();
         TenderForm tenderBufForm = new TenderForm(tenders);
         return new ModelAndView("tender", "tenderForm", tenderBufForm);
