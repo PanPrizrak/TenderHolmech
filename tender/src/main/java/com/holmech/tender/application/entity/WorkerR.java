@@ -1,5 +1,6 @@
 package com.holmech.tender.application.entity;
 
+import com.holmech.tender.application.entity.dto.WorkerRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,5 @@ public class WorkerR {
     @JoinColumn(name = "worker_id")
     private Worker worker;
 
-    private String role;
+    private WorkerRole role;
 }
