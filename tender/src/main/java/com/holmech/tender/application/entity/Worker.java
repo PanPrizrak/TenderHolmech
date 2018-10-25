@@ -19,6 +19,7 @@ public class Worker {
     private String surname;
     private String nameW;
     private String patronymic;
+    private Boolean memberofcommission;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id")
