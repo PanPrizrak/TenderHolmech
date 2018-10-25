@@ -1,6 +1,5 @@
 package com.holmech.tender.application.entity;
 
-import com.holmech.tender.application.entity.dto.WorkerRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
