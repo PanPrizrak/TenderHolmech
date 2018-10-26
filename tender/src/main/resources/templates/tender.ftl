@@ -25,7 +25,8 @@
             <tr>
                 <td>Вскрытие</td>
                 <td>
-                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('valueActions').value='Generate autopsy protocol'; return false;">
+                    <button type="button" class="btn btn-outline-primary"
+                            onclick="document.getElementById('valueActions').value='Generate autopsy protocol'; return false;">
                         Сформировать протокол вскртия
                     </button>
                 </td>
