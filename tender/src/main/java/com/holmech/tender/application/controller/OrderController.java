@@ -29,8 +29,8 @@ public class OrderController {
         return "orderedit";
     }
 
-    @PostMapping
-    public String add(@RequestParam(required = false) Worker worker) {
+    @PostMapping("/{numberT}")
+    public String add(@PathVariable String numberT,@RequestParam Worker worker) {
         workerRepository.save(worker);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
         return "orderedit";
