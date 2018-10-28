@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("orderedit")
 public class OrderController {
@@ -30,7 +32,9 @@ public class OrderController {
     }
 
     @PostMapping("/{numberT}")
-    public String add(@PathVariable String numberT,@RequestParam Worker worker) {
+    public String add(@PathVariable String numberT,
+                      @Valid Worker worker,
+                      @RequestParam String position) {
         workerRepository.save(worker);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
         return "orderedit";
