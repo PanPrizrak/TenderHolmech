@@ -5,28 +5,34 @@
 <form method="post"><!--modelAttribute="enumForm"-->
 
     <!--order.number-->
+    <input type="hidden" value="${order.idO}" name="order.idO"/>
     <div class="form-group">
         <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
-               value="${tenderForm.tenderList[0].order.numberO?if_exists}" name="tenderList[0].order.numberO"
+               value="${order.numberO?if_exists}" name="order.numberO"
                placeholder="Введите номер приказа"/>
         <#if numberOError??>
         <div class="invalid-feedback">
             ${numberOError}
         </div>
-    </
-    #if>
+        </#if>
     </div>
     <!--order.date-->
     <div class="form-group">
         <div class="container">
             <div class="row">
-                <input type="date" value="${tenderForm.tenderList[0].order.dateO?iso_local?date}"
-                       class="form-control col-sm-2" id="date" name="tenderList[0].order.dateO" required/>
+                <input type="date" value="${order.dateO?iso_local?date}"
+                       class="form-control col-sm-2" id="date" name="order.dateO" required/>
             </div>
         </div>
     </div>
 
-    <div>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddWorker"
+       role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        Добавить работника
+    </a>
+    <div class="collapse " id="collapseAddWorker">
         <#include "parts/addworker.ftl" />
     </div>
 

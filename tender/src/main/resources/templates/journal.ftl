@@ -40,8 +40,6 @@
     </tr>
     </#if>
     </tbody>
-
-
 </#list>
 </table>
 

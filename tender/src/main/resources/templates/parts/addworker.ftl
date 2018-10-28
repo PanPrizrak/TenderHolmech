@@ -1,10 +1,5 @@
+<div class="form-group mt-3">
 <form method="post">
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddWorker"
-       role="button" aria-expanded="false"
-       aria-controls="collapseExample">
-        Добавить работника
-    </a>
-    <div class="collapse " id="collapseAddWorker">
         <div class="form-group">
             <input type="text" class="form-control col-sm-4"
                    name="position"
@@ -30,5 +25,11 @@
             <label><input type="checkbox"
                           name="memberofcommission">Может быть членом тендерной комиссии</label>
         </div>
-    </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </form>
+</div>
+
+

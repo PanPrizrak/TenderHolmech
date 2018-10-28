@@ -36,8 +36,7 @@
     </div>
 <!--date-->
 
-<#setting date_format="yyyy-MM-dd">
-<#setting locale="en_US">
+
 
     <div class="form-group">
         <input type="date" value="${tenderForm.tenderList[0].dateT?iso_local?date}"  class="form-control col-sm-2" id="date" name="tenderList[0].dateT" required>

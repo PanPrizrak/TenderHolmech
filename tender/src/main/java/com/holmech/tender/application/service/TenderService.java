@@ -53,9 +53,13 @@ public class TenderService {
             Order orderFromDBBuf = orderRepository.findByNumberO(orderBuf.getNumberO());
             tenderBuf.setOrder(orderFromDBBuf);
         }
-        saveFile(tenderBuf, file);
-        tenderRepository.save(tenderBuf);
-        ImportFromExcel(tenderRepository.findByNumberT(tenderBuf.getNumberT()));
+        if (!file.isEmpty()) {
+            saveFile(tenderBuf, file);
+            tenderRepository.save(tenderBuf);
+            ImportFromExcel(tenderRepository.findByNumberT(tenderBuf.getNumberT()));
+        } else {
+            tenderRepository.save(tenderBuf);
+        }
     }
 
 
@@ -89,8 +93,8 @@ public class TenderService {
 
     public List<Tender> findAll() {
         List<Tender> tenderList = (List<Tender>) tenderRepository.findAll();
-        for(Tender tender: tenderList){
-            if(documentsService.isDocuments(tender)){
+        for (Tender tender : tenderList) {
+            if (documentsService.isDocuments(tender)) {
                 tender.setDocuments(true);
             }
         }

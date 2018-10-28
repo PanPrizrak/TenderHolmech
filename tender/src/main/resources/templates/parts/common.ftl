@@ -22,7 +22,8 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
 
-
+    <#setting date_format="yyyy-MM-dd">
+    <#setting locale="en_US">
 
 
 </head>

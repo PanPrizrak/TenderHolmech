@@ -36,9 +36,7 @@ public class JournalController {
     ) throws IOException {
         Tender tenderBuf = tenderForm.getTenderList().get(0);
         tenderService.saveTender(file, tenderBuf);
-        List<Tender> tenders = tenderService.findAll();
-        TenderForm tenderBufForm = new TenderForm(tenders);
-        return new ModelAndView("journal", "tenderForm", tenderBufForm);
+        return new ModelAndView("redirect:/journal", "tenderForm", new TenderForm(tenderService.findAll()));
     }
 
 }//JournalController
