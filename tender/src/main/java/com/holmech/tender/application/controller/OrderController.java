@@ -24,20 +24,26 @@ public class OrderController {
 
     @GetMapping("/{numberT}")
     public String userEditForm(@PathVariable String numberT, Model model) {
+        addWorkersAndOrderInModel(numberT, model);
+        return "orderedit";
+    }
+
+    private void addWorkersAndOrderInModel(@PathVariable String numberT, Model model) {
         model.addAttribute("workers",workerRepository.findAll());
         model.addAttribute("order", tenderService.findByNumberT(numberT).getOrder());
-        return "orderedit";
     }
 
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
                       @ModelAttribute Worker worker,
-                      @RequestParam String thechairman,
-                      @RequestParam String vicechairman,
-                      @RequestParam String secretary,
-                      @RequestParam List<String> commissionmember) {
+                      @RequestParam(required = false) String thechairman,
+                      @RequestParam(required = false) String vicechairman,
+                      @RequestParam(required = false) String secretary,
+                      @RequestParam(required = false) List<String> commissionmember,
+                      Model model) {
         workerRepository.save(worker);
+        addWorkersAndOrderInModel(numberT,model);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
-        return "orderedit";
+        return "redirect:/orderedit";
     }
 }

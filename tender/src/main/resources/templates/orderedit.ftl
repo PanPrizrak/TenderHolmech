@@ -58,7 +58,7 @@
         <label>Секретарь тендерной комисии</label>
         <select name="secretary">
             <#list workers as worker>
-                <option value="${worker}">${worker}</option>
+                <option value="${worker}">${worker.}</option>
             </#list>
         </select>
     </div>
