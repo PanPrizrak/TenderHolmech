@@ -1,15 +1,13 @@
 package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.Worker;
-import com.holmech.tender.application.entity.WorkerRole;
 import com.holmech.tender.application.repository.WorkerRepository;
 import com.holmech.tender.application.service.TenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("orderedit")
@@ -33,8 +31,11 @@ public class OrderController {
 
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
-                      @Valid Worker worker,
-                      @RequestParam String position) {
+                      @ModelAttribute Worker worker,
+                      @RequestParam String thechairman,
+                      @RequestParam String vicechairman,
+                      @RequestParam String secretary,
+                      @RequestParam List<String> commissionmember) {
         workerRepository.save(worker);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
         return "orderedit";
