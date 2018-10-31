@@ -1,5 +1,3 @@
-<div class="form-group mt-3">
-<form method="post">
         <div class="form-group">
             <input type="text" class="form-control col-sm-4"
                    name="position"
@@ -27,9 +25,8 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Добавить</button>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-</form>
-</div>
+
 
 
