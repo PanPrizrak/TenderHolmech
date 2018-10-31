@@ -3,6 +3,7 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Worker;
 import com.holmech.tender.application.repository.WorkerRepository;
 import com.holmech.tender.application.service.TenderService;
+import com.holmech.tender.application.service.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,12 @@ import java.util.List;
 @RequestMapping("orderedit")
 public class OrderController {
 
-    private WorkerRepository workerRepository;
+    private WorkerService workerService;
     private TenderService tenderService;
 
-    public OrderController(WorkerRepository workerRepository,
+    public OrderController(WorkerService workerService,
                            TenderService tenderService) {
-        this.workerRepository = workerRepository;
+        this.workerService = workerService;
         this.tenderService = tenderService;
     }
 
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     private void addWorkersAndOrderInModel(@PathVariable String numberT, Model model) {
-        model.addAttribute("workers",workerRepository.findAll());
+        model.addAttribute("workers",workerService.findAllMemberOfCommission());
         model.addAttribute("order", tenderService.findByNumberT(numberT).getOrder());
     }
 
@@ -41,9 +42,9 @@ public class OrderController {
                       @RequestParam(required = false) Worker secretary,
                       @RequestParam(required = false) List<Worker> commissionmember,
                       Model model) {
-        workerRepository.save(worker);
+        workerService.save(worker);
         addWorkersAndOrderInModel(numberT,model);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
-        return "redirect:/orderedit";
+        return "redirect:/orderedit/{numberT}";
     }
 }
