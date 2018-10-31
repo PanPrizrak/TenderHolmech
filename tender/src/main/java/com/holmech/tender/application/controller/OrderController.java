@@ -23,12 +23,12 @@ public class OrderController {
     }
 
     @GetMapping("/{numberT}")
-    public String userEditForm(@PathVariable String numberT,Model model) {
-        addModel(numberT,model);
+    public String userEditForm(@PathVariable String numberT, Model model) {
+        addWorkersAndOrderInModel(numberT, model);
         return "orderedit";
     }
 
-    private void addModel(@PathVariable String numberT,Model model) {
+    private void addWorkersAndOrderInModel(@PathVariable String numberT, Model model) {
         model.addAttribute("workers",workerRepository.findAll());
         model.addAttribute("order", tenderService.findByNumberT(numberT).getOrder());
     }
@@ -42,8 +42,8 @@ public class OrderController {
                       @RequestParam(required = false) List<Worker> commissionmember,
                       Model model) {
         workerRepository.save(worker);
+        addWorkersAndOrderInModel(numberT,model);
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
-        addModel(numberT,model);
-        return "orderedit";
+        return "redirect:/orderedit";
     }
 }
