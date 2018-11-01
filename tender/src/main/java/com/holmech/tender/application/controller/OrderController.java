@@ -43,8 +43,9 @@ public class OrderController {
                       @RequestParam(required = false) List<Worker> commissionmember,
                       Model model) {
         workerService.save(worker);
-        addWorkersAndOrderInModel(numberT,model);
+
         //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
+        addWorkersAndOrderInModel(numberT,model);
         return "redirect:/orderedit/{numberT}";
     }
 }

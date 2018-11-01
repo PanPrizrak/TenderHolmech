@@ -1,3 +1,5 @@
+insert into worker (idw , namew , patronymic , position , surname , memberofcommission)
+        values (1, 'Имя','Отчество','Фамилия','Дирктор',true);
 insert into orders (idO, numberO, dateO)
     values (1, '0', '1999-12-31');
 

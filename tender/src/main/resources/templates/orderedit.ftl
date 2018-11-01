@@ -32,8 +32,8 @@
     <label>Председатель тендерной комисии</label>
     <select name="thechairman">
         <#list workers as worker>
-        <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
-    </#list>
+            <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+        </#list>
     </select>
 </div>
 
@@ -57,7 +57,7 @@
 
 <div class="form-group">
     <label>Члены тендерной комисии</label>
-    <select multiple size="1" name="commissionmember">
+    <select multiple name="commissionmember">
         <#list workers as worker>
         <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
