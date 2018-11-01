@@ -3,7 +3,7 @@
 
 <@ht.page>
 <div class="form-group mt-3">
-    <form action="" method="post">
+    <form method="post" >
         <!--order.number-->
         <input type="hidden" value="${order.idO}" name="order.idO"/>
         <div class="form-group">
@@ -30,16 +30,16 @@
 
 <div class="form-group">
     <label>Председатель тендерной комисии</label>
-    <select name="thechairman">
+    <select name="memberCommissionForm.thechairman">
         <#list workers as worker>
-            <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+            <option value='${worker}'>${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
         </#list>
     </select>
 </div>
 
 <div class="form-group">
     <label>Заместитель председателя тендерной комисии</label>
-    <select name="vicechairman">
+    <select name="memberCommissionForm.vicechairman">
         <#list workers as worker>
         <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
@@ -48,7 +48,7 @@
 
 <div class="form-group">
     <label>Секретарь тендерной комисии</label>
-    <select name="secretary">
+    <select name="memberCommissionForm.secretary">
         <#list workers as worker>
         <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
@@ -57,7 +57,7 @@
 
 <div class="form-group">
     <label>Члены тендерной комисии</label>
-    <select multiple name="commissionmember">
+    <select multiple name="memberCommissionForm.commissionmember">
         <#list workers as worker>
         <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>

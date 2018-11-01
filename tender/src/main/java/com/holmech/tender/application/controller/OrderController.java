@@ -1,7 +1,8 @@
 package com.holmech.tender.application.controller;
 
+import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Worker;
-import com.holmech.tender.application.repository.WorkerRepository;
+import com.holmech.tender.application.form.MemberCommissionForm;
 import com.holmech.tender.application.service.TenderService;
 import com.holmech.tender.application.service.WorkerService;
 import org.springframework.stereotype.Controller;
@@ -37,10 +38,12 @@ public class OrderController {
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
                       @ModelAttribute Worker worker,
-                      @RequestParam(required = false) Worker thechairman,
-                      @RequestParam(required = false) Worker vicechairman,
-                      @RequestParam(required = false) Worker secretary,
-                      @RequestParam(required = false) List<Worker> commissionmember,
+                      @ModelAttribute Order order,
+                      /*@ModelAttribute Worker thechairman,
+                      @ModelAttribute Worker vicechairman,
+                      @ModelAttribute Worker secretary,
+                      @ModelAttribute List<Worker> commissionmember,*/
+                      @ModelAttribute MemberCommissionForm memberCommissionForm,
                       Model model) {
         workerService.save(worker);
 
