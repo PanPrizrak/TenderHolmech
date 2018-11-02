@@ -3,25 +3,28 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Worker;
 import com.holmech.tender.application.form.MemberCommissionForm;
+import com.holmech.tender.application.repository.WorkerRReposytory;
 import com.holmech.tender.application.service.TenderService;
 import com.holmech.tender.application.service.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("orderedit")
 public class OrderController {
 
-    private WorkerService workerService;
-    private TenderService tenderService;
+    private final WorkerService workerService;
+    private final TenderService tenderService;
+    private final WorkerRReposytory workerRReposytory;
+    private Order bufOrderForWorkerRole;
 
     public OrderController(WorkerService workerService,
-                           TenderService tenderService) {
+                           TenderService tenderService,
+                           WorkerRReposytory workerRReposytory) {
         this.workerService = workerService;
         this.tenderService = tenderService;
+        this.workerRReposytory = workerRReposytory;
     }
 
     @GetMapping("/{numberT}")
@@ -31,24 +34,22 @@ public class OrderController {
     }
 
     private void addWorkersAndOrderInModel(@PathVariable String numberT, Model model) {
-        model.addAttribute("workers",workerService.findAllMemberOfCommission());
-        model.addAttribute("order", tenderService.findByNumberT(numberT).getOrder());
+        model.addAttribute("workers", workerService.findAllMemberOfCommission());
+        bufOrderForWorkerRole = tenderService.findByNumberT(numberT).getOrder();
+        model.addAttribute("order", bufOrderForWorkerRole);
     }
 
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
-                      @ModelAttribute Worker worker,
-                      @ModelAttribute Order order,
-                      /*@ModelAttribute Worker thechairman,
-                      @ModelAttribute Worker vicechairman,
-                      @ModelAttribute Worker secretary,
-                      @ModelAttribute List<Worker> commissionmember,*/
+                      @ModelAttribute Worker newWorker,
                       @ModelAttribute MemberCommissionForm memberCommissionForm,
                       Model model) {
-        workerService.save(worker);
+        if (newWorker != null) {
+            workerService.save(newWorker);
+        }
 
-        //System.out.println("!!!!!!!!!!!!  " + rolesName + "     !!!!!!!!!!!!  ");
-        addWorkersAndOrderInModel(numberT,model);
+
+        addWorkersAndOrderInModel(numberT, model);
         return "redirect:/orderedit/{numberT}";
     }
 }

@@ -23,4 +23,10 @@ public class WorkerR {
     private Worker worker;
 
     private WorkerRole role;
+
+    public WorkerR(Order order, Worker worker, WorkerRole role) {
+        this.order = order;
+        this.worker = worker;
+        this.role = role;
+    }
 }

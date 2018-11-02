@@ -8,7 +8,7 @@
         <input type="hidden" value="${order.idO}" name="order.idO"/>
         <div class="form-group">
             <input type="text" class="form-control ${(numberOError??)?string('is-invalid', '')} col-sm-4"
-                   value="${order.numberO?if_exists}" name="order.numberO"
+                   value="${order.numberO?if_exists}" name="numberO"
                    placeholder="Введите номер приказа"/>
             <#if numberOError??>
             <div class="invalid-feedback">
@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <input type="date" value="${order.dateO?iso_local?date}"
-                   class="form-control col-sm-2" id="date" name="order.dateO" required/>
+                   class="form-control col-sm-2" id="date" name="dateO" required/>
         </div>
     </div>
 </div>
@@ -30,36 +30,36 @@
 
 <div class="form-group">
     <label>Председатель тендерной комисии</label>
-    <select name="memberCommissionForm.thechairman">
+    <select name="thechairman">
         <#list workers as worker>
-            <option value='${worker}'>${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+            <option value="#{worker.idW}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
         </#list>
     </select>
 </div>
 
 <div class="form-group">
     <label>Заместитель председателя тендерной комисии</label>
-    <select name="memberCommissionForm.vicechairman">
+    <select name="vicechairman">
         <#list workers as worker>
-        <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+        <option value="#{worker.idW}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
     </select>
 </div>
 
 <div class="form-group">
     <label>Секретарь тендерной комисии</label>
-    <select name="memberCommissionForm.secretary">
+    <select name="secretary">
         <#list workers as worker>
-        <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+        <option value="#{worker.idW}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
     </select>
 </div>
 
 <div class="form-group">
     <label>Члены тендерной комисии</label>
-    <select multiple name="memberCommissionForm.commissionmember">
+    <select multiple name="commissionmember">
         <#list workers as worker>
-        <option value="${worker}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
+        <option value="#{worker.idW}">${worker.surname+" "+worker.nameW+" "+worker.patronymic}</option>
     </#list>
     </select>
 </div>
