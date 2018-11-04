@@ -58,11 +58,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- Migration DB-->
+        <!-- Migration DB
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- e-mail -->
         <dependency>

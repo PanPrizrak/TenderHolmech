@@ -42,22 +42,26 @@ public class ActionAndEditTenderController {
                                     @ModelAttribute("tenderForm") TenderForm tenderForm,
                                     @RequestParam(required = false, name = "file") MultipartFile file
     ) throws IOException {
-        if(action.isEmpty()) {
+        Tender bufTenderFromDB = tenderService.findByNumberT(numberT);
+        if (action.isEmpty()) {
             Tender tenderBuf = tenderForm.getTenderList().get(0);
-            tenderBuf.setIdT(tenderService.findByNumberT(numberT).getIdT());
+            tenderBuf.setIdT(bufTenderFromDB.getIdT());
             tenderService.saveTender(file, tenderBuf);
         } else {
-            switch (action){
-                case "Generate autopsy protocol":{
+            switch (action) {
+                case "Generate autopsy protocol": {
+                bufTenderFromDB.setStage("Снижение цены");
+                //createAutopsyProtocol();
+                //
                     break;
                 }
-                case "Invite members to the price reduction procedure":{
+                case "Invite members to the price reduction procedure": {
                     break;
                 }
-                case "Form a decision protocol":{
-                 break;
+                case "Form a decision protocol": {
+                    break;
                 }
-                case "Notify participants about the results":{
+                case "Notify participants about the results": {
                     break;
                 }
             }
