@@ -5,6 +5,7 @@ import com.holmech.tender.application.entity.Worker;
 import com.holmech.tender.application.form.MemberCommissionForm;
 import com.holmech.tender.application.repository.WorkerRReposytory;
 import com.holmech.tender.application.service.TenderService;
+import com.holmech.tender.application.service.WorkerRService;
 import com.holmech.tender.application.service.WorkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,15 +17,15 @@ public class OrderController {
 
     private final WorkerService workerService;
     private final TenderService tenderService;
-    private final WorkerRReposytory workerRReposytory;
+    private final WorkerRService workerRService;
     private Order bufOrderForWorkerRole;
 
     public OrderController(WorkerService workerService,
                            TenderService tenderService,
-                           WorkerRReposytory workerRReposytory) {
+                           WorkerRService workerRService) {
         this.workerService = workerService;
         this.tenderService = tenderService;
-        this.workerRReposytory = workerRReposytory;
+        this.workerRService = workerRService;
     }
 
     @GetMapping("/{numberT}")
@@ -47,8 +48,7 @@ public class OrderController {
         if (newWorker != null) {
             workerService.save(newWorker);
         }
-
-
+        workerRService.saveMembersCommission(bufOrderForWorkerRole,memberCommissionForm);
         addWorkersAndOrderInModel(numberT, model);
         return "redirect:/orderedit/{numberT}";
     }
