@@ -1,8 +1,6 @@
-package com.holmech.tender.application.excelparser;
+package com.holmech.tender.application.parser.fromexcel;
 
-import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
-import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.service.ApplicantService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.holmech.tender.application.excelparser;
+package com.holmech.tender.application.parser.fromexcel;
 
 
 import com.holmech.tender.application.entity.Subject;

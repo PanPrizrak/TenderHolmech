@@ -3,7 +3,7 @@ package com.holmech.tender.application.service;
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.excelparser.SubjectParseExcel;
+import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SubjectService {

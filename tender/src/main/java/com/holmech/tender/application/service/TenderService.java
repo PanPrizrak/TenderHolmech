@@ -3,7 +3,7 @@ package com.holmech.tender.application.service;
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.excelparser.ApplicantParseExcel;
+import com.holmech.tender.application.parser.fromexcel.ApplicantParseExcel;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Value;

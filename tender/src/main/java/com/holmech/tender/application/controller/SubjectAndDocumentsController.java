@@ -3,7 +3,7 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Documents;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.excelparser.SubjectParseExcel;
+import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.form.SubjectAndDocumentsForm;
 import com.holmech.tender.application.repository.DocumentsRepository;
 import com.holmech.tender.application.repository.TenderRepository;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FB" pageWidth="595" pageHeight="842" columnWidth="511" leftMargin="56" rightMargin="28" topMargin="42" bottomMargin="42" uuid="4fa4297a-673e-4fa7-8afd-024053bf1596">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<subDataset name="company" uuid="19d08112-b27c-4c0d-a747-d1cefd8dd675">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="ved_by" class="java.lang.String"/>
+	<parameter name="name_by" class="java.lang.String"/>
+	<parameter name="adres_by" class="java.lang.String"/>
+	<parameter name="tel_by" class="java.lang.String"/>
+	<parameter name="email_by" class="java.lang.String"/>
+	<parameter name="rs_by" class="java.lang.String"/>
+	<parameter name="bank_by" class="java.lang.String"/>
+	<parameter name="kod_by" class="java.lang.String"/>
+	<parameter name="unp_by" class="java.lang.String"/>
+	<parameter name="ved" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="adres" class="java.lang.String"/>
+	<parameter name="tel" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="rs" class="java.lang.String"/>
+	<parameter name="bank" class="java.lang.String"/>
+	<parameter name="kod" class="java.lang.String"/>
+	<parameter name="unp" class="java.lang.String"/>
+	<parameter name="numberM" class="java.lang.String"/>
+	<parameter name="nameA" class="java.lang.String"/>
+	<parameter name="textM" class="java.lang.String"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<parameter name="signature" class="java.lang.String"/>
+	<parameter name="worker" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="467" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="252" y="0" width="50" height="50" uuid="01d2b365-1fd8-4c02-af16-44c55e125dfa"/>
+				<imageExpression><![CDATA["logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="50" y="50" width="226" height="30" uuid="aafa0915-4107-4a76-84c1-3435e116ea3f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Упраўленне сельскай гаспадаркі і харчавання
+Рэчыцкага   райвыканкама]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="80" width="226" height="50" uuid="710ab80b-c5c3-4d08-9d65-64a2d965b1ee"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<text><![CDATA[КАМУНАЛЬНАЕ
+СЕЛЬСКАГАСПАДАРЧАЕ УНІТАРНАЕ
+ПРАДПРЫЕМСТВА
+«АГРАКАМБІНАТ «ХОЛМЕЧ»]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="130" width="226" height="110" uuid="2577ccd8-f561-4f3c-a8df-34b4abbc885b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[вул. Маладзежная, 14, 247505, в.Холмеч,
+Рэчыцкі раён, Гомельская  вобласць
+тэл.(02340) 3-38-96, 3-35-15, тэл./факс 3-38-96
+holmechagro@tut.by
+р/р BY32AKBB30120969804703000000
+в ЦБУ № 323 филиала № 300-
+ОАО “АСБ Беларусбанк” в Рэчыца, 
+код банка АКВВВY21300, УНП 400000006]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="50" width="232" height="30" uuid="1e0c495f-02c0-446b-bd9b-fcfeae555b3c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Управление сельского хозяйства и продовольствия
+Речицкого райисполкома]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="80" width="232" height="50" uuid="9363bc14-83a8-48d7-a0cb-8567d07eba72"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<text><![CDATA[КОММУНАЛЬНОЕ
+СЕЛЬСКОХОЗЯЙСТВЕННОЕ УНИТАРНОЕ
+ПРЕДПРИЯТИЕ 
+«АГРОКОМБИНАТ «ХОЛМЕЧ»]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="130" width="232" height="110" uuid="80808160-728a-412a-8fbe-0941297764fe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[ул. Молодежная, 14, 247505, д.Холмеч,
+Речицкий район, Гомельская обласць
+тел.(02340) 3-38-96, 3-35-15, тел./факс 3-38-96
+holmechagro@tut.by
+р/с BY32AKBB30120969804703000000
+ в ЦБУ № 323 филиала № 300-
+ОАО “АСБ Беларусбанк” в г.Речица,
+код банка АКВВВY21300, УНП 400000006]]></text>
+			</staticText>
+			<textField pattern="от d MMMM yyyyг.">
+				<reportElement x="120" y="260" width="100" height="20" uuid="cf7e7b66-37a1-4057-8752-870d7e2b84f9"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="260" width="70" height="20" uuid="d430c0ee-c2c7-4d26-a200-e041f5f7fb90"/>
+				<textFieldExpression><![CDATA[$P{numberM}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="277" y="290" width="232" height="20" uuid="3a2a0aa6-503f-44b5-a627-7bd863f61eb1"/>
+				<textFieldExpression><![CDATA[$P{nameA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="50" y="350" width="459" height="116" uuid="45c2d868-0b40-4773-aa46-a672974cbf81"/>
+				<textFieldExpression><![CDATA[$P{textM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="84" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="508" height="30" uuid="7b8d4f11-341f-49d3-b28c-f4969bc367bb"/>
+				<textFieldExpression><![CDATA[$P{signature}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="54" width="220" height="30" uuid="340ad763-631d-49c4-b7bc-8a44d269c194"/>
+				<textFieldExpression><![CDATA[$P{worker}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

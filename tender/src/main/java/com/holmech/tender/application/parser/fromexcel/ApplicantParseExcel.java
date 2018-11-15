@@ -1,22 +1,14 @@
-package com.holmech.tender.application.excelparser;
+package com.holmech.tender.application.parser.fromexcel;
 
 import com.holmech.tender.application.entity.Applicant;
-import com.holmech.tender.application.entity.Subject;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ApplicantParseExcel {
     private static XSSFRow row;
