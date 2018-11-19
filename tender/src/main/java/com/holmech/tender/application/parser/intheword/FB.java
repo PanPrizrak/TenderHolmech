@@ -39,19 +39,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class FB {
 
     @Value("${upload.path}")
-    private String sr;// = "D:\\Учеба\\pNetBeans\\WordParserFB\\reports\\";
+    private String sr;
+    private Map<String,Object> parameters;
+    private String s_n;
 
-
-    public run() throws JRException {
+    public void run(Map<String,Object> parameters, String s_n) throws JRException {
         try {
             FB buf = new FB();
-            String b;
-            b = "FB";
-            buf.compile(b);
-            buf.fill(b);
-            buf.docx(b);
-            buf.odt(b);
-            buf.viewer(b);
+            this.s_n = s_n;
+            this.parameters = parameters;
+            this.compile();
+            this.fill();
+            this.docx();
+            this.odt();
+            this.viewer();
         } catch (IOException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,7 +66,7 @@ public class FB {
     }
     
 
-    public void compile(String s_n) {
+    public void compile() {
         try {
             long start = System.currentTimeMillis();
             File bsFile = new File(sr + s_n + ".jrxml");
@@ -77,17 +78,12 @@ public class FB {
         }
     }
 
-    public void fill(String s_n) throws IOException {
+    public void fill() throws IOException {
         try {
             DAOStub dataBeanMaker = new DAOStub();
             ArrayList<DataBean> dataBeanList = dataBeanMaker.getDataBeanList();
             JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
             long start = System.currentTimeMillis();
-
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("ministr", sender.toSender());
-            parameters.put("name", "");
-
             File bsFile = new File(sr + s_n + ".jasper");
             JasperReport jReport = (JasperReport) JRLoader.loadObject(bsFile);
             JasperFillManager.fillReportToFile(jReport, sr + s_n + ".jrprint", parameters,beanColDataSource);
@@ -97,7 +93,7 @@ public class FB {
         }
     }
 
-    public void docx(String s_n) {
+    public void docx() {
         try {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
@@ -110,7 +106,7 @@ public class FB {
         }
     }
     
-    public void odt(String s_n) {
+    public void odt() {
         try {
             long start = System.currentTimeMillis();
             JROdtExporter exporter = new JROdtExporter();
@@ -123,7 +119,7 @@ public class FB {
         }
     }
     
-    public void viewer(String s_n) {
+    public void viewer() {
         try {
             //отображение jrprint
             long start = System.currentTimeMillis();

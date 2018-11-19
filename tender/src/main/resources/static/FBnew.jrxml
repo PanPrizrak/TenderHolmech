@@ -26,6 +26,7 @@
 	<parameter name="bank" class="java.lang.String"/>
 	<parameter name="kod" class="java.lang.String"/>
 	<parameter name="unp" class="java.lang.String"/>
+<!-- Use variables -->
 	<parameter name="numberM" class="java.lang.String"/>
 	<parameter name="nameA" class="java.lang.String"/>
 	<parameter name="textM" class="java.lang.String"/>
