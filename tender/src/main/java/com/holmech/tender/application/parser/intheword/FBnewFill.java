@@ -1,11 +1,13 @@
 package com.holmech.tender.application.parser.intheword;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@Builder
 public class FBnewFill {
 
     private String numberM;
@@ -14,7 +16,7 @@ public class FBnewFill {
     private String signature;
     private String worker;
 
-    private Map<String,Object> FBnewFilltoMap(){
+    public Map<String,Object> FBnewFilltoMap(){
         Map<String,Object> bufMap = new HashMap<>();
         bufMap.put("numberM",this.numberM);
         bufMap.put("nameA",this.nameA);

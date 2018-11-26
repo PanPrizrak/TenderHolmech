@@ -3,6 +3,7 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.form.TenderForm;
+import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.TenderService;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,16 @@ public class ActionAndEditTenderController {
         } else {
             switch (action) {
                 case "Generate autopsy protocol": {
-                bufTenderFromDB.setStage("Снижение цены");
+                //bufTenderFromDB.setStage("Снижение цены");
+                    FBnewFill fBnewFill = FBnewFill.builder()
+                            .numberM("123")
+                            .nameA("OAO")
+                            .textM("sfasfasdfsafsafsafsa")
+                            .signature("signature")
+                            .worker("Artem")
+                            .build();
+                    fBnewFill.FBnewFilltoMap();
+
                 //createAutopsyProtocol();
                 //
                     break;
