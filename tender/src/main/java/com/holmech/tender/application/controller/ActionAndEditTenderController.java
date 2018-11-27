@@ -3,9 +3,11 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.form.TenderForm;
+import com.holmech.tender.application.parser.intheword.FB;
 import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.TenderService;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,9 +61,13 @@ public class ActionAndEditTenderController {
                             .signature("signature")
                             .worker("Artem")
                             .build();
-                    fBnewFill.FBnewFilltoMap();
-
-                //createAutopsyProtocol();
+                    FB fbNew = new FB();
+                    try {
+                        fbNew.run(fBnewFill.FBnewFilltoMap(),"FBnew");
+                    } catch (JRException e) {
+                        e.printStackTrace();
+                    }
+                    //createAutopsyProtocol();
                 //
                     break;
                 }
