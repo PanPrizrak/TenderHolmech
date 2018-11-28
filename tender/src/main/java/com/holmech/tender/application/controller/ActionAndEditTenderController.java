@@ -24,10 +24,12 @@ import java.util.List;
 public class ActionAndEditTenderController {
 
     private final TenderService tenderService;
+    private final FB fbbService;
 
 
-    public ActionAndEditTenderController(TenderService tenderService) {
+    public ActionAndEditTenderController(TenderService tenderService,FB fbbService) {
         this.tenderService = tenderService;
+        this.fbbService = fbbService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -61,9 +63,8 @@ public class ActionAndEditTenderController {
                             .signature("signature")
                             .worker("Artem")
                             .build();
-                    FB fbNew = new FB();
                     try {
-                        fbNew.run(fBnewFill.FBnewFilltoMap(),"FBnew");
+                        fbbService.run(fBnewFill.FBnewFilltoMap(),"FBnew");
                     } catch (JRException e) {
                         e.printStackTrace();
                     }

@@ -44,7 +44,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="252" y="0" width="50" height="50" uuid="01d2b365-1fd8-4c02-af16-44c55e125dfa"/>
-				<imageExpression><![CDATA["logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["/logo.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="50" y="50" width="226" height="30" uuid="aafa0915-4107-4a76-84c1-3435e116ea3f"/>
