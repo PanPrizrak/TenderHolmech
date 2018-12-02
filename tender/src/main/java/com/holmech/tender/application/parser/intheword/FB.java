@@ -45,14 +45,14 @@ public class FB {
 
     public void run(Map<String,Object> parameters, String templateName) throws JRException {
         try {
-            templatePath += "reporttemplate\\";
+            this.templatePath += "reporttemplate\\";
             this.templateName = templateName;
             this.parameters = parameters;
             this.compile();
             this.fill();
             this.docx();
-            this.odt();
-            this.viewer();
+            //this.odt();
+            //this.viewer();//no server applicant
         } catch (IOException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
         }
