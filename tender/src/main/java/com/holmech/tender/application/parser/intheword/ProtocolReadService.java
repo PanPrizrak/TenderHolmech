@@ -51,8 +51,11 @@ public class ProtocolReadService {
         try {
             long start = System.currentTimeMillis();
             File bsFile = new File(templatePath + templateName + ".jrxml");
+            File bsFile2 = new File(templatePath + templateName + "2.jrxml");
             JasperDesign jDesign = (JasperDesign) JRXmlLoader.load(bsFile);
+            JasperDesign jDesign2 = (JasperDesign) JRXmlLoader.load(bsFile2);
             JasperCompileManager.compileReportToFile(jDesign, templatePath + templateName + ".jasper");
+            JasperCompileManager.compileReportToFile(jDesign2, templatePath + templateName + "2.jasper");
             System.err.println("Compile time : " + (System.currentTimeMillis() - start));
         } catch (JRException e) {
             System.out.println(e);
@@ -66,21 +69,23 @@ public class ProtocolReadService {
             JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
             long start = System.currentTimeMillis();
             File bsFile = new File(templatePath + templateName + ".jasper");
+            File bsFile2 = new File(templatePath + templateName + "2.jasper");
             JasperReport jReport = (JasperReport) JRLoader.loadObject(bsFile);
+            JasperReport jReport2 = (JasperReport) JRLoader.loadObject(bsFile2);
             JasperPrint pageOne =  JasperFillManager.fillReport(jReport,parameters);
-            JasperPrint pageOther = JasperFillManager.fillReport()
+            JasperPrint pageOther = JasperFillManager.fillReport(jReport2,parameters)
 
             /*JasperPrint jp1 = JasperFillManager.fillReport(url.openStream(), parameters,
             new JRBeanCollectionDataSource(inspBean));
-    JasperPrint jp2 = JasperFillManager.fillReport(url.openStream(), parameters,
+            JasperPrint jp2 = JasperFillManager.fillReport(url.openStream(), parameters,
             new JRBeanCollectionDataSource(inspBean));
 
-    List pages = jp2 .getPages();
-    for (int j = 0; j < pages.size(); j++) {
-        JRPrintPage object = (JRPrintPage)pages.get(j);
-        jp1.addPage(object);
-    }
-    JasperViewer.viewReport(jp1,false);*/
+            List pages = jp2 .getPages();
+            for (int j = 0; j < pages.size(); j++) {
+            JRPrintPage object = (JRPrintPage)pages.get(j);
+            jp1.addPage(object);
+            }
+            JasperViewer.viewReport(jp1,false);*/
             System.err.println(templatePath + templateName + ".jasper" + "!!!Filling time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
@@ -99,6 +104,5 @@ public class ProtocolReadService {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
 }
