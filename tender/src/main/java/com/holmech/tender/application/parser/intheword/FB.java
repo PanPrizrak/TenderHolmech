@@ -45,14 +45,14 @@ public class FB {
 
     public void run(Map<String,Object> parameters, String templateName) throws JRException {
         try {
-            this.templatePath += "reporttemplate\\";
+            templatePath += "reporttemplate\\";//todo
             this.templateName = templateName;
             this.parameters = parameters;
             this.compile();
             this.fill();
             this.docx();
             //this.odt();
-            //this.viewer();//no server applicant
+            //this.viewer();
         } catch (IOException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,6 +126,8 @@ public class FB {
             File sourceFile = new File(templatePath + templateName + ".jrprint");
             JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObject(sourceFile);
             JasperViewer.viewReport(jasperPrint, false);
+            //JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            //jasperViewer.setVisible(true);
             System.err.println("Viewer creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);

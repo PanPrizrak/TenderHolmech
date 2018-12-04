@@ -1,7 +1,76 @@
 package com.holmech.tender.application.parser.intheword;
 
+import lombok.NoArgsConstructor;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.view.JasperViewer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+@Service
+@NoArgsConstructor
 public class ProtocolReadService {
-    /*JasperPrint jp1 = JasperFillManager.fillReport(url.openStream(), parameters,
+
+    @Value("${upload.path}")
+    private String templatePath;
+    private Map<String,Object> parameters;
+    private String templateName;
+
+    public void run(Map<String,Object> parameters, String templateName) throws JRException {
+        try {
+            templatePath += "reporttemplate\\";//todo
+            this.templateName = templateName;
+            this.parameters = parameters;
+            this.compile();
+            this.fill();
+            this.docx();
+            //this.odt();
+            //this.viewer();
+        } catch (IOException ex) {
+            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Начало генерации отчёта");
+    }
+
+
+    public void compile() {
+        try {
+            long start = System.currentTimeMillis();
+            File bsFile = new File(templatePath + templateName + ".jrxml");
+            JasperDesign jDesign = (JasperDesign) JRXmlLoader.load(bsFile);
+            JasperCompileManager.compileReportToFile(jDesign, templatePath + templateName + ".jasper");
+            System.err.println("Compile time : " + (System.currentTimeMillis() - start));
+        } catch (JRException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void fill() throws IOException {
+        try {
+            DAOStub dataBeanMaker = new DAOStub();
+            ArrayList<DataBean> dataBeanList = dataBeanMaker.getDataBeanList();
+            JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataBeanList);
+            long start = System.currentTimeMillis();
+            File bsFile = new File(templatePath + templateName + ".jasper");
+            JasperReport jReport = (JasperReport) JRLoader.loadObject(bsFile);
+            JasperPrint pageOne =  JasperFillManager.fillReport(jReport,parameters);
+            JasperPrint pageOther = JasperFillManager.fillReport()
+
+            /*JasperPrint jp1 = JasperFillManager.fillReport(url.openStream(), parameters,
             new JRBeanCollectionDataSource(inspBean));
     JasperPrint jp2 = JasperFillManager.fillReport(url.openStream(), parameters,
             new JRBeanCollectionDataSource(inspBean));
@@ -12,4 +81,24 @@ public class ProtocolReadService {
         jp1.addPage(object);
     }
     JasperViewer.viewReport(jp1,false);*/
+            System.err.println(templatePath + templateName + ".jasper" + "!!!Filling time : " + (System.currentTimeMillis() - start));
+        } catch (JRException ex) {
+            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void docx() {
+        try {
+            long start = System.currentTimeMillis();
+            JRDocxExporter exporter = new JRDocxExporter();
+            exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + ".docx"));
+            exporter.exportReport();
+            System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+        } catch (JRException ex) {
+            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
 }
