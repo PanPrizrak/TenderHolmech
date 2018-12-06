@@ -38,14 +38,13 @@ import java.util.logging.Logger;
 @NoArgsConstructor
 public class FB {
 
-    @Value("${upload.path}")
+    @Value("${template.path}")
     private String templatePath;
     private Map<String,Object> parameters;
     private String templateName;
 
     public void run(Map<String,Object> parameters, String templateName) throws JRException {
         try {
-            templatePath += "reporttemplate\\";//todo
             this.templateName = templateName;
             this.parameters = parameters;
             this.compile();
