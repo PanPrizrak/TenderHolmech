@@ -16,9 +16,10 @@
     </tr>
     </thead>
 
-    <#list subjectAndDocumentsForm.subjectList as subject>
+
 
     <tbody>
+    <#list subjectAndDocumentsForm.subjectList as subject>
     <tr >
         <input type="hidden" value="${subject.idS}" name="subjectList[${subject?index}].idS"/>
         <th scope="row">${subject.numberS}</th>
@@ -64,7 +65,11 @@
             </#if>
         </td>
         <td>
-            <#assign trueBuf = "${subject.meet?then('checked',' ')}"   >
+            <#if subject.meet?if_exists>
+                <#assign trueBuf = "${subject.meet?then('checked',' ')}"   >
+            <#else>
+                <#assign trueBuf = ' '>
+            </#if>
             <input type="checkbox" name="subjectList[${subject?index}].meet"
             placeholder="Соответствие" ${trueBuf}/>
         </td>
@@ -82,9 +87,10 @@
         </td>
         <input type="hidden" value="${subject.tender.numberT}" name="subjectList[${subject?index}].tenderNumberT"/>
     </tr>
+        </#list>
     </tbody>
 
-</#list>
+
 </table>
 
     <!--filename-->

@@ -73,7 +73,7 @@ public class SubjectService {
         SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
     }
 
-    public List<Subject> setApplicantInSubjectList(List<Subject> subjectList, List<Subject> subjectListWithId) throws IOException {
+    public ArrayList<Subject> setApplicantInSubjectList(List<Subject> subjectList, List<Subject> subjectListWithId) throws IOException {
         ArrayList<Subject> bufSubjectList = new ArrayList<Subject>();
         for (int i = 0; i < subjectList.size(); i++) {
             Subject bufSubject = subjectList.get(i);
