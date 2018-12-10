@@ -45,7 +45,8 @@
                     <td> <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
                         <input type="hidden" value="${documents.tender.idT}" name="documentsList[${documents?index}].tender.idT" />
                         <label>Сертификат регистрации:</label></td>
-                    <td>   <#assign trueBuf = "${documents.registration?then('checked',' ')}"
+                    <td>
+                        <#assign trueBuf = "${documents.registration?then('checked',' ')}"
                         falseBuf = "${documents.registration?then(' ','checked')}"
                         >
                         <input type="radio" name="documentsList[${documents?index}].registration"

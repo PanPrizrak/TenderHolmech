@@ -9,6 +9,7 @@
         <th scope="col" >Ед. изм.</th>
         <th scope="col" >Количество</th>
         <th scope="col" >Цена. за ед. с НДС</th>
+        <th scope="col" >Соответствие</th>
         <th scope="col" >Код ОКРБ</th>
         <th scope="col" >Условия поставки</th>
 
@@ -61,6 +62,11 @@
                        name="subjectList[${subject?index}].price"
                        placeholder="цена"/>
             </#if>
+        </td>
+        <td>
+            <#assign trueBuf = "${subject.meet?then('checked',' ')}"   >
+            <input type="checkbox" name="subjectList[${subject?index}].meet"
+            placeholder="Соответствие" ${trueBuf}/>
         </td>
            <td>
             <input type="text" class="form-control"

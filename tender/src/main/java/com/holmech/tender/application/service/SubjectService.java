@@ -63,10 +63,11 @@ public class SubjectService {
         Tender bufTender = null;
         for (Subject subjects : subjectList) {
             subject = new Subject();
+            subject = subjects;
             subjects.setApplicant(applicantService.findByNameA(subjects.getApplicantNameA()));
             bufTender = tenderRepository.findByNumberT(subjects.getTenderNumberT());
             subjects.setTender(bufTender);
-            subject = subjects;
+
             subjectRepository.save(subject);
         }
         SubjectParseExcel.saveInExcel(findByTenderNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));

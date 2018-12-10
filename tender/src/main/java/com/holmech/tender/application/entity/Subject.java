@@ -25,6 +25,7 @@ public class Subject {
     private String delivery; //collection
     private String payment; //collection
     private Integer numberS;//number lot subject
+    private Boolean meet;//item meets requirements
 
     @ManyToOne
     @JoinColumn (name = "tender_id")

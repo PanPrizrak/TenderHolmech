@@ -73,6 +73,7 @@ public class ActionAndEditTenderController {
                     break;
                 }
                 case "Invite members to the price reduction procedure": {
+
                     break;
                 }
                 case "Form a decision protocol": {
