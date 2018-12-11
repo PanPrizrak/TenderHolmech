@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -50,7 +49,7 @@ public class SubjectAndDocumentsController {
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         // this will allow 500 size of array.
-        dataBinder.setAutoGrowCollectionLimit(1000);
+        dataBinder.setAutoGrowCollectionLimit(10000);
     }
 
 
@@ -66,10 +65,15 @@ public class SubjectAndDocumentsController {
                 subjects = subjectAndDocumentsForm.getSubjectList();
             } else {
                 file.transferTo(new File(new String(bufPath)));
+                List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
                 if (refreshSubjectList) {
-                    subjectService.removeSubjectThisTender(tenderRepository.findByNumberT(numberT));
+                    subjectService.removeTheSubjectsFromTheTender(subjectAndDocumentsForm.getSubjectList());
+                    for(Subject sub:bufSubjectExcel){
+                        sub.setTenderNumberT(numberT);
+                    }
+                    subjects = bufSubjectExcel;
                 } else {
-                    List<Subject> bufSubjectExcel = SubjectParseExcel.readFromExcel(new File(bufPath));
+
                     subjects = subjectService.setApplicantInSubjectList(bufSubjectExcel, subjectAndDocumentsForm.getSubjectList());
                 }
             }
@@ -86,7 +90,7 @@ public class SubjectAndDocumentsController {
     @org.jetbrains.annotations.NotNull
     private SubjectAndDocumentsForm getSubjectAndDocumentsForm(@PathVariable String numberT) {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
-        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);//.subList(0,120);//todo
+        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
         List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
         return new SubjectAndDocumentsForm(subjects, documents);
     }

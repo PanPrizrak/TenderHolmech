@@ -85,6 +85,7 @@ public class SubjectService {
         return bufSubjectList;
     }
 
-    public void removeSubjectThisTender(Tender byNumberT) {
+    public void removeTheSubjectsFromTheTender(List<Subject> subjectList) {
+        subjectRepository.deleteAll(subjectList);
     }
 }
