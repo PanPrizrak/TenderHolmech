@@ -31,11 +31,14 @@ public class DocumentsService {
     }
 
     public boolean isDocuments(Tender tender) {
-        Iterable<Documents> documentsFromDB = documentsRepository.findByTender(tender);
-        if (documentsFromDB.iterator().hasNext()) {
+        if (isTheTenderDocuments(tender).iterator().hasNext()) {
             return true;
         }
         return false;
+    }
+
+    public List<Documents> isTheTenderDocuments(Tender tender){
+        return documentsRepository.findByTender(tender);
     }
 
     public boolean addDocumentsFromExcel(Tender bufTender,

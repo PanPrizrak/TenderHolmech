@@ -1,11 +1,13 @@
 package com.holmech.tender.application.controller;
 
+import com.holmech.tender.application.entity.Documents;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Tender;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.parser.intheword.FB;
 import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.service.DocumentsService;
 import com.holmech.tender.application.service.TenderService;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,14 @@ public class ActionAndEditTenderController {
 
     private final TenderService tenderService;
     private final FB fbbService;
+    private final DocumentsService documentsService;
 
-
-    public ActionAndEditTenderController(TenderService tenderService,FB fbbService) {
+    public ActionAndEditTenderController(TenderService tenderService,
+                                         FB fbbService,
+                                         DocumentsService documentsService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
+        this.documentsService = documentsService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -45,8 +50,7 @@ public class ActionAndEditTenderController {
     private ModelAndView editTender(@PathVariable String numberT,
                                     @RequestParam(required = false, defaultValue = "") String action,
                                     @ModelAttribute("tenderForm") TenderForm tenderForm,
-                                    @RequestParam(required = false, name = "file") MultipartFile file
-    ) throws IOException {
+                                    @RequestParam(required = false, name = "file") MultipartFile file) throws IOException {
         Tender bufTenderFromDB = tenderService.findByNumberT(numberT);
         if (action.isEmpty()) {
             Tender tenderBuf = tenderForm.getTenderList().get(0);
@@ -56,24 +60,27 @@ public class ActionAndEditTenderController {
             switch (action) {
                 case "Generate autopsy protocol": {
                 //bufTenderFromDB.setStage("Снижение цены");
-                    FBnewFill fBnewFill = FBnewFill.builder()
-                            .numberM("123")
-                            .nameA("OAO")
-                            .textM("sfasfasdfsafsafsafsa")
-                            .signature("signature")
-                            .worker("Artem")
-                            .build();
-                    try {
-                        fbbService.run(fBnewFill.FBnewFilltoMap(),"FBnew");
-                    } catch (JRException e) {
-                        e.printStackTrace();
-                    }
+
                     //createAutopsyProtocol();
                 //
                     break;
                 }
                 case "Invite members to the price reduction procedure": {
-
+                    int numberMessage = 0;
+                    for(Documents documents: documentsService.isTheTenderDocuments(bufTenderFromDB)) {
+                        FBnewFill fBnewFill = FBnewFill.builder()
+                                .numberM(String.valueOf(numberMessage++))
+                                .nameA(documents.getApplicant().getNameA())
+                                .textM("sfasfasdfsafsafsafsa")
+                                .signature()
+                                .worker("Artem")
+                                .build();
+                        try {
+                            fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
+                        } catch (JRException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 }
                 case "Form a decision protocol": {
