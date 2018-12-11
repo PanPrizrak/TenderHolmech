@@ -125,6 +125,7 @@ public class SubjectParseExcel {
                             }
                             break;
                     }//switch
+                    bufSubject.setMeet(true);
                     i++;
                 }
                 subjects.add(bufSubject);

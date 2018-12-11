@@ -45,6 +45,7 @@ public class SubjectService {
                         subject = new Subject();
                         subject.setNumberS(i + 1);
                         subject.setTender(bufTender);
+
                         subject.setApplicant(applicantService.findByNameA(bufApplicant.getNameA()));
                         subjectRepository.save(subject);
                     }
@@ -82,5 +83,8 @@ public class SubjectService {
             bufSubjectList.add(bufSubject);
         }
         return bufSubjectList;
+    }
+
+    public void removeSubjectThisTender(Tender byNumberT) {
     }
 }

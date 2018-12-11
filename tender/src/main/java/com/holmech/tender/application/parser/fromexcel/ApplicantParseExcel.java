@@ -17,7 +17,7 @@ public class ApplicantParseExcel {
 
         XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
 
-        //Заполнение из таблицы экселя
+        //Заполнение из таблицы экселя TODO
         XSSFSheet spreadsheet = workbook.getSheetAt(1);
 
         Iterator<Row> rowIterator = spreadsheet.iterator();
