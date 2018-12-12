@@ -25,4 +25,9 @@ public class Worker {
     @JoinColumn(name = "contact_id")
     private Set<Contacts> contactsSet;
 
+    public String getInitialsWorker(){
+        String initials = this.getNameW().charAt(0) + ". " + this.getPatronymic().charAt(0) + ". " + this.getSurname();
+        return initials;
+    }
+
 }

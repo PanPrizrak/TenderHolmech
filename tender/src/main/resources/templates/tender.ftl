@@ -35,12 +35,22 @@
                 </tr>
                 <tr>
                     <td>Снижение цены</td>
-                    <td>
+
+
+                    <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#inviteMembers" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Пригласить участников на процедуру снижения цены
+                        </a>
+                    <!--Applicant-->
+                        <div class="collapse" id="inviteMembers">
+                        <td>
+                        <input type="text" name="numbersMessage" placeholder="номер первого сообщения"/>
+                        <input type="text" name="dateOfDecline" placeholder="дата снижения"/>
                         <button type="button" class="btn btn-outline-primary"
                                 onclick="document.getElementById('valueActions').value='Invite members to the price reduction procedure'; return false;">
                             Пригласить участников на процедуру снижения цены
                         </button>
-                    </td>
+                        </td>
+                        </div>
                     <td>Приглашения</td>
                 </tr>
                 <tr>

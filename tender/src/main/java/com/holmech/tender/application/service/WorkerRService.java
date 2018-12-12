@@ -18,11 +18,16 @@ public class WorkerRService {
     private Order bufOrder;
     private final WorkerRReposytory workerRReposytory;
 
+    public List<WorkerR> findByOrder(Order order){
+        return workerRReposytory.findByOrder(order);
+    }
+
     public WorkerRService(WorkerRReposytory workerRReposytory) {
+
         this.workerRReposytory = workerRReposytory;
     }
 
-    public void saveMembersCommission(Order order, MemberCommissionForm memberCommissionForm){
+    public void saveMembersCommission(Order order, MemberCommissionForm memberCommissionForm) {
         setBufOrder(order);
         addTheChairman(memberCommissionForm.getThechairman());
         addViceChairman(memberCommissionForm.getVicechairman());

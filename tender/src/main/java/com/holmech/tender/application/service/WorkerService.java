@@ -1,6 +1,7 @@
 package com.holmech.tender.application.service;
 
 import com.holmech.tender.application.entity.Worker;
+import com.holmech.tender.application.entity.WorkerR;
 import com.holmech.tender.application.repository.WorkerRepository;
 import org.springframework.stereotype.Service;
 
