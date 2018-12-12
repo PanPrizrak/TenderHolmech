@@ -1,5 +1,6 @@
 package com.holmech.tender.application.repository;
 
+import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
 import org.springframework.data.domain.Sort;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public interface SubjectRepository extends CrudRepository<Subject, Long> {
     List<Subject> findByTender(Tender tender, Sort sort);
+    List<Subject> findByTenderAndApplicant(Tender tender, Applicant applicant);
 
     //void deleteAll(Iterable<Subject> subjects);
 }

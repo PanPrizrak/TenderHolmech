@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,7 +24,7 @@ public class Worker {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id")
-    private Set<Contacts> contactsSet;
+    private List<Contacts> contactsList;
 
     public String getInitialsWorker(){
         String initials = this.getNameW().charAt(0) + ". " + this.getPatronymic().charAt(0) + ". " + this.getSurname();

@@ -88,4 +88,22 @@ public class SubjectService {
     public void removeTheSubjectsFromTheTender(List<Subject> subjectList) {
         subjectRepository.deleteAll(subjectList);
     }
+
+    public String getNoMeetSubject(Tender tender, Applicant applicant){
+        String noMeetSubject = " ";
+        List<Subject> subjectList = subjectRepository.findByTenderAndApplicant(tender,applicant);
+        int amountNoMeet = 0;
+        for (Subject subject: subjectList) {
+            if(!subject.getMeet()){
+                if(noMeetSubject.length()>2)
+                    noMeetSubject.concat(", ");
+                noMeetSubject.concat(subject.getNumberS().toString());
+                amountNoMeet++;
+            }
+        }
+        if(amountNoMeet == subjectList.size())
+            return "000";
+        return noMeetSubject;
+    }
+
 }

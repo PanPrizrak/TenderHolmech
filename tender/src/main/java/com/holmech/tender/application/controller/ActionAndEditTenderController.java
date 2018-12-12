@@ -6,6 +6,7 @@ import com.holmech.tender.application.parser.intheword.FB;
 import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.DocumentsService;
+import com.holmech.tender.application.service.SubjectService;
 import com.holmech.tender.application.service.TenderService;
 import com.holmech.tender.application.service.WorkerRService;
 import net.sf.jasperreports.engine.JRException;
@@ -28,15 +29,18 @@ public class ActionAndEditTenderController {
     private final FB fbbService;
     private final DocumentsService documentsService;
     private final WorkerRService workerRService;
+    private final SubjectService subjectService;
 
     public ActionAndEditTenderController(TenderService tenderService,
                                          FB fbbService,
                                          DocumentsService documentsService,
-                                         WorkerRService workerRService) {
+                                         WorkerRService workerRService,
+                                         SubjectService subjectService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
         this.workerRService = workerRService;
+        this.subjectService = subjectService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -76,19 +80,36 @@ public class ActionAndEditTenderController {
                     for (WorkerR workerR : workerRService.findByOrder(bufTenderFromDB.getOrder())) {
                         if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
                             signature.concat(workerR.getWorker().getPosition());
+                            signature.concat("             ");
+                            signature.concat(workerR.getWorker().getInitialsWorker());
                         } else if (workerR.getRole() == WorkerRole.SECRETARY) {
-                            secretary.concat(workerR.getWorker().getNameW())
+                            secretary.concat(workerR.getWorker().getInitialsWorker());
+                            int lastIndexContakts = workerR.getWorker().getContactsList().size() - 1;
+                            secretary.concat("\n"+workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone());
                         }
 
                     }
 
+
+
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
+                        String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());
+
+                        String textMessage = "";
+                        if(noMeet.equalsIgnoreCase("000")){
+                            StringBuilder buf = null;
+                            textMessage = buf.append("Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
+                                    .append("\n «Холмеч» сообщает, что ваше предложения по лотам №")
+                                    .append(noMeet)
+                                    .append("были откланены так как не соответствуют требованиям.").toString();
+                        }
+
                         FBnewFill fBnewFill = FBnewFill.builder()
                                 .numberM(String.valueOf(numberMessage++))
                                 .nameA(documents.getApplicant().getNameA())
                                 .textM("sfasfasdfsafsafsafsa")
                                 .signature(signature)
-                                .worker(se)
+                                .worker(secretary)
                                 .build();
                         try {
                             fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");

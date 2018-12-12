@@ -376,8 +376,8 @@ public class ExcelParser {
                         bufApplicant.setNameA(row.getCell(i).getStringCellValue());
                         bufApplicant.setAddress("");
                         bufApplicant.setPan("");
-                        bufApplicant.setContactsSet(Collections.emptySet());
-                        bufApplicant.setWorkerSet(Collections.emptySet());
+                        //bufApplicant.setContactsList();
+                        //bufApplicant.setWorkerList(Collections.emptySet());
                     } else {
                         if (row.getCell(i) != null)
                             appliclots.add((int) row.getCell(i).getNumericCellValue());

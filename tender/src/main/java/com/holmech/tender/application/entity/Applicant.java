@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,11 +26,11 @@ public class Applicant {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contact_id")
-    private Set<Contacts> contactsSet;
+    private List<Contacts> contactsList;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id")
-    private Set<Worker> workerSet;
+    private List<Worker> workerList;
 
 
 }
