@@ -47,4 +47,7 @@ public class Tender {
     @Transient
     private boolean documents;
 
+    public String getNumberAndNameTender(){
+        return getNumberT() + " \"" + getNameT() + "\"";
+    }
 }

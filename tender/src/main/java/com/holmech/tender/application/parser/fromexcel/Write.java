@@ -162,19 +162,19 @@ public class Write {
                 Cell cell = row.createCell(j);
                 switch (j) {
                     case 0:
-                        cell.setCellValue((int) bufO.getNomL());
+                        cell.setCellValue((int) bufO.getNumberLota());
                         break;
                     case 1:
-                        cell.setCellValue((float) bufO.getCenaMax());
+                        cell.setCellValue((float) bufO.getPriceMax());
                         break;
                     case 2:
-                        cell.setCellValue((float) bufO.getCenaMin());
+                        cell.setCellValue((float) bufO.getPriceMin());
                         break;
                     case 3:
-                        cell.setCellValue((int) bufO.getOtsMax());
+                        cell.setCellValue((int) bufO.getDefermentOfPaymentMax());
                         break;
                     case 4:
-                        cell.setCellValue((int) bufO.getOtsMin());
+                        cell.setCellValue((int) bufO.getDefermentOfPaymentMin());
                         break;
                 }//switch
             }

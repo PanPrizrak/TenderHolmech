@@ -96,12 +96,33 @@ public class ActionAndEditTenderController {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());
 
                         String textMessage = "";
-                        if(noMeet.equalsIgnoreCase("000")){
+                        if(noMeet.equalsIgnoreCase("000")){//все лоты не соответствуют
                             StringBuilder buf = null;
                             textMessage = buf.append("Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
                                     .append("\n «Холмеч» сообщает, что ваше предложения по лотам №")
                                     .append(noMeet)
-                                    .append("были откланены так как не соответствуют требованиям.").toString();
+                                    .append("было откланено, так как они не соответствуют требованиям.")
+                                    .append("Процедура закупки: " + bufTenderFromDB.getNumberAndNameTender() + ". ").toString();
+                        } else {
+                            //Типовое начало
+                            StringBuilder buf2 = null;
+                            buf2.append("Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
+                                    .append("«Холмеч» просит принять участие в процедуре по снижению цены.")
+                                    .append("Процедура закупки: " + bufTenderFromDB.getNumberAndNameTender() + ". ");
+                            textMessage.concat(buf2.toString());
+
+                            if (noMeet.length() > 2 ) {//есть несоответствия
+                                StringBuilder bufNoMeetLots = null;
+                                bufNoMeetLots.append("Сообщаем, что ваше предложение по лотам №" + noMeet)
+                                        .append("было откланено, так как они не соответствуют требованиям.");
+                                textMessage.concat(bufNoMeetLots.toString());
+                            }
+
+                            String thereAreNoTheseDocuments = documents.thereAreNoTheseDocuments();
+                            if(thereAreNoTheseDocuments.length()>2){
+                                textMessage.concat(" Также просим предоставить документы " + thereAreNoTheseDocuments + ".");
+                            }
+                            textMessage.concat()
                         }
 
                         FBnewFill fBnewFill = FBnewFill.builder()

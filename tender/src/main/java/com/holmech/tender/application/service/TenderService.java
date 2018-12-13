@@ -2,7 +2,9 @@ package com.holmech.tender.application.service;
 
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.entity.Order;
+import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.entity.calculations.Znach;
 import com.holmech.tender.application.parser.fromexcel.ApplicantParseExcel;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -103,5 +106,47 @@ public class TenderService {
 
     public Tender findByNumberT(String numberT) {
         return tenderRepository.findByNumberT(numberT);
+    }
+
+    private void findingExternsPrices(Tender tender){
+        //Определини экстернов значений
+        List<Subject> meetSubjectList = subjectService.getMeetSubject(tender);
+        ArrayList<Znach> znachs = new ArrayList<Znach>();
+        Znach znach;
+        int pos = 0;
+
+
+        //сортировка по номеру лота
+        meetSubjectList.sort((o1, o2) -> {
+            if (o1.getNumberS() == o2.getNumberS()) return 0;
+            else if (o1.getNumberS()> o2.getNumberS()) return 1;
+            else return -1;
+        });
+
+        //нахождения лота с максимальным номером на который поступили предложения
+        Subject subjectMaxNumberS = meetSubjectList.stream()
+                .max((fc1, fc2) -> fc1.getNumberS() - fc2.getNumberS())
+                .get();
+
+        for (int i = 1; i <= subjectMaxNumberS.getNumberS(); i++) {
+
+            List<Subject> bufSubject = null;
+            for (Subject subject: meetSubjectList) {
+                if(subject.getNumberS()==i)
+                    bufSubject.add(subject);
+            }
+
+
+            float minC = bufSubject.stream().min((min1,min2)-> (int) (min1.getPrice() - min2.getPrice())).get().getPrice().floatValue();
+            float maxC = bufSubject.stream().max((max1,max2)-> (int) (max1.getPrice() - max2.getPrice())).get().getPrice().floatValue();
+            int minO = Integer.parseInt(bufSubject.stream().
+                       min((min1,min2)-> (int) (Integer.parseInt(min1.getPayment()) - Integer.parseInt(min2.getPayment()))).get().getPayment());
+            int maxO = Integer.parseInt(bufSubject.stream().
+                       max((max1,max2)-> (int) (Integer.parseInt(max1.getPayment()) - Integer.parseInt(max2.getPayment()))).get().getPayment());
+
+            znach = new Znach((int) (i + 1), maxC, minC, maxO, minO);
+            znachs.add(znach);
+
+        }
     }
 }

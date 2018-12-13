@@ -25,6 +25,7 @@ public class SubjectService {
     private final ApplicantService applicantService;
     private final TenderRepository tenderRepository;
 
+    private List<Subject> meetSabjectList;
 
     public SubjectService(SubjectRepository subjectRepository,
                           ApplicantService applicantService,
@@ -99,6 +100,7 @@ public class SubjectService {
                     noMeetSubject.concat(", ");
                 noMeetSubject.concat(subject.getNumberS().toString());
                 amountNoMeet++;
+
             }
         }
         if(amountNoMeet == subjectList.size())
@@ -106,4 +108,14 @@ public class SubjectService {
         return noMeetSubject;
     }
 
+
+    public List<Subject> getMeetSubject(Tender tender) {
+        List<Subject> subjectFromDB = findByTenderNumberT(tender);
+        for (Subject subject : subjectFromDB) {
+            if (subject.getMeet()) {
+                meetSabjectList.add(subject);
+            }
+        }
+        return meetSabjectList;
+    }
 }

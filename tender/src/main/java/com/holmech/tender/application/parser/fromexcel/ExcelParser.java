@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -195,10 +194,10 @@ public class ExcelParser {
         //Расчет балов
         for (int i = 0; i < objT.size(); i++) {
 
-            int maxO = znachs.get(objT.get(i).getLot() - 1).getOtsMax();
-            int minO = znachs.get(objT.get(i).getLot() - 1).getOtsMin();
-            float maxC = znachs.get(objT.get(i).getLot() - 1).getCenaMax();
-            float minC = znachs.get(objT.get(i).getLot() - 1).getCenaMin();
+            int maxO = znachs.get(objT.get(i).getLot() - 1).getDefermentOfPaymentMax();
+            int minO = znachs.get(objT.get(i).getLot() - 1).getDefermentOfPaymentMin();
+            float maxC = znachs.get(objT.get(i).getLot() - 1).getPriceMax();
+            float minC = znachs.get(objT.get(i).getLot() - 1).getPriceMin();
             if (objT.get(i).getCenO() != 0) {
                 getRaschet(objT.get(i), maxC, minC, maxO, minO);
             }
