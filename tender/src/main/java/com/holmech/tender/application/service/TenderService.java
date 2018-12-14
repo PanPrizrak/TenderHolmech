@@ -108,7 +108,7 @@ public class TenderService {
         return tenderRepository.findByNumberT(numberT);
     }
 
-    private void findingExternsPrices(Tender tender){
+    private ArrayList<Znach> findingExternsPrices(Tender tender){
         //Определини экстернов значений
         List<Subject> meetSubjectList = subjectService.getMeetSubject(tender);
         ArrayList<Znach> znachs = new ArrayList<Znach>();
@@ -148,5 +148,15 @@ public class TenderService {
             znachs.add(znach);
 
         }
+        return znachs;
+    }
+
+    public String getTheMinimumPriceForLots(Tender tender) {
+        ArrayList<Znach> znachArrayList = findingExternsPrices(tender);
+        String buf = null;
+        for (Znach znach: znachArrayList){
+            buf.concat("Лот№ " + String.valueOf(znach.getNumberLota()) + " " + String.valueOf(znach.getPriceMin()) + " руб. за ед. без НДС\n");
+        }
+        return buf;
     }
 }

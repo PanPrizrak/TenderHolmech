@@ -45,7 +45,7 @@ public class OrderController {
                       @ModelAttribute Worker newWorker,
                       @ModelAttribute MemberCommissionForm memberCommissionForm,
                       Model model) {
-        if (newWorker != null) {
+        if (newWorker.getSurname() != null) {
             workerService.save(newWorker);
         }
         workerRService.saveMembersCommission(bufOrderForWorkerRole,memberCommissionForm);

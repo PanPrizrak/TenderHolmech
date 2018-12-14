@@ -35,29 +35,23 @@
                 </tr>
                 <tr>
                     <td>Снижение цены</td>
-
-
-                    <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#inviteMembers" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            Пригласить участников на процедуру снижения цены
-                        </a>
                     <!--Applicant-->
-                        <div class="collapse" id="inviteMembers">
                         <td>
                         <input type="text" name="numbersMessage" placeholder="номер первого сообщения"/>
                         <input type="text" name="dateOfDecline" placeholder="дата снижения"/>
                         <button type="button" class="btn btn-outline-primary"
-                                onclick="document.getElementById('valueActions').value='Invite members to the price reduction procedure'; return false;">
+                                onclick="document.getElementById('valueActions').value='Invite members to the price reduction procedure'; document.getElementById('myForm').submit()">
                             Пригласить участников на процедуру снижения цены
                         </button>
                         </td>
-                        </div>
+
                     <td>Приглашения</td>
                 </tr>
                 <tr>
                     <td rowspan="2">Принятия решения</td>
                     <td>
                         <button type="button" class="btn btn-outline-primary"
-                                onclick="document.getElementById('valueActions').value='Form a decision protocol'; return false;">
+                                onclick="document.getElementById('valueActions').value='Form a decision protocol'; document.getElementById('myForm').submit()">
                             Сформировать протокол принятия решения
                         </button>
                     </td>
@@ -66,7 +60,7 @@
                 <tr>
                     <td>
                         <button type="button" class="btn btn-outline-primary"
-                                onclick="document.getElementById('valueActions').value='Notify participants about the results'; return false;">
+                                onclick="document.getElementById('valueActions').value='Notify participants about the results'; document.getElementById('myForm').submit()">
                             Сообщить участникам о результатах
                         </button>
                     </td>

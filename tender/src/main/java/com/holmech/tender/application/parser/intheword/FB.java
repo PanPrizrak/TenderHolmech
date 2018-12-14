@@ -97,7 +97,7 @@ public class FB {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
             exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + ".docx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + parameters.get("nameA") + ".docx"));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {

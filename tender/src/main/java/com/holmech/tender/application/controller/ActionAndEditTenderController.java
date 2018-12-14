@@ -122,13 +122,15 @@ public class ActionAndEditTenderController {
                             if(thereAreNoTheseDocuments.length()>2){
                                 textMessage.concat(" Также просим предоставить документы " + thereAreNoTheseDocuments + ".");
                             }
-                            textMessage.concat()
+                            textMessage.concat("Минимальная цена: \n");
+                            textMessage.concat(tenderService.getTheMinimumPriceForLots(bufTenderFromDB));
+                            textMessage.concat("Предложения предоставить по факсу или на электронную почту, в срок до " + dateOfDecline + ".");
                         }
 
                         FBnewFill fBnewFill = FBnewFill.builder()
                                 .numberM(String.valueOf(numberMessage++))
                                 .nameA(documents.getApplicant().getNameA())
-                                .textM("sfasfasdfsafsafsafsa")
+                                .textM(textMessage)
                                 .signature(signature)
                                 .worker(secretary)
                                 .build();

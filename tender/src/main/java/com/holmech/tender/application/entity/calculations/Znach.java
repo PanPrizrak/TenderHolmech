@@ -19,10 +19,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Znach {
 
+
+
     private int numberLota;
     private float priceMax;
     private float priceMin;
     private int defermentOfPaymentMax;
     private int defermentOfPaymentMin;
+
+    public Znach (Znach z) {
+        this.numberLota = z.getNumberLota();
+        this.priceMax = z.getPriceMax();
+        this.priceMin = z.getPriceMin();
+        this.defermentOfPaymentMax = (int) z.getDefermentOfPaymentMax();
+        this.defermentOfPaymentMin = (int) z.getDefermentOfPaymentMin();
+    }
 
 }
