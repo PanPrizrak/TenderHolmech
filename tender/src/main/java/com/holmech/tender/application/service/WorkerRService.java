@@ -9,12 +9,13 @@ import com.holmech.tender.application.repository.WorkerRReposytory;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Service
 public class WorkerRService {
-    private List<WorkerR> workerRList;
+    private List<WorkerR> workerRList = new ArrayList<>();
     private Order bufOrder;
     private final WorkerRReposytory workerRReposytory;
 
@@ -37,6 +38,9 @@ public class WorkerRService {
     }
 
     private void addTheChairman(Worker bufWorker) {
+       /* WorkerR bufWorkerR = new WorkerR(bufOrder, bufWorker, WorkerRole.THECHAIRMAN);
+        List<WorkerR> bbworkerR = new ArrayList<>();
+        bbworkerR.add(bufWorkerR);*/
         workerRList.add(new WorkerR(bufOrder, bufWorker, WorkerRole.THECHAIRMAN));
     }
 

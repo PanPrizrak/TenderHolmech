@@ -47,8 +47,9 @@ public class OrderController {
                       Model model) {
         if (newWorker.getSurname() != null) {
             workerService.save(newWorker);
-        }
+        } else {
         workerRService.saveMembersCommission(bufOrderForWorkerRole,memberCommissionForm);
+        }
         addWorkersAndOrderInModel(numberT, model);
         return "redirect:/orderedit/{numberT}";
     }

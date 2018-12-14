@@ -75,8 +75,8 @@ public class ActionAndEditTenderController {
                 }
                 case "Invite members to the price reduction procedure": {
                     int numberMessage = Integer.valueOf(numbersMessage);
-                    String signature = null;
-                    String secretary = null;
+                    String signature = new String();
+                    String secretary = new String();
                     for (WorkerR workerR : workerRService.findByOrder(bufTenderFromDB.getOrder())) {
                         if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
                             signature.concat(workerR.getWorker().getPosition());
