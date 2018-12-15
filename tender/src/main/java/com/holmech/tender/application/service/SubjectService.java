@@ -25,7 +25,7 @@ public class SubjectService {
     private final ApplicantService applicantService;
     private final TenderRepository tenderRepository;
 
-    private List<Subject> meetSabjectList;
+    private List<Subject> meetSabjectList = new ArrayList<>();
 
     public SubjectService(SubjectRepository subjectRepository,
                           ApplicantService applicantService,

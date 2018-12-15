@@ -110,7 +110,9 @@ public class TenderService {
 
     private ArrayList<Znach> findingExternsPrices(Tender tender){
         //Определини экстернов значений
-        List<Subject> meetSubjectList = subjectService.getMeetSubject(tender);
+        List<Subject> meetSubjectList = new ArrayList<>();
+        if(!meetSubjectList.isEmpty())meetSubjectList.clear();
+        meetSubjectList = subjectService.getMeetSubject(tender);
         ArrayList<Znach> znachs = new ArrayList<Znach>();
         Znach znach;
         int pos = 0;
@@ -124,28 +126,30 @@ public class TenderService {
         });
 
         //нахождения лота с максимальным номером на который поступили предложения
-        Subject subjectMaxNumberS = meetSubjectList.stream()
+        Subject subjectMaxNumberS = new Subject();
+                subjectMaxNumberS = meetSubjectList.stream()
                 .max((fc1, fc2) -> fc1.getNumberS() - fc2.getNumberS())
                 .get();
 
         for (int i = 1; i <= subjectMaxNumberS.getNumberS(); i++) {
 
-            List<Subject> bufSubject = null;
+            List<Subject> bufSubject = new ArrayList<>();
             for (Subject subject: meetSubjectList) {
                 if(subject.getNumberS()==i)
                     bufSubject.add(subject);
             }
 
+            if(!bufSubject.isEmpty()) {
+                float minC = bufSubject.stream().min((min1, min2) -> (int) (min1.getPrice() - min2.getPrice())).get().getPrice().floatValue();
+                float maxC = bufSubject.stream().max((max1, max2) -> (int) (max1.getPrice() - max2.getPrice())).get().getPrice().floatValue();
+                int minO = Integer.parseInt(bufSubject.stream().
+                        min((min1, min2) -> (int) (Integer.parseInt(min1.getPayment()) - Integer.parseInt(min2.getPayment()))).get().getPayment());
+                int maxO = Integer.parseInt(bufSubject.stream().
+                        max((max1, max2) -> (int) (Integer.parseInt(max1.getPayment()) - Integer.parseInt(max2.getPayment()))).get().getPayment());
 
-            float minC = bufSubject.stream().min((min1,min2)-> (int) (min1.getPrice() - min2.getPrice())).get().getPrice().floatValue();
-            float maxC = bufSubject.stream().max((max1,max2)-> (int) (max1.getPrice() - max2.getPrice())).get().getPrice().floatValue();
-            int minO = Integer.parseInt(bufSubject.stream().
-                       min((min1,min2)-> (int) (Integer.parseInt(min1.getPayment()) - Integer.parseInt(min2.getPayment()))).get().getPayment());
-            int maxO = Integer.parseInt(bufSubject.stream().
-                       max((max1,max2)-> (int) (Integer.parseInt(max1.getPayment()) - Integer.parseInt(max2.getPayment()))).get().getPayment());
-
-            znach = new Znach((int) (i + 1), maxC, minC, maxO, minO);
-            znachs.add(znach);
+                znach = new Znach((int) (i + 1), maxC, minC, maxO, minO);
+                znachs.add(znach);
+            }
 
         }
         return znachs;
@@ -153,9 +157,9 @@ public class TenderService {
 
     public String getTheMinimumPriceForLots(Tender tender) {
         ArrayList<Znach> znachArrayList = findingExternsPrices(tender);
-        String buf = null;
+        String buf = new String();
         for (Znach znach: znachArrayList){
-            buf.concat("Лот№ " + String.valueOf(znach.getNumberLota()) + " " + String.valueOf(znach.getPriceMin()) + " руб. за ед. без НДС\n");
+           buf = buf.concat("Лот№ " + String.valueOf(znach.getNumberLota()) + " " + String.valueOf(znach.getPriceMin()) + " руб. за ед. без НДС\n");
         }
         return buf;
     }

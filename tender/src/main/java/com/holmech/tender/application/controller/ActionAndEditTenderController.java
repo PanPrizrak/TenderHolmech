@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jdk.nashorn.internal.objects.NativeString.concat;
+
 @Controller
 public class ActionAndEditTenderController {
 
@@ -79,13 +81,13 @@ public class ActionAndEditTenderController {
                     String secretary = new String();
                     for (WorkerR workerR : workerRService.findByOrder(bufTenderFromDB.getOrder())) {
                         if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
-                            signature.concat(workerR.getWorker().getPosition());
-                            signature.concat("             ");
-                            signature.concat(workerR.getWorker().getInitialsWorker());
+                            signature = signature.concat(workerR.getWorker().getPosition());
+                            signature = signature.concat("                                 ");
+                            signature = signature.concat(workerR.getWorker().getInitialsWorker());
                         } else if (workerR.getRole() == WorkerRole.SECRETARY) {
-                            secretary.concat(workerR.getWorker().getInitialsWorker());
+                            secretary = secretary.concat(workerR.getWorker().getInitialsWorker());
                             int lastIndexContakts = workerR.getWorker().getContactsList().size() - 1;
-                            secretary.concat("\n"+workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone());
+                            secretary = secretary.concat("\n +375447722687");//workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone()todo
                         }
 
                     }
@@ -95,36 +97,36 @@ public class ActionAndEditTenderController {
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());
 
-                        String textMessage = "";
+                        String textMessage = new String();
                         if(noMeet.equalsIgnoreCase("000")){//все лоты не соответствуют
-                            StringBuilder buf = null;
-                            textMessage = buf.append("Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
+                            StringBuilder buf = new StringBuilder();
+                            textMessage = buf.append("  Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
                                     .append("\n «Холмеч» сообщает, что ваше предложения по лотам №")
                                     .append(noMeet)
                                     .append("было откланено, так как они не соответствуют требованиям.")
                                     .append("Процедура закупки: " + bufTenderFromDB.getNumberAndNameTender() + ". ").toString();
                         } else {
                             //Типовое начало
-                            StringBuilder buf2 = null;
-                            buf2.append("Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
+                            StringBuilder buf2 = new StringBuilder();
+                            buf2.append("   Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат")
                                     .append("«Холмеч» просит принять участие в процедуре по снижению цены.")
-                                    .append("Процедура закупки: " + bufTenderFromDB.getNumberAndNameTender() + ". ");
-                            textMessage.concat(buf2.toString());
+                                    .append(" Процедура закупки: " + bufTenderFromDB.getNumberAndNameTender() + ". ");
+                            textMessage = textMessage.concat(buf2.toString());
 
                             if (noMeet.length() > 2 ) {//есть несоответствия
-                                StringBuilder bufNoMeetLots = null;
+                                StringBuilder bufNoMeetLots = new StringBuilder();
                                 bufNoMeetLots.append("Сообщаем, что ваше предложение по лотам №" + noMeet)
-                                        .append("было откланено, так как они не соответствуют требованиям.");
-                                textMessage.concat(bufNoMeetLots.toString());
+                                        .append(" было откланено, так как они не соответствуют требованиям.");
+                                textMessage = textMessage.concat(bufNoMeetLots.toString());
                             }
 
                             String thereAreNoTheseDocuments = documents.thereAreNoTheseDocuments();
                             if(thereAreNoTheseDocuments.length()>2){
-                                textMessage.concat(" Также просим предоставить документы " + thereAreNoTheseDocuments + ".");
+                                textMessage = textMessage.concat(" Также просим предоставить документы " + thereAreNoTheseDocuments + ".");
                             }
-                            textMessage.concat("Минимальная цена: \n");
-                            textMessage.concat(tenderService.getTheMinimumPriceForLots(bufTenderFromDB));
-                            textMessage.concat("Предложения предоставить по факсу или на электронную почту, в срок до " + dateOfDecline + ".");
+                            textMessage = textMessage.concat("\n    Минимальная цена: \n");
+                            textMessage = textMessage.concat(tenderService.getTheMinimumPriceForLots(bufTenderFromDB));
+                            textMessage = textMessage.concat("  Предложения предоставить по факсу или на электронную почту, в срок до " + dateOfDecline + ".");
                         }
 
                         FBnewFill fBnewFill = FBnewFill.builder()

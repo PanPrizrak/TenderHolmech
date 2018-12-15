@@ -77,7 +77,7 @@ public class SubjectParseExcel {
                             break;
                         case 2:
                             if (row.getCell(i) != null) {
-                                bufSubject.setPayment(String.valueOf(row.getCell(i).getNumericCellValue()));
+                                bufSubject.setPayment(String.valueOf((int) row.getCell(i).getNumericCellValue()));
                             } else {
                                 bufSubject.setPayment("");
                             }

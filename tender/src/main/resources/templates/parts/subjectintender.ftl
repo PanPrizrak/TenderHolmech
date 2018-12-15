@@ -21,7 +21,7 @@
     <tbody>
     <#list subjectAndDocumentsForm.subjectList as subject>
     <tr >
-        <input type="hidden" value="${subject.idS}" name="subjectList[${subject?index}].idS"/>
+        <input type="hidden" value="#{subject.idS}" name="subjectList[${subject?index}].idS"/>
         <th scope="row">${subject.numberS}</th>
         <input type="hidden" value="${subject.numberS}" name="subjectList[${subject?index}].numberS"/>
        <td>${subject.applicant.nameA}</td>
