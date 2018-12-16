@@ -37,6 +37,8 @@
                     </div>
                 </div>
 
+            <a href="/addcontactfor/applicant/#{documents.applicant.idA}">Добавить контакт</a>
+
 <!--documents-->
             <div class="form-group row">
             <table class="DocumentsTable table-bordered table-hover table-sm table-primary">

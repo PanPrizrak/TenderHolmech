@@ -39,6 +39,10 @@ public class ApplicantService  {
         return applicantReposirory.findByNameA(bufApplicantNameA);
     }
 
+    public Applicant findByIdA(Long idA){
+        return applicantReposirory.findById(idA).get();
+    }
+
     public void updateApplicant(Applicant applicant){
         applicantReposirory.save(applicant);
     }
