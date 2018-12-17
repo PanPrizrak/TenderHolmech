@@ -28,6 +28,9 @@ public class MailConfig {
     @Value("${mail.debug}")
     private String debug;
 
+   /* @Value("${mail.from}")
+    private String from;*/
+
     @Bean
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -40,6 +43,9 @@ public class MailConfig {
         Properties properties = mailSender.getJavaMailProperties();
 
         properties.setProperty("mail.transport.protocol", protocol);
+        //properties.setProperty("mail.from",from);
+        //properties.setProperty("mail.smtp.auth", "true");
+        //properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.debug", debug);
 
         return mailSender;

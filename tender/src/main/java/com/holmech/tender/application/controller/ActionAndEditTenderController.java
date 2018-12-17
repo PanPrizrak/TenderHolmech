@@ -5,10 +5,7 @@ import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.parser.intheword.FB;
 import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
-import com.holmech.tender.application.service.DocumentsService;
-import com.holmech.tender.application.service.SubjectService;
-import com.holmech.tender.application.service.TenderService;
-import com.holmech.tender.application.service.WorkerRService;
+import com.holmech.tender.application.service.*;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,17 +30,20 @@ public class ActionAndEditTenderController {
     private final DocumentsService documentsService;
     private final WorkerRService workerRService;
     private final SubjectService subjectService;
+    private final SendMessageWithAnAttachmentService sendMessageService;
 
     public ActionAndEditTenderController(TenderService tenderService,
                                          FB fbbService,
                                          DocumentsService documentsService,
                                          WorkerRService workerRService,
-                                         SubjectService subjectService) {
+                                         SubjectService subjectService,
+                                         SendMessageWithAnAttachmentService sendMessageService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
         this.workerRService = workerRService;
         this.subjectService = subjectService;
+        this.sendMessageService = sendMessageService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -60,7 +61,7 @@ public class ActionAndEditTenderController {
                                     @ModelAttribute("tenderForm") TenderForm tenderForm,
                                     @RequestParam(required = false, name = "file") MultipartFile file,
                                     @RequestParam(required = false) String numbersMessage,
-                                    @RequestParam(required = false) String dateOfDecline) throws IOException {
+                                    @RequestParam(required = false) String dateOfDecline) throws IOException, MessagingException {
         Tender bufTenderFromDB = tenderService.findByNumberT(numberT);
         if (action.isEmpty()) {
             Tender tenderBuf = tenderForm.getTenderList().get(0);
@@ -136,11 +137,16 @@ public class ActionAndEditTenderController {
                                 .signature(signature)
                                 .worker(secretary)
                                 .build();
+                        String fileAttachment = new String();
                         try {
-                            fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
+                            fileAttachment = fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
+                        String subject = "Холмеч! Приглашенеи на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNameT();
+                        List<String> attachments = new ArrayList<>();
+                        attachments.add(fileAttachment);
+                        sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
                     }
                     break;
                 }

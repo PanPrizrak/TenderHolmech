@@ -43,25 +43,21 @@ public class FB {
     private Map<String,Object> parameters;
     private String templateName;
 
-    public void run(Map<String,Object> parameters, String templateName) throws JRException {
+    public String run(Map<String,Object> parameters, String templateName) throws JRException {
         try {
+
             this.templateName = templateName;
             this.parameters = parameters;
             this.compile();
             this.fill();
-            this.docx();
+            System.out.println("Начало генерации отчёта");
+            return this.docx();
             //this.odt();
             //this.viewer();
         } catch (IOException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        System.out.println("Начало генерации отчёта");
-        /*try {
-            new Generator().create();
-            System.out.println("Генерация отчёта завершена");
-        } catch (Exception e) {
-            System.out.println("Во время генерации возникла ошибка: " + e);
-        }*/
     }
     
 
@@ -92,7 +88,7 @@ public class FB {
         }
     }
 
-    public void docx() {
+    public String docx() {
         try {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
@@ -100,8 +96,10 @@ public class FB {
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + parameters.get("numberM") + ".docx"));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+            return templatePath + templateName + parameters.get("numberM") + ".docx";
         } catch (JRException ex) {
             Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
     

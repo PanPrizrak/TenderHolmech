@@ -1,22 +1,27 @@
 package com.holmech.tender.application.service;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.util.List;
 
 @Service
 public class SendMessageWithAnAttachmentService {
 
-    private final MailSender emailSender;
+    private final JavaMailSender emailSender;
 
-    public SendMessageWithAnAttachmentService(MailSender emailSender) {
+    public SendMessageWithAnAttachmentService(JavaMailSender emailSender) {
         this.emailSender = emailSender;
     }
 
-
-    public String sendAttachmentEmail() throws MessagingException {
+    public void sendAttachmentEmail(String setTo, String subjectText, String messageText, List<String> attachments) throws MessagingException {
 
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -24,24 +29,30 @@ public class SendMessageWithAnAttachmentService {
 
         MimeMessageHelper helper = new MimeMessageHelper(message, multipart);
 
-        helper.setTo(MyConstants.FRIEND_EMAIL);
-        helper.setSubject("Test email with attachments");
+        helper.setTo(setTo);
+        helper.setSubject(subjectText);
 
-        helper.setText("Hello, Im testing email with attachments!");
+        helper.setText(messageText);
 
-        String path1 = "/home/tran/Downloads/test.txt";
-        String path2 = "/home/tran/Downloads/readme.zip";
 
-        // Attachment 1
-        FileSystemResource file1 = new FileSystemResource(new File(path1));
-        helper.addAttachment("Txt file", file1);
+        for(String pathFile: attachments) {
+            int point = pathFile.lastIndexOf('.');
+            int slash = pathFile.lastIndexOf('/');
+            int backSlash = pathFile.lastIndexOf('\\');
 
-        // Attachment 2
-        FileSystemResource file2 = new FileSystemResource(new File(path2));
-        helper.addAttachment("Readme", file2);
+            String nameFileAtaachment = new String();
+
+            if(slash>=0 && backSlash<0){
+                nameFileAtaachment = pathFile.substring(slash+1,point-1);
+            } else {
+                nameFileAtaachment = pathFile.substring(backSlash+1,point-1);
+            }
+
+            FileSystemResource fileAttachment = new FileSystemResource(new File(pathFile));
+            helper.addAttachment(nameFileAtaachment, fileAttachment);
+        }
+        helper.setFrom("webfbtest@yandex.ru");
 
         emailSender.send(message);
-
-        return "Email Sent!";
     }
 }
