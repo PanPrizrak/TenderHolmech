@@ -133,21 +133,22 @@ public class TenderService {
 
         for (int i = 1; i <= subjectMaxNumberS.getNumberS(); i++) {
 
-            List<Subject> bufSubject = new ArrayList<>();
+            List<Double> bufPrice = new ArrayList<>();
+            if(bufPrice.isEmpty()) bufPrice.clear();
             for (Subject subject: meetSubjectList) {
                 if(subject.getNumberS()==i)
-                    bufSubject.add(subject);
+                    bufPrice.add(subject.getPrice());
             }
 
-            if(!bufSubject.isEmpty()) {
-                float minC = bufSubject.stream().min((min1, min2) -> (int) (min1.getPrice() - min2.getPrice())).get().getPrice().floatValue();
-                float maxC = bufSubject.stream().max((max1, max2) -> (int) (max1.getPrice() - max2.getPrice())).get().getPrice().floatValue();
-                int minO = Integer.parseInt(bufSubject.stream().
+            if(!bufPrice.isEmpty()) {
+                float minC = (float) bufPrice.stream().mapToDouble(d->d).min().getAsDouble();
+                float maxC = bufPrice.stream().max((max1, max2) -> (int) (max1 - max2)).get().floatValue();
+                /*int minO = Integer.parseInt(bufPrice.stream().
                         min((min1, min2) -> (int) (Integer.parseInt(min1.getPayment()) - Integer.parseInt(min2.getPayment()))).get().getPayment());
-                int maxO = Integer.parseInt(bufSubject.stream().
+                int maxO = Integer.parseInt(bufPrice.stream().
                         max((max1, max2) -> (int) (Integer.parseInt(max1.getPayment()) - Integer.parseInt(max2.getPayment()))).get().getPayment());
-
-                znach = new Znach((int) (i + 1), maxC, minC, maxO, minO);
+*/
+                znach = new Znach((int) (i), maxC, minC, 0, 0);
                 znachs.add(znach);
             }
 
@@ -159,7 +160,7 @@ public class TenderService {
         ArrayList<Znach> znachArrayList = findingExternsPrices(tender);
         String buf = new String();
         for (Znach znach: znachArrayList){
-           buf = buf.concat("Лот№ " + String.valueOf(znach.getNumberLota()) + " " + String.valueOf(znach.getPriceMin()) + " руб. за ед. без НДС\n");
+           buf = buf.concat("Лот№ " + String.valueOf(znach.getNumberLota()) + " - " + String.valueOf(znach.getPriceMin()) + " руб. за ед. без НДС\n");
         }
         return buf;
     }

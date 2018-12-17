@@ -51,7 +51,7 @@ public class SendMessageWithAnAttachmentService {
             FileSystemResource fileAttachment = new FileSystemResource(new File(pathFile));
             helper.addAttachment(nameFileAtaachment, fileAttachment);
         }
-        helper.setFrom("webfbtest@yandex.ru");
+        helper.setFrom("holmechagro@tut.by");
 
         emailSender.send(message);
     }

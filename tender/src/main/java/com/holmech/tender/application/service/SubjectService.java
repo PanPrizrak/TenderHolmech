@@ -95,12 +95,11 @@ public class SubjectService {
         List<Subject> subjectList = subjectRepository.findByTenderAndApplicant(tender,applicant);
         int amountNoMeet = 0;
         for (Subject subject: subjectList) {
-            if(!subject.getMeet()){
+            if(subject.getMeet() != null && subject.getMeet() == false){
                 if(noMeetSubject.length()>2)
-                    noMeetSubject.concat(", ");
-                noMeetSubject.concat(subject.getNumberS().toString());
+                   noMeetSubject = noMeetSubject.concat(", ");
+                noMeetSubject = noMeetSubject.concat(subject.getNumberS().toString());
                 amountNoMeet++;
-
             }
         }
         if(amountNoMeet == subjectList.size())
@@ -112,7 +111,7 @@ public class SubjectService {
     public List<Subject> getMeetSubject(Tender tender) {
         List<Subject> subjectFromDB = findByTenderNumberT(tender);
         for (Subject subject : subjectFromDB) {
-            if (subject.getMeet()) {
+            if (subject.getMeet() != null && subject.getMeet()) {
                 meetSabjectList.add(subject);
             }
         }

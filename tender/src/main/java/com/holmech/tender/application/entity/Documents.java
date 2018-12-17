@@ -33,12 +33,12 @@ public class Documents {
     public String thereAreNoTheseDocuments(){
         String buf = " ";
         int bufInt = 0;
-        if(!registration) { buf.concat("свидетельство о регистрации"); bufInt ++;}
-        if(!charter) { if(bufInt!=0) {buf.concat(", ");} buf.concat("устав"); bufInt ++;}
-        if(!bankreference) { if(bufInt!=0) {buf.concat(", ");} buf.concat("справку из банка"); bufInt ++;}
-        if(!dealer) { if(bufInt!=0) {buf.concat(", ");} buf.concat("дилерский сертификат"); bufInt ++;}
-        if(!product) { if(bufInt!=0) {buf.concat(", ");} buf.concat("сертификат на товар"); bufInt ++;}
-        if(!feedback) { if(bufInt!=0) {buf.concat(", ");} buf.concat("отзывы"); bufInt ++;}
+        if(!registration) { buf = buf.concat("свидетельство о регистрации"); bufInt ++;}
+        if(!charter) { if(bufInt!=0) {buf =buf.concat(", ");} buf = buf.concat("устав"); bufInt ++;}
+        if(!bankreference) { if(bufInt!=0) {buf = buf.concat(", ");} buf = buf.concat("справку из банка"); bufInt ++;}
+        if(!dealer) { if(bufInt!=0) {buf = buf.concat(", ");} buf = buf.concat("дилерский сертификат"); bufInt ++;}
+        if(!product) { if(bufInt!=0) {buf = buf.concat(", ");} buf = buf.concat("сертификат на товар"); bufInt ++;}
+        if(!feedback) { if(bufInt!=0) {buf = buf.concat(", ");} buf = buf.concat("отзывы"); bufInt ++;}
         return buf;
     }
 
