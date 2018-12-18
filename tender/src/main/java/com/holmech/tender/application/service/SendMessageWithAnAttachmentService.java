@@ -36,16 +36,15 @@ public class SendMessageWithAnAttachmentService {
 
 
         for(String pathFile: attachments) {
-            int point = pathFile.lastIndexOf('.');
             int slash = pathFile.lastIndexOf('/');
             int backSlash = pathFile.lastIndexOf('\\');
 
             String nameFileAtaachment = new String();
 
             if(slash>=0 && backSlash<0){
-                nameFileAtaachment = pathFile.substring(slash+1,point-1);
+                nameFileAtaachment = pathFile.substring(slash+1);
             } else {
-                nameFileAtaachment = pathFile.substring(backSlash+1,point-1);
+                nameFileAtaachment = pathFile.substring(backSlash+1);
             }
 
             FileSystemResource fileAttachment = new FileSystemResource(new File(pathFile));
