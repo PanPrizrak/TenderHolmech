@@ -77,6 +77,7 @@ public class ActionAndEditTenderController {
                     break;
                 }
                 case "Invite members to the price reduction procedure": {
+                    bufTenderFromDB.setStage("Снижение цены");
                     int numberMessage = Integer.valueOf(numbersMessage);
                     String signature = new String();
                     String secretary = new String();
@@ -151,12 +152,15 @@ public class ActionAndEditTenderController {
                     break;
                 }
                 case "Form a decision protocol": {
+                    bufTenderFromDB.setStage("Формирование результата");
                     break;
                 }
                 case "Notify participants about the results": {
+                    bufTenderFromDB.setStage("Принятия решения");
                     break;
                 }
             }
+            tenderService.updateTender(bufTenderFromDB);
         }
         List<Tender> tenders = tenderService.findAll();
         TenderForm tenderBufForm = new TenderForm(tenders);

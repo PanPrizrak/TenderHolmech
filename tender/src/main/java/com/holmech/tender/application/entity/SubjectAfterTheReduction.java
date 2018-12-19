@@ -17,7 +17,7 @@ public class SubjectAfterTheReduction {
     private Long idSa;
 
     private Double price;
-    private String payment; //collection
+    private String payment;
 
     @OneToOne
     @JoinColumn(name = "subject_id")

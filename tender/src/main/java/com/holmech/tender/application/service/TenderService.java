@@ -44,6 +44,10 @@ public class TenderService {
         this.subjectService = subjectService;
     }
 
+    public void updateTender(Tender tender){
+        tenderRepository.save(tender);
+    }
+
     public void saveTender(@RequestParam(required = false, name = "file") MultipartFile file, Tender tenderBuf) throws IOException {
         Order orderBuf = tenderBuf.getOrder();
         if (tenderBuf.getIdT() != null) {
