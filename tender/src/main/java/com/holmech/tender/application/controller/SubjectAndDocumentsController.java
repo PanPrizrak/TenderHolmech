@@ -90,7 +90,7 @@ public class SubjectAndDocumentsController {
     @org.jetbrains.annotations.NotNull
     private SubjectAndDocumentsForm getSubjectAndDocumentsForm(@PathVariable String numberT) {
         Tender tenderFromDB = tenderRepository.findByNumberT(numberT);
-        List<Subject> subjects = subjectService.findByTenderNumberT(tenderFromDB);
+        List<Subject> subjects = subjectService.findByTenderSortNumberT(tenderFromDB);
         List<Documents> documents = documentsRepository.findByTender(tenderFromDB);
         return new SubjectAndDocumentsForm(subjects, documents);
     }

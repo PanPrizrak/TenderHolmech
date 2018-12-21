@@ -127,7 +127,7 @@ public class ActionAndEditTenderController {
                                 textMessage = textMessage.concat(" Также просим предоставить документы" + thereAreNoTheseDocuments + ".");
                             }
                             textMessage = textMessage.concat("\n    Минимальная цена: \n");
-                            textMessage = textMessage.concat(tenderService.getTheMinimumPriceForLots(bufTenderFromDB));
+                            textMessage = textMessage.concat(subjectService.getTheMinimumPriceForLots(bufTenderFromDB));
                             textMessage = textMessage.concat("  Предложения предоставить по факсу или на электронную почту, в срок до " + dateOfDecline + ".");
                         }
 
@@ -153,6 +153,7 @@ public class ActionAndEditTenderController {
                 }
                 case "Form a decision protocol": {
                     bufTenderFromDB.setStage("Формирование результата");
+
                     break;
                 }
                 case "Notify participants about the results": {

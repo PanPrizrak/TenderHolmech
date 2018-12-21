@@ -186,7 +186,7 @@ public class ExcelParser {
                 //pos++;
             }
 
-            znach = new Znach((int) (i + 1), maxC, minC, maxO, minO);
+            znach = new Znach((int) (i + 1), maxC, minC, maxO, minO,"0");
             znachs.add(znach);
 
         }

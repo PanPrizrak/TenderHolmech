@@ -1,10 +1,12 @@
 <form modelAttribute="subjectAndDocumentsForm"  method="post" enctype="multipart/form-data">
 <table class="table table-bordered table-hover table-sm table-primary" id="grid">
+
+
     <#if subjectAndDocumentsForm.subjectList[0].tender.stage=="Снижение цены">
     <a href="satrintender/${subjectAndDocumentsForm.subjectList[0].tender.numberT}">Снижение цены</a>
     </#if>
+
     <thead>
-    <!---->
     <tr >
         <th scope="col" data-type="number">№ лота</th> <!--class="col-sm-0"-->
         <th scope="col" data-type="string">Название предприятия</th>

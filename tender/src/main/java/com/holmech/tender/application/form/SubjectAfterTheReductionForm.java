@@ -1,18 +1,17 @@
 package com.holmech.tender.application.form;
 
-import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.entity.SubjectAfterTheReduction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TenderForm {
+public class SubjectAfterTheReductionForm {
 
-    private List<Tender> tenderList;
+    List<SubjectAfterTheReduction> subjectAfterTheReductionList;
 
 }

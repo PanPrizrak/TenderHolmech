@@ -26,6 +26,7 @@ public class Znach {
     private float priceMin;
     private int defermentOfPaymentMax;
     private int defermentOfPaymentMin;
+    private String unitsLota;
 
     public Znach (Znach z) {
         this.numberLota = z.getNumberLota();
