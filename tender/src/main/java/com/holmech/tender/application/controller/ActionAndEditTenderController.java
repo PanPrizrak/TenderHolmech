@@ -144,7 +144,7 @@ public class ActionAndEditTenderController {
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
-                        String subject = " Исправлено! Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNameT();
+                        String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
                         List<String> attachments = new ArrayList<>();
                         attachments.add(fileAttachment);
                         sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);

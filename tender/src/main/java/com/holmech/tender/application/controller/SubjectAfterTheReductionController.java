@@ -44,7 +44,7 @@ public class SubjectAfterTheReductionController {
     private SubjectAfterTheReductionForm getSubjectAfterTheReductionForm(String numberT) {
         List<Subject> subjectList = subjectService.findByNumberT(numberT);
         List<SubjectAfterTheReduction> subjectAfterTheReductionList = subjectAfterTheReductionService.findBySubjectIn(subjectList);
-        if ( subjectAfterTheReductionList !=null ){
+        if ( subjectAfterTheReductionList !=null && subjectAfterTheReductionList.size()!=0){
             return new SubjectAfterTheReductionForm(subjectAfterTheReductionList);
         } else {
             subjectAfterTheReductionList.clear();

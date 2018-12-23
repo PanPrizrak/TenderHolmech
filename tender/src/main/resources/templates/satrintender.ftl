@@ -1,4 +1,7 @@
-<form modelAttribute="subjectATRForm"  method="post" enctype="multipart/form-data">
+<#import "parts/common.ftl" as ht>
+
+<@ht.page>
+<form modelAttribute="subjectAfterTheReductionForm"  method="post" enctype="multipart/form-data">
 <table class="table table-bordered table-hover table-sm table-primary" id="grid">
     <thead>
     <tr >
@@ -14,33 +17,36 @@
 
 
     <tbody>
-    <#list subjectATRForm.subjectatrList as subjectatr>
+    <#list subjectAfterTheReductionForm.subjectAfterTheReductionList as subjectatr>
     <tr >
-        <input type="hidden" value="#{subjectatr.idSa}" name="subjectatrList[${subjectatr?index}].idSa"/>
+        <#if subjectatr.idSa??>
+            <input type="hidden" value="#{subjectatr.idSa}" name="subjectAfterTheReductionList[${subjectatr?index}].idSa"/>
+
+        </#if>
         <th scope="row">${subjectatr.subject.numberS}</th>
         <td>${subjectatr.subject.applicant.nameA}</td>
         <td>
             <input type="text" class="form-control"
                    value="${subjectatr.payment?if_exists}"
-                   name="subjectatrList[${subjectatr?index}].payment"
+                   name="subjectAfterTheReductionList[${subjectatr?index}].payment"
                    placeholder="Отсрочка"/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subjectatr.subject.nameS?if_exists}"
-                   name="subjectatrList[${subjectatr?index}].subject.nameS"
+                   name="subjectAfterTheReductionList[${subjectatr?index}].subject.nameS"
                    placeholder="Название"/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="${subjectatr.subject.units?if_exists}"
-                   name="subjectatrList[${subjectatr?index}].subject.units"
+                   name="subjectAfterTheReductionList[${subjectatr?index}].subject.units"
                    placeholder="ед. изм."/>
         </td>
         <td>
             <input type="text" class="form-control"
                    value="#{subjectatr.price?if_exists}"
-                   name="subjectatrList[${subjectatr?index}].price"
+                   name="subjectAfterTheReductionList[${subjectatr?index}].price"
                    placeholder="цена"/>
         </td>
     </tr>
@@ -118,3 +124,4 @@
     </div>
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </form>
+</@ht.page>

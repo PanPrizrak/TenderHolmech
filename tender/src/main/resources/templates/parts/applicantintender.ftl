@@ -45,7 +45,7 @@
                 <tbody>
                 <tr>
                     <td> <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
-                        <input type="hidden" value="${documents.tender.idT}" name="documentsList[${documents?index}].tender.idT" />
+                        <input type="hidden" value="#{documents.tender.idT}" name="documentsList[${documents?index}].tender.idT" />
                         <label>Сертификат регистрации:</label></td>
                     <td>
                         <#assign trueBuf = "${documents.registration?then('checked',' ')}"
