@@ -26,7 +26,7 @@ public class SubjectService {
     private final ApplicantService applicantService;
     private final TenderRepository tenderRepository;
 
-    private List<Subject> meetSabjectList = new ArrayList<>();
+    private List<Subject> meetSubjectList = new ArrayList<>();
 
     public SubjectService(SubjectRepository subjectRepository,
                           ApplicantService applicantService,
@@ -74,7 +74,6 @@ public class SubjectService {
         Subject subject;
         Tender bufTender = null;
         for (Subject subjects : subjectList) {
-            subject = new Subject();
             subject = subjects;
             subjects.setApplicant(applicantService.findByNameA(subjects.getApplicantNameA()));
             bufTender = tenderRepository.findByNumberT(subjects.getTenderNumberT());
@@ -122,10 +121,10 @@ public class SubjectService {
         List<Subject> subjectFromDB = findByTenderSortNumberT(tender);
         for (Subject subject : subjectFromDB) {
             if (subject.getMeet() != null && subject.getMeet()) {
-                meetSabjectList.add(subject);
+                meetSubjectList.add(subject);
             }
         }
-        return meetSabjectList;
+        return meetSubjectList;
     }
 
     private ArrayList<Znach> findingExternsPrices(Tender tender){
@@ -135,8 +134,6 @@ public class SubjectService {
         meetSubjectList = getMeetSubject(tender);
         ArrayList<Znach> znachs = new ArrayList<Znach>();
         Znach znach;
-        int pos = 0;
-
 
         //сортировка по номеру лота
         meetSubjectList.sort((o1, o2) -> {
@@ -147,9 +144,7 @@ public class SubjectService {
 
         //нахождения лота с максимальным номером на который поступили предложения
         Subject subjectMaxNumberS = new Subject();
-        subjectMaxNumberS = meetSubjectList.stream()
-                .max((fc1, fc2) -> fc1.getNumberS() - fc2.getNumberS())
-                .get();
+        subjectMaxNumberS = meetSubjectList.stream().max((fc1, fc2) -> fc1.getNumberS() - fc2.getNumberS()).get();
 
         for (int i = 1; i <= subjectMaxNumberS.getNumberS(); i++) {
 
