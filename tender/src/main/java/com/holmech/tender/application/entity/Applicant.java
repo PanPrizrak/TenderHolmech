@@ -25,11 +25,11 @@ public class Applicant {
 
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contact_id")
+    @JoinColumn(name = "applicant_id")
     private List<Contacts> contactsList;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id")
+    @JoinColumn(name = "applicant_id")
     private List<Worker> workerList;
 
 

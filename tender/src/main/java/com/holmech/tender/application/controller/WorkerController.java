@@ -3,7 +3,6 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.Order;
 import com.holmech.tender.application.entity.Worker;
 import com.holmech.tender.application.form.MemberCommissionForm;
-import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.service.TenderService;
 import com.holmech.tender.application.service.WorkerRService;
 import com.holmech.tender.application.service.WorkerService;
@@ -12,34 +11,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("orderedit")
-public class OrderController {
+@RequestMapping("addworker")
+public class WorkerController {
 
-    private final OrderRepository orderRepository;
+    private final WorkerService workerService;
     private final TenderService tenderService;
+    private Order bufOrderForWorkerRole;
 
-    public OrderController(OrderRepository orderRepository, TenderService tenderService) {
-        this.orderRepository = orderRepository;
+    public WorkerController(WorkerService workerService,
+                            TenderService tenderService) {
+        this.workerService = workerService;
         this.tenderService = tenderService;
     }
 
     @GetMapping("/{numberT}")
     public String userEditForm(@PathVariable String numberT, Model model) {
-        addOrderInModel(numberT, model);
-        return "orderedit";
+        addWorkersAndOrderInModel(numberT, model);
+        return "addworker";
     }
 
-    private void addOrderInModel(@PathVariable String numberT, Model model) {
-        model.addAttribute("order", tenderService.findByNumberT(numberT).getOrder());//todo номер тендера
+    private void addWorkersAndOrderInModel(@PathVariable String numberT, Model model) {
+        model.addAttribute("workers", workerService.findAllMemberOfCommission());
+        bufOrderForWorkerRole = tenderService.findByNumberT(numberT).getOrder();
+        model.addAttribute("order", bufOrderForWorkerRole);
         model.addAttribute("numberT", numberT);
+
     }
 
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
-                      @ModelAttribute Order editedOrder,
+                      @ModelAttribute Worker newWorker,
                       Model model) {
-        orderRepository.save(editedOrder);
-        addOrderInModel(numberT, model);
-        return "redirect:/orderedit/{numberT}";
+            workerService.save(newWorker);
+        addWorkersAndOrderInModel(numberT, model);
+        return "redirect:/addworker/{numberT}";
     }
 }

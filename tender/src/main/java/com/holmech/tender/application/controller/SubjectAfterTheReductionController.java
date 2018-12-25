@@ -51,7 +51,7 @@ public class SubjectAfterTheReductionController {
             for(Subject subject: subjectList){
                 SubjectAfterTheReduction subjectAfterTheReduction = new SubjectAfterTheReduction();
                 subjectAfterTheReduction.setPrice(0.0);
-                subjectAfterTheReduction.setPayment("0");
+                subjectAfterTheReduction.setPayment(subject.getPayment());
                 subjectAfterTheReduction.setSubject(subject);
                 subjectAfterTheReductionList.add(subjectAfterTheReduction);
             }
