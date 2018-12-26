@@ -31,19 +31,22 @@ public class ActionAndEditTenderController {
     private final WorkerRService workerRService;
     private final SubjectService subjectService;
     private final SendMessageWithAnAttachmentService sendMessageService;
+    private final SubjectAfterTheReductionService subjectAfterTheReductionService;
 
     public ActionAndEditTenderController(TenderService tenderService,
                                          FB fbbService,
                                          DocumentsService documentsService,
                                          WorkerRService workerRService,
                                          SubjectService subjectService,
-                                         SendMessageWithAnAttachmentService sendMessageService) {
+                                         SendMessageWithAnAttachmentService sendMessageService,
+                                         SubjectAfterTheReductionService subjectAfterTheReductionService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
         this.workerRService = workerRService;
         this.subjectService = subjectService;
         this.sendMessageService = sendMessageService;
+        this.subjectAfterTheReductionService = subjectAfterTheReductionService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -94,7 +97,7 @@ public class ActionAndEditTenderController {
 
                     }
 
-
+                    subjectAfterTheReductionService.writeFromExcel(numberT);
 
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());

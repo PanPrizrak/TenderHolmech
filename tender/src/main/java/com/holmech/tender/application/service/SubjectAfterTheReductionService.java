@@ -2,18 +2,37 @@ package com.holmech.tender.application.service;
 
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.SubjectAfterTheReduction;
+import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.parser.fromexcel.ParseExcel;
+import com.holmech.tender.application.parser.fromexcel.SubjectAfterTheReductionParseExcel;
+import com.holmech.tender.application.parser.fromexcel.Write;
 import com.holmech.tender.application.repository.SubjectAfterTheReductionRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SubjectAfterTheReductionService {
 
-    private final SubjectAfterTheReductionRepository subjectAfterTheReductionRepository;
+    @Value("${upload.path}")
+    private String uploadPath;
 
-    public SubjectAfterTheReductionService(SubjectAfterTheReductionRepository subjectAfterTheReductionRepository) {
+    private final SubjectAfterTheReductionRepository subjectAfterTheReductionRepository;
+    private final SubjectAfterTheReductionParseExcel subjectAfterTheReductionParseExcel;
+    private final SubjectService subjectService;
+    private final TenderService tenderService;
+
+    public SubjectAfterTheReductionService(SubjectAfterTheReductionRepository subjectAfterTheReductionRepository,
+                                           SubjectService subjectService,
+                                           TenderService tenderService,
+                                           SubjectAfterTheReductionParseExcel subjectAfterTheReductionParseExcel) {
         this.subjectAfterTheReductionRepository = subjectAfterTheReductionRepository;
+        this.subjectService = subjectService;
+        this.tenderService = tenderService;
+        this.subjectAfterTheReductionParseExcel = subjectAfterTheReductionParseExcel;
     }
 
     public SubjectAfterTheReduction findBySubject(Subject subject){
@@ -26,5 +45,24 @@ public class SubjectAfterTheReductionService {
 
     public void saveAll(List<SubjectAfterTheReduction> subjectAfterTheReductionList) {
         subjectAfterTheReductionRepository.saveAll( (Iterable<SubjectAfterTheReduction>) subjectAfterTheReductionList);
+    }
+
+    public void writeFromExcel(String numberT){
+
+        Tender tenderFromDB = tenderService.findByNumberT(numberT);
+        List<Subject> subjectList = subjectService.getMeetSubject(tenderFromDB);
+        List<SubjectAfterTheReduction> subjectAfterTheReductionList = new ArrayList<>();
+        emptySubjectAfterTheReduction(subjectList,subjectAfterTheReductionList);
+        subjectAfterTheReductionParseExcel.saveInExcel(subjectAfterTheReductionList,new File(uploadPath + tenderFromDB.getFilename()));
+    }
+
+    public void emptySubjectAfterTheReduction(List<Subject> subjectList, List<SubjectAfterTheReduction> subjectAfterTheReductionList) {
+        for (Subject subject : subjectList) {
+            SubjectAfterTheReduction subjectAfterTheReduction = new SubjectAfterTheReduction();
+            subjectAfterTheReduction.setPrice(0.0);
+            subjectAfterTheReduction.setPayment(subject.getPayment());
+            subjectAfterTheReduction.setSubject(subject);
+            subjectAfterTheReductionList.add(subjectAfterTheReduction);
+        }
     }
 }

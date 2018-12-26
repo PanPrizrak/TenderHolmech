@@ -306,7 +306,7 @@ public class Write {
                 "Ед. изм.!" +
                 "Количество!" +
                 "Цена. за ед. без НДС!" +
-                "Сниежная ценна";
+                "Сниженная ценна";
         String[] bufTopName = buf.split("!");
         for (int i = 0; i <= subjectAfterTheReductionList.size(); i++) {
             Row row = sabjSheet.createRow(i);
@@ -368,7 +368,7 @@ public class Write {
                         if ((i == 0)) {
                             cell.setCellValue((String) bufTopName[j]);
                         } else {
-                            if (bufSubjectAfterTheReduction.getPrice() != null) {
+                            if (bufSubjectAfterTheReduction.getSubject().getPrice() != null) {
                                 cell.setCellValue((Double) bufSubjectAfterTheReduction.getSubject().getPrice());
                             } else {
                                 cell.setCellValue(0);
@@ -379,7 +379,11 @@ public class Write {
                         if ((i == 0)) {
                             cell.setCellValue((String) bufTopName[j]);
                         } else {
-                            cell.setCellValue((Double) bufSubjectAfterTheReduction.getPrice());
+                            if (bufSubjectAfterTheReduction.getPrice() != null) {
+                                cell.setCellValue((Double) bufSubjectAfterTheReduction.getPrice());
+                            } else {
+                                cell.setCellValue(0);
+                            }
                         }
                         break;
                 }//switch

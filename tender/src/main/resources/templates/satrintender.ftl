@@ -110,14 +110,14 @@
     }
   </script>
 
-    <!--filename
+    <!--filename-->
     <div class="form-group">
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="customFile" name="file">
             <label class="custom-file-label col-sm-4" for="customFile">Выберите файл</label>
         </div>
     </div>
-    <label><input type="checkbox" name="refreshSubjectList" />Обновить данные о предмете закупки</label>-->
+   <!-- <label><input type="checkbox" name="refreshSubjectList" />Обновить данные о предмете закупки</label>-->
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Добавить</button>
