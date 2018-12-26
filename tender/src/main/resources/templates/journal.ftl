@@ -21,7 +21,7 @@
     <#list tenderForm.tenderList as tender>
 
     <tbody>
-    <#if tender?index gt 0>
+
     <tr>
         <th scope="row">
         <#if tender.documents>
@@ -38,10 +38,11 @@
           Нет документов </#if>
         </td>
     </tr>
-    </#if>
+
     </tbody>
 </#list>
 </table>
+</form>
 
 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     Добавить тендер
@@ -49,5 +50,5 @@
 <div class="collapse <#if tender??>show</#if>" id="collapseExample">
 <#include "parts/addtender.ftl" />
 </div>
-</form>
+
 </@ht.page>

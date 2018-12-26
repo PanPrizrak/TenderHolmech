@@ -7,6 +7,7 @@ package com.holmech.tender.application.parser.fromexcel;
 
 
 import com.holmech.tender.application.entity.Subject;
+import com.holmech.tender.application.entity.SubjectAfterTheReduction;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
 import lombok.Data;
@@ -287,5 +288,103 @@ public class Write {
             }
         }
     }//Запись subject
+
+
+     public void writeSubjetAfterTheReductionInExcel(List<SubjectAfterTheReduction> subjectAfterTheReductionList) {
+
+        XSSFSheet sabjSheet;
+
+        if (workbook.getSheet("Снижение цены") != null) {
+            sabjSheet = workbook.getSheet("Снижение цены");
+        } else {
+            sabjSheet = workbook.createSheet("Снижение цены");
+        }
+        String buf = "№ лота!" +
+                "Название предприятия!" +
+                "Отсрочка!" +
+                "Название продукта!" +
+                "Ед. изм.!" +
+                "Количество!" +
+                "Цена. за ед. без НДС!" +
+                "Сниежная ценна";
+        String[] bufTopName = buf.split("!");
+        for (int i = 0; i <= subjectAfterTheReductionList.size(); i++) {
+            Row row = sabjSheet.createRow(i);
+            SubjectAfterTheReduction bufSubjectAfterTheReduction = null;
+            if (i > 0) {
+                bufSubjectAfterTheReduction = subjectAfterTheReductionList.get(i - 1);
+            }
+
+            for (int j = 0; j < 8; j++) { //
+                Cell cell = row.createCell(j);
+                switch (j) {
+                    case 0:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((Integer) bufSubjectAfterTheReduction.getSubject().getNumberS());
+                        }
+                        break;
+                    case 1:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubjectAfterTheReduction.getSubject().getApplicant().getNameA());
+                        }
+                        break;
+                    case 2:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubjectAfterTheReduction.getPayment());
+                        }
+                        break;
+                    case 3:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubjectAfterTheReduction.getSubject().getNameS());
+                        }
+                        break;
+                    case 4:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufSubjectAfterTheReduction.getSubject().getUnits());
+                        }
+                        break;
+                    case 5:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            if (bufSubjectAfterTheReduction.getSubject().getAmount() != null) {
+                                cell.setCellValue((Integer) bufSubjectAfterTheReduction.getSubject().getAmount());
+                            } else {
+                                cell.setCellValue(0);
+                            }
+                        }
+                        break;
+                    case 6:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            if (bufSubjectAfterTheReduction.getPrice() != null) {
+                                cell.setCellValue((Double) bufSubjectAfterTheReduction.getSubject().getPrice());
+                            } else {
+                                cell.setCellValue(0);
+                            }
+                        }
+                        break;
+                    case 7:
+                        if ((i == 0)) {
+                            cell.setCellValue((String) bufTopName[j]);
+                        } else {
+                            cell.setCellValue((Double) bufSubjectAfterTheReduction.getPrice());
+                        }
+                        break;
+                }//switch
+            }
+        }
+    }//Запись subjectAfterTheReduction
 
 }

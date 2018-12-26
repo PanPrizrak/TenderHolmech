@@ -180,4 +180,9 @@ public class SubjectService {
         }
         return buf;
     }
+
+    public Subject findByApplicantAndNameSAndPrice(String nameA, String nameS, Double price){
+        Applicant applicant= applicantService.findByNameA(nameA);
+        return subjectRepository.findByApplicantAndNameSAndPrice(applicant,nameS,price);
+    }
 }
