@@ -15,7 +15,7 @@ public class ParseExcel {
         try {
             workbook = new XSSFWorkbook(new FileInputStream(fileJournal));
         } catch (IOException ex) {
-            Logger.getLogger(ExcelParser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RatingTableParserExcel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return workbook;
     }
