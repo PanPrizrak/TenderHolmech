@@ -67,24 +67,24 @@ public class ExcelParser {
     public static void parse() throws FileNotFoundException {
 
         //String result = "";
-        FileInputStream fis = null;
+       /* FileInputStream fis = null;
 
         JFileChooser window = new JFileChooser();
         int returnValue = window.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             fis = new FileInputStream(window.getSelectedFile());
-        }
+        }*/
 
         //JOptionPane.showMessageDialog(null, window.getSelectedFile().toString());
-        XSSFWorkbook workbook = null;
+       /* XSSFWorkbook workbook = null;
         try {
             workbook = new XSSFWorkbook(fis);
         } catch (IOException ex) {
             Logger.getLogger(ExcelParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
         //Заполнение из таблицы экселя
-        XSSFSheet spreadsheet = workbook.getSheetAt(3);
+        //XSSFSheet spreadsheet = workbook.getSheetAt(3);
 
         Iterator< Row> rowIterator = spreadsheet.iterator();
         ArrayList<ObjT> objT = new ArrayList<>();

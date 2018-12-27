@@ -3,6 +3,7 @@ package com.holmech.tender.application.service;
 import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.SubjectAfterTheReduction;
 import com.holmech.tender.application.entity.Tender;
+import com.holmech.tender.application.form.SubjectAfterTheReductionForm;
 import com.holmech.tender.application.parser.fromexcel.ParseExcel;
 import com.holmech.tender.application.parser.fromexcel.SubjectAfterTheReductionParseExcel;
 import com.holmech.tender.application.parser.fromexcel.Write;
@@ -47,12 +48,15 @@ public class SubjectAfterTheReductionService {
         subjectAfterTheReductionRepository.saveAll( (Iterable<SubjectAfterTheReduction>) subjectAfterTheReductionList);
     }
 
-    public void writeFromExcel(String numberT){
-
+    public void writeFromExcel(String numberT,List<SubjectAfterTheReduction> bufSubjecatAfterTheReduction){
         Tender tenderFromDB = tenderService.findByNumberT(numberT);
         List<Subject> subjectList = subjectService.getMeetSubject(tenderFromDB);
         List<SubjectAfterTheReduction> subjectAfterTheReductionList = new ArrayList<>();
-        emptySubjectAfterTheReduction(subjectList,subjectAfterTheReductionList);
+        if(bufSubjecatAfterTheReduction != null){
+            subjectAfterTheReductionList = bufSubjecatAfterTheReduction;
+        } else {
+            emptySubjectAfterTheReduction(subjectList, subjectAfterTheReductionList);
+        }
         subjectAfterTheReductionParseExcel.saveInExcel(subjectAfterTheReductionList,new File(uploadPath + tenderFromDB.getFilename()));
     }
 
@@ -63,6 +67,12 @@ public class SubjectAfterTheReductionService {
             subjectAfterTheReduction.setPayment(subject.getPayment());
             subjectAfterTheReduction.setSubject(subject);
             subjectAfterTheReductionList.add(subjectAfterTheReduction);
+        }
+    }
+
+    public void addSubjectInSATR(SubjectAfterTheReductionForm subjectAfterTheReductionForm) {
+        for(SubjectAfterTheReduction subjectAfterTheReduction:subjectAfterTheReductionForm.getSubjectAfterTheReductionList()){
+            subjectAfterTheReduction.setSubject(subjectService.findById(subjectAfterTheReduction.getSubject().getIdS()));
         }
     }
 }

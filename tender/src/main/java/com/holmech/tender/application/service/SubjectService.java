@@ -181,8 +181,11 @@ public class SubjectService {
         return buf;
     }
 
-    public Subject findByApplicantAndNameSAndPrice(String nameA, String nameS, Double price){
+    public Subject findByApplicantAndNameSAndNumberSAndPrice(String nameA, String nameS,Integer numberS, Double price){
         Applicant applicant= applicantService.findByNameA(nameA);
-        return subjectRepository.findByApplicantAndNameSAndPrice(applicant,nameS,price);
+        return subjectRepository.findByApplicantAndNameSAndNumberSAndPrice(applicant,nameS,numberS,price);
+    }
+    public Subject findById(long IdS){
+        return subjectRepository.findById(IdS).get();
     }
 }

@@ -23,6 +23,7 @@
             <input type="hidden" value="#{subjectatr.idSa}" name="subjectAfterTheReductionList[${subjectatr?index}].idSa"/>
 
         </#if>
+        <input type="hidden" value="#{subjectatr.subject.idS}" name="subjectAfterTheReductionList[${subjectatr?index}].subject.idS"/>
         <th scope="row">${subjectatr.subject.numberS}</th>
         <td>${subjectatr.subject.applicant.nameA}</td>
         <td>

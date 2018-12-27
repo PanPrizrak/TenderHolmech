@@ -74,7 +74,7 @@ public class ActionAndEditTenderController {
             switch (action) {
                 case "Generate autopsy protocol": {
                     //bufTenderFromDB.setStage("Снижение цены");
-
+                    subjectAfterTheReductionService.writeFromExcel(numberT,null);
                     //createAutopsyProtocol();
                     //
                     break;
@@ -97,7 +97,7 @@ public class ActionAndEditTenderController {
 
                     }
 
-                    subjectAfterTheReductionService.writeFromExcel(numberT);
+                    subjectAfterTheReductionService.writeFromExcel(numberT, null);
 
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());

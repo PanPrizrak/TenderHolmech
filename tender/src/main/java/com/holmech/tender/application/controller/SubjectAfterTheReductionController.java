@@ -11,6 +11,7 @@ import com.holmech.tender.application.service.SubjectService;
 import com.holmech.tender.application.service.TenderService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,6 +41,12 @@ public class SubjectAfterTheReductionController {
         this.subjectAfterTheReductionParseExcel = subjectAfterTheReductionParseExcel;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        // this will allow 500 size of array.
+        dataBinder.setAutoGrowCollectionLimit(10000);
+    }
+
     @GetMapping("/satrintender/{numberT}")
     public ModelAndView get(@PathVariable String numberT) {
 
@@ -57,7 +64,9 @@ public class SubjectAfterTheReductionController {
         List<SubjectAfterTheReduction> subjectAfterTheReductionList = null;
         if (file != null) {
             if (file.isEmpty()) {
+                subjectAfterTheReductionService.addSubjectInSATR(subjectAfterTheReductionForm);
                 subjectAfterTheReductionList = subjectAfterTheReductionForm.getSubjectAfterTheReductionList();
+                                subjectAfterTheReductionService.writeFromExcel(numberT,subjectAfterTheReductionList);
             } else {
                 file.transferTo(new File(bufPath));
                 List<SubjectAfterTheReduction> bufSubjectAfterTheReductionExcel = subjectAfterTheReductionParseExcel.readFromExcel(new File(bufPath));

@@ -5,8 +5,6 @@
  */
 package com.holmech.tender.application.entity.calculations;
 
-import java.util.List;
-
 /**
  *
  * @author User

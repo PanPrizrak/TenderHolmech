@@ -87,7 +87,7 @@ public class SubjectAfterTheReductionParseExcel {
                             break;
                         case 2:
                             if (row.getCell(i) != null) {
-                                bufSATR.setPayment(String.valueOf((int) row.getCell(i).getNumericCellValue()));
+                                bufSATR.setPayment(row.getCell(i).getStringCellValue());
                             } else {
                                 bufSATR.setPayment("");
                             }
@@ -132,7 +132,7 @@ public class SubjectAfterTheReductionParseExcel {
                     i++;
                 }
 
-                Subject subjectFromDB = subjectService.findByApplicantAndNameSAndPrice(bufSubject.getApplicantNameA(),bufSubject.getNameS(),bufSubject.getPrice());
+                Subject subjectFromDB = subjectService.findByApplicantAndNameSAndNumberSAndPrice(bufSubject.getApplicantNameA(),bufSubject.getNameS(),bufSubject.getNumberS(), bufSubject.getPrice());
                 bufSATR.setSubject(subjectFromDB);
                 subjectAfterTheReductionArrayList.add(bufSATR);
             } else {

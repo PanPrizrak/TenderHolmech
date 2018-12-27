@@ -15,7 +15,7 @@ public interface SubjectRepository extends CrudRepository<Subject, Long> {
     List<Subject> findByTenderAndApplicant(Tender tender, Applicant applicant);
     List<Subject> findByMeetTrue();
 
-    Subject findByApplicantAndNameSAndPrice(Applicant applicant, String nameS, Double price);
+    Subject findByApplicantAndNameSAndNumberSAndPrice(Applicant applicant, String nameS,Integer numberS, Double price);
 
     //void deleteAll(Iterable<Subject> subjects);
 }
