@@ -10,6 +10,7 @@ import com.holmech.tender.application.entity.Subject;
 import com.holmech.tender.application.entity.SubjectAfterTheReduction;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Write {
 
     private ArrayList<ObjT> objTs;
@@ -39,7 +41,12 @@ public class Write {
 
     //Запись оценочной таблицы
     public void writeObj() {
-        XSSFSheet sheet = workbook.createSheet("Оценка общая");
+        XSSFSheet sheet;
+        if (workbook.getSheet("MinCena") != null) {
+            sheet = workbook.getSheet("Оценка общая");
+        } else {
+            sheet = workbook.createSheet("Оценка общая");
+        }
         for (int i = 0;
              i < objTs.size();
              i++) {
@@ -97,7 +104,12 @@ public class Write {
 
     //Запись попарного сравнения
     public void writePar() {
-        XSSFSheet sheetP = workbook.createSheet("Оценка попарная");
+        XSSFSheet sheetP;
+        if (workbook.getSheet("MinCena") != null) {
+            sheetP = workbook.getSheet("Оценка попарная");
+        } else {
+            sheetP = workbook.createSheet("Оценка попарная");
+        }
         for (int i = 0;
              i < parSravs.size();
              i++) {
@@ -155,7 +167,12 @@ public class Write {
 
     //Запись минимальной цены по лоту
     public void writeZnach() {
-        XSSFSheet znachM = workbook.createSheet("MinCena");
+        XSSFSheet znachM;
+        if (workbook.getSheet("MinCena") != null) {
+            znachM = workbook.getSheet("MinCena");
+        } else {
+            znachM = workbook.createSheet("MinCena");
+        }
         for (int i = 0; i < znachs.size(); i++) {
             Row row = znachM.createRow(i);
             Znach bufO = new Znach(znachs.get(i));

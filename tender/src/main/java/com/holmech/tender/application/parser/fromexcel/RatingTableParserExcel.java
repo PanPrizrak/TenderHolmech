@@ -34,9 +34,12 @@ public class RatingTableParserExcel {
     private  float otsK = (float) 0.0;//0.2;
 
     @Autowired
-    private ApplicantRepository applicantReposirory;
+    private ApplicantRepository applicantRepository;
     private File fileJournal;
 
+    private ArrayList<ObjT> objTs;
+    private ArrayList<ObjT> parSravs;
+    private ArrayList<Znach> znachs;
 
 
     private void getRaschet(ObjT t, float maxPrice, float minPrice, int maxPayment, int minPayment) {
@@ -76,7 +79,7 @@ public class RatingTableParserExcel {
 
         setFileJournal(new File(uploadPath+tender.getFilename()));
 
-        ArrayList<Znach> znachs = definitionOfExternsOfValues(objTList);
+        znachs = definitionOfExternsOfValues(objTList);
 
         //Расчет балов
         for (int i = 0; i < objTList.size(); i++) {
@@ -90,8 +93,9 @@ public class RatingTableParserExcel {
             }
         }
 
+
         //попарное сравнение
-        pairwiseСomparison(objTList);
+        setParSravs(pairwiseСomparison(objTList));
 
         //Заполнение объеекта Bal
         ArrayList<Bal> bals = new ArrayList<Bal>();
@@ -112,6 +116,7 @@ public class RatingTableParserExcel {
         for (int i = 0; i < bals.size(); i++) {
             objTList.get(bals.get(i).getPos()).setRang((int) bals.get(i).getRang());
         }
+        setObjTs(objTList);
 
         writeResultInExcel();
 
@@ -159,7 +164,7 @@ public class RatingTableParserExcel {
         return znachs;
     }
 
-    private void pairwiseСomparison(ArrayList<ObjT> objT) {
+    private  ArrayList<ObjT> pairwiseСomparison(ArrayList<ObjT> objT) {
         ArrayList<ObjT> parSrav = new ArrayList<ObjT>();
         //System.out.println(objT.size());
         for (int i = 0; i < objT.size() - 1; i++) {
@@ -212,6 +217,7 @@ public class RatingTableParserExcel {
                 }//for k
             }//if
         }//for
+        return parSrav;
     }
 
     private void sortBals(ArrayList<Bal> bals) {
@@ -258,7 +264,7 @@ public class RatingTableParserExcel {
     private void writeResultInExcel() {
 
         XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
-        Write writeTab = new Write (workbook);
+        Write writeTab = new Write (objTs,parSravs,znachs,workbook);
         writeTab.writeObj();
         writeTab.writePar();
         writeTab.writeZnach();
