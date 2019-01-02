@@ -6,6 +6,7 @@ import com.holmech.tender.application.entity.SubjectAfterTheReduction;
 import com.holmech.tender.application.form.SubjectAfterTheReductionForm;
 import com.holmech.tender.application.parser.fromexcel.SubjectAfterTheReductionParseExcel;
 import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
+import com.holmech.tender.application.service.RatingTableService;
 import com.holmech.tender.application.service.SubjectAfterTheReductionService;
 import com.holmech.tender.application.service.SubjectService;
 import com.holmech.tender.application.service.TenderService;
@@ -30,15 +31,18 @@ public class SubjectAfterTheReductionController {
     private final SubjectService subjectService;
     private final TenderService tenderService;
     private final SubjectAfterTheReductionParseExcel subjectAfterTheReductionParseExcel;
+    private final RatingTableService ratingTableService;
 
     public SubjectAfterTheReductionController(SubjectAfterTheReductionService subjectAfterTheReductionService,
                                               SubjectService subjectService,
                                               TenderService tenderService,
-                                              SubjectAfterTheReductionParseExcel subjectAfterTheReductionParseExcel) {
+                                              SubjectAfterTheReductionParseExcel subjectAfterTheReductionParseExcel,
+                                              RatingTableService ratingTableService) {
         this.subjectAfterTheReductionService = subjectAfterTheReductionService;
         this.subjectService = subjectService;
         this.tenderService = tenderService;
         this.subjectAfterTheReductionParseExcel = subjectAfterTheReductionParseExcel;
+        this.ratingTableService = ratingTableService;
     }
 
     @InitBinder
@@ -82,7 +86,7 @@ public class SubjectAfterTheReductionController {
             }
 
         subjectAfterTheReductionService.saveAll(subjectAfterTheReductionList);
-
+        ratingTableService.generateRatingTable(numberT);
         return new ModelAndView("satrintender", "subjectAfterTheReductionForm", getSubjectAfterTheReductionForm(numberT));
     }
 

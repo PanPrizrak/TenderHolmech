@@ -72,7 +72,7 @@ public class RatingTableParserExcel {
             JOptionPane.showMessageDialog(null, t.toString()+"!!!"+maxC+"!!!"+minC+"!!!"+maxO+"!!!"+minO);*/
     }
 
-    public void parse(ArrayList<ObjT> objTList, Tender tender) throws FileNotFoundException {
+    public void parse(ArrayList<ObjT> objTList, Tender tender) {
 
         setCenaK((float) (Integer.parseInt(tender.getPriceFactor())/100));
         setOtsK((float) (Integer.parseInt(tender.getPaymentFactor())/100));

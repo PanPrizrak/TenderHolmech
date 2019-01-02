@@ -8,6 +8,7 @@ import com.holmech.tender.application.form.SubjectAndDocumentsForm;
 import com.holmech.tender.application.repository.DocumentsRepository;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.DocumentsService;
+import com.holmech.tender.application.service.RatingTableService;
 import com.holmech.tender.application.service.SubjectService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,15 +31,18 @@ public class SubjectAndDocumentsController {
     private final SubjectService subjectService;
     private final DocumentsRepository documentsRepository;
     private final DocumentsService documentsService;
+    private final RatingTableService ratingTableService;
 
     public SubjectAndDocumentsController(TenderRepository tenderRepository,
                                          SubjectService subjectService,
                                          DocumentsRepository documentsRepository,
-                                         DocumentsService documentsService) {
+                                         DocumentsService documentsService,
+                                         RatingTableService ratingTableService) {
         this.tenderRepository = tenderRepository;
         this.subjectService = subjectService;
         this.documentsRepository = documentsRepository;
         this.documentsService = documentsService;
+        this.ratingTableService = ratingTableService;
     }
 
     @GetMapping("/sad/{numberT}")
@@ -84,6 +88,7 @@ public class SubjectAndDocumentsController {
         if (subjectAndDocumentsForm.getDocumentsList() != null) {
             documentsService.updateDocumentsList(subjectAndDocumentsForm.getDocumentsList());
         }
+        ratingTableService.generateRatingTable(numberT);
         return new ModelAndView("sad", "subjectAndDocumentsForm", getSubjectAndDocumentsForm(numberT));
     }
 
