@@ -86,8 +86,8 @@ public class SubjectAfterTheReductionParseExcel {
                             }
                             break;
                         case 2:
-                            if (row.getCell(i) != null) {
-                                bufSATR.setPayment(row.getCell(i).getStringCellValue());
+                            if (row.getCell(i) != null) {//todo
+                                bufSATR.setPayment(String.valueOf((int) row.getCell(i).getNumericCellValue()));
                             } else {
                                 bufSATR.setPayment("");
                             }
