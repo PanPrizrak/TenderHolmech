@@ -47,55 +47,129 @@ public class Write {
         } else {
             sheet = workbook.createSheet("Оценка общая");
         }
+        String buf = "№ лота!" +
+                "Название предприятия!" +
+                "Отсрочка!" +
+                "Название продукта!" +
+                "Ед. изм.!" +
+                "Цена за ед. без НДС!" +
+                "Цена сниж!" +
+                "Цена окон!" +
+                "бал ц!" +
+                "бал ц с коф!" +
+                "бал отс!" +
+                "бал отс с коф!" +
+                "общий бал!" +
+                "ранг!";
+        String[] bufTopName = buf.split("!");
         for (int i = 0;
-             i < objTs.size();
+             i <= objTs.size();
              i++) {
             Row row = sheet.createRow(i);
-            ObjT bufO = new ObjT(objTs.get(i));
+            ObjT bufO = new ObjT();
+            if (i > 0) {
+                bufO  = new ObjT(objTs.get(i-1));
+            }
             for (int j = 0; j < 14; j++) { // меншье 13 тк кол-во полей ObjT 14
                 Cell cell = row.createCell(j);
                 switch (j) {
                     case 0:
-                        cell.setCellValue((int) bufO.getLot());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getLot());
+                        }
                         break;
                     case 1:
-                        cell.setCellValue((String) bufO.getNameC());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getNameC());
+                        }
                         break;
                     case 2:
-                        cell.setCellValue((int) bufO.getOts());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getOts());
+                        }
                         break;
                     case 3:
-                        cell.setCellValue((String) bufO.getNameO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getNameO());
+                        }
                         break;
                     case 4:
-                        cell.setCellValue((String) bufO.getEd());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getEd());
+                        }
                         break;
                     case 5:
-                        cell.setCellValue((float) bufO.getCen());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCen());
+                        }
                         break;
                     case 6:
-                        cell.setCellValue((float) bufO.getCenS());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCenS());
+                        }
                         break;
                     case 7:
-                        cell.setCellValue((float) bufO.getCenO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCenO());
+                        }
                         break;
                     case 8:
-                        cell.setCellValue((float) bufO.getBalC());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalC());
+                        }
                         break;
                     case 9:
-                        cell.setCellValue((float) bufO.getBalCk());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalCk());
+                        }
                         break;
                     case 10:
-                        cell.setCellValue((float) bufO.getBalO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalO());
+                        }
                         break;
                     case 11:
-                        cell.setCellValue((float) bufO.getBalOk());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalOk());
+                        }
                         break;
                     case 12:
-                        cell.setCellValue((float) bufO.getBalOb());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalOb());
+                        }
                         break;
                     case 13:
-                        cell.setCellValue(bufO.getRang());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getRang());
+                        }
                         break;
                 }//switch
             }
@@ -110,55 +184,129 @@ public class Write {
         } else {
             sheetP = workbook.createSheet("Оценка попарная");
         }
+        String buf = "№ лота!" +
+                "Название предприятия!" +
+                "Отсрочка!" +
+                "Название продукта!" +
+                "Ед. изм.!" +
+                "Цена за ед. без НДС!" +
+                "Цена сниж!" +
+                "Цена окон!" +
+                "бал ц!" +
+                "бал ц с коф!" +
+                "бал отс!" +
+                "бал отс с коф!" +
+                "общий бал!" +
+                "ранг!";
+        String[] bufTopName = buf.split("!");
         for (int i = 0;
-             i < parSravs.size();
+             i <= parSravs.size();
              i++) {
             Row row = sheetP.createRow(i);
-            ObjT bufO = new ObjT(parSravs.get(i));
+            ObjT bufO = new ObjT();
+            if (i > 0) {
+                bufO = new ObjT(parSravs.get(i-1));
+            }
             for (int j = 0; j < 14; j++) { // меншье 13 тк кол-во полей ObjT 14
                 Cell cell = row.createCell(j);
                 switch (j) {
                     case 0:
-                        cell.setCellValue((int) bufO.getLot());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getLot());
+                        }
                         break;
                     case 1:
-                        cell.setCellValue((String) bufO.getNameC());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getNameC());
+                        }
                         break;
                     case 2:
-                        cell.setCellValue((int) bufO.getOts());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getOts());
+                        }
                         break;
                     case 3:
-                        cell.setCellValue((String) bufO.getNameO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getNameO());
+                        }
                         break;
                     case 4:
-                        cell.setCellValue((String) bufO.getEd());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((String) bufO.getEd());
+                        }
                         break;
                     case 5:
-                        cell.setCellValue((float) bufO.getCen());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCen());
+                        }
                         break;
                     case 6:
-                        cell.setCellValue((float) bufO.getCenS());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCenS());
+                        }
                         break;
                     case 7:
-                        cell.setCellValue((float) bufO.getCenO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getCenO());
+                        }
                         break;
                     case 8:
-                        cell.setCellValue((float) bufO.getBalC());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalC());
+                        }
                         break;
                     case 9:
-                        cell.setCellValue((float) bufO.getBalCk());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalCk());
+                        }
                         break;
                     case 10:
-                        cell.setCellValue((float) bufO.getBalO());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalO());
+                        }
                         break;
                     case 11:
-                        cell.setCellValue((float) bufO.getBalOk());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalOk());
+                        }
                         break;
                     case 12:
-                        cell.setCellValue((float) bufO.getBalOb());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getBalOb());
+                        }
                         break;
                     case 13:
-                        cell.setCellValue(bufO.getRang());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getRang());
+                        }
                         break;
                 }//switch
             }
@@ -173,26 +321,55 @@ public class Write {
         } else {
             znachM = workbook.createSheet("MinCena");
         }
-        for (int i = 0; i < znachs.size(); i++) {
+        String buf = "№ лота!" +
+                "Цена Макс!" +
+                "Цена Мин!" +
+                "Отс Макс!" +
+                "Отс Мин!";
+        String[] bufTopName = buf.split("!");
+        for (int i = 0; i <= znachs.size(); i++) {
             Row row = znachM.createRow(i);
-            Znach bufO = new Znach(znachs.get(i));
+            Znach bufO = new Znach();
+            if (i > 0) {
+                bufO = new Znach(znachs.get(i - 1));
+            }
             for (int j = 0; j < 5; j++) { //
                 Cell cell = row.createCell(j);
                 switch (j) {
                     case 0:
-                        cell.setCellValue((int) bufO.getNumberLota());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getNumberLota());
+                        }
                         break;
                     case 1:
-                        cell.setCellValue((float) bufO.getPriceMax());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getPriceMax());
+                        }
                         break;
                     case 2:
-                        cell.setCellValue((float) bufO.getPriceMin());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((float) bufO.getPriceMin());
+                        }
                         break;
                     case 3:
-                        cell.setCellValue((int) bufO.getDefermentOfPaymentMax());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getDefermentOfPaymentMax());
+                        }
                         break;
                     case 4:
-                        cell.setCellValue((int) bufO.getDefermentOfPaymentMin());
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue((int) bufO.getDefermentOfPaymentMin());
+                        }
                         break;
                 }//switch
             }
@@ -307,7 +484,7 @@ public class Write {
     }//Запись subject
 
 
-     public void writeSubjetAfterTheReductionInExcel(List<SubjectAfterTheReduction> subjectAfterTheReductionList) {
+    public void writeSubjetAfterTheReductionInExcel(List<SubjectAfterTheReduction> subjectAfterTheReductionList) {
 
         XSSFSheet sabjSheet;
 

@@ -8,7 +8,9 @@ import com.holmech.tender.application.parser.fromexcel.RatingTableParserExcel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RatingTableService {
@@ -35,7 +37,8 @@ public class RatingTableService {
 
     private ArrayList<ObjT> generateObjT(Tender tenderFromDB) {
         ArrayList<ObjT> objTArrayList = new ArrayList<>();
-        List<Subject> subjectList = subjectService.findByNumberT(tenderFromDB.getNumberT());
+        List<Subject> subjectList = subjectService.findByNumberT(tenderFromDB.getNumberT())
+                .stream().sorted(Comparator.comparing(Subject::getNumberS)).collect(Collectors.toList());
         for(Subject subject: subjectList){
             ObjT objT = new ObjT();
             objT.setLot(subject.getNumberS());
@@ -45,7 +48,7 @@ public class RatingTableService {
             objT.setCen(subject.getPrice().floatValue());
 
             SubjectAfterTheReduction subjectAfterTheReduction = subjectAfterTheReductionService.findBySubject(subject);
-            if(subjectAfterTheReduction != null) {
+            if(subjectAfterTheReduction.getPrice() != 0.0) {
                 objT.setOts(Integer.parseInt(subjectAfterTheReduction.getPayment()));
                 objT.setCenS(subjectAfterTheReduction.getPrice().floatValue());
                 objT.setCenO(objT.getCenS());

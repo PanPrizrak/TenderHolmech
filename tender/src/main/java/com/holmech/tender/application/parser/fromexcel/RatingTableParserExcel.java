@@ -74,8 +74,13 @@ public class RatingTableParserExcel {
 
     public void parse(ArrayList<ObjT> objTList, Tender tender) {
 
-        setCenaK((float) (Integer.parseInt(tender.getPriceFactor())/100));
-        setOtsK((float) (Integer.parseInt(tender.getPaymentFactor())/100));
+
+        int bufPriceFactor = Integer.parseInt(tender.getPriceFactor());
+        int bufPaymentFactor = Integer.parseInt(tender.getPaymentFactor());
+        float bufCenaK = (float) bufPriceFactor/100;
+        float bufOtsK = (float) bufPaymentFactor/100;
+        setCenaK(bufCenaK);
+        setOtsK(bufOtsK);
 
         setFileJournal(new File(uploadPath+tender.getFilename()));
 
