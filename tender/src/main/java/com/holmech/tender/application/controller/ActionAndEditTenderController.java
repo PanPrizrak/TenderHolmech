@@ -2,11 +2,13 @@ package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.*;
 import com.holmech.tender.application.form.TenderForm;
+import com.holmech.tender.application.parser.fromexcel.ResultParseExcel;
 import com.holmech.tender.application.parser.intheword.FB;
 import com.holmech.tender.application.parser.intheword.FBnewFill;
 import com.holmech.tender.application.repository.TenderRepository;
 import com.holmech.tender.application.service.*;
 import net.sf.jasperreports.engine.JRException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,14 +18,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static jdk.nashorn.internal.objects.NativeString.concat;
 
 @Controller
 public class ActionAndEditTenderController {
+
+    @Value("${upload.path}")
+    String uploadPath;
 
     private final TenderService tenderService;
     private final FB fbbService;
@@ -161,6 +168,51 @@ public class ActionAndEditTenderController {
                 }
                 case "Notify participants about the results": {
                     bufTenderFromDB.setStage("Принятия решения");
+                    int numberMessage = Integer.valueOf(numbersMessage);
+                    String signature = new String();
+                    String secretary = new String();
+                    for (WorkerR workerR : workerRService.findByOrder(bufTenderFromDB.getOrder())) {
+                        if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
+                            signature = signature.concat(workerR.getWorker().getPosition());
+                            signature = signature.concat("                                 ");
+                            signature = signature.concat(workerR.getWorker().getInitialsWorker());
+                        } else if (workerR.getRole() == WorkerRole.SECRETARY) {
+                            secretary = secretary.concat(workerR.getWorker().getInitialsWorker());
+                            int lastIndexContakts = workerR.getWorker().getContactsList().size() - 1;
+                            secretary = secretary.concat("\n +375447722687");//workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone()todo
+                        }
+
+                    }
+
+                    for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
+                        String textMessage = new String();
+                            StringBuilder buf = new StringBuilder();
+                            textMessage = buf.append("  Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат ")
+                                    .append("\n «Холмеч» сообщает, что результат процедуры запроса")
+                                    .append(" ценовых предложений " + bufTenderFromDB.getNumberAndNameTender() + " следующий: ").toString();
+                        Map<Integer,String> result = ResultParseExcel.readFromExcel(getFileFromTender(bufTenderFromDB));
+                        StringBuilder bufResultText = new StringBuilder();
+                        result.forEach((numberLot, resultText) -> bufResultText.append("\nЛот №" + numberLot + " - " + resultText));
+                        textMessage = textMessage.concat(bufResultText.toString());
+
+                        FBnewFill fBnewFill = FBnewFill.builder()
+                                .numberM(String.valueOf("№" + numberMessage++))
+                                .nameA(documents.getApplicant().getNameA())
+                                .textM(textMessage)
+                                .signature(signature)
+                                .worker(secretary)
+                                .build();
+                        String fileAttachment = new String();
+                        try {
+                            fileAttachment = fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
+                        } catch (JRException e) {
+                            e.printStackTrace();
+                        }
+                        String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
+                        List<String> attachments = new ArrayList<>();
+                        attachments.add(fileAttachment);
+                       // sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
+                    }
                     break;
                 }
             }
@@ -169,5 +221,9 @@ public class ActionAndEditTenderController {
         List<Tender> tenders = tenderService.findAll();
         TenderForm tenderBufForm = new TenderForm(tenders);
         return new ModelAndView("tender", "tenderForm", tenderBufForm);
+    }
+
+    private File getFileFromTender(Tender bufTenderFromDB) {
+        return new File(uploadPath + bufTenderFromDB.getFilename());
     }
 }
