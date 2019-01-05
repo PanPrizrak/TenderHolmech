@@ -65,6 +65,8 @@ public class SubjectService {
         return subjectRepository.findByTender(tenderRepository.findByNumberT(numberT));
     }
 
+
+
     public List<Subject> findByMeetTrue() {//todo неизвестно как сработает при Subject.Meet == NULL
         return subjectRepository.findByMeetTrue();
     }

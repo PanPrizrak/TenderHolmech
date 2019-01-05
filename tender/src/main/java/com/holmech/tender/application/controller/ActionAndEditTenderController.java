@@ -21,8 +21,10 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static jdk.nashorn.internal.objects.NativeString.concat;
 
@@ -39,6 +41,7 @@ public class ActionAndEditTenderController {
     private final SubjectService subjectService;
     private final SendMessageWithAnAttachmentService sendMessageService;
     private final SubjectAfterTheReductionService subjectAfterTheReductionService;
+    private final ApplicantService applicantService;
 
     public ActionAndEditTenderController(TenderService tenderService,
                                          FB fbbService,
@@ -46,7 +49,8 @@ public class ActionAndEditTenderController {
                                          WorkerRService workerRService,
                                          SubjectService subjectService,
                                          SendMessageWithAnAttachmentService sendMessageService,
-                                         SubjectAfterTheReductionService subjectAfterTheReductionService) {
+                                         SubjectAfterTheReductionService subjectAfterTheReductionService,
+                                         ApplicantService applicantService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
@@ -54,6 +58,7 @@ public class ActionAndEditTenderController {
         this.subjectService = subjectService;
         this.sendMessageService = sendMessageService;
         this.subjectAfterTheReductionService = subjectAfterTheReductionService;
+        this.applicantService = applicantService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -184,7 +189,7 @@ public class ActionAndEditTenderController {
 
                     }
 
-                    for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
+                    for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB).stream().sorted(Comparator.comparing(Documents::getIdD)).collect(Collectors.toList())) {
                         String textMessage = new String();
                             StringBuilder buf = new StringBuilder();
                             textMessage = buf.append("  Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат ")
@@ -192,8 +197,28 @@ public class ActionAndEditTenderController {
                                     .append(" ценовых предложений " + bufTenderFromDB.getNumberAndNameTender() + " следующий: ").toString();
                         Map<Integer,String> result = ResultParseExcel.readFromExcel(getFileFromTender(bufTenderFromDB));
                         StringBuilder bufResultText = new StringBuilder();
-                        result.forEach((numberLot, resultText) -> bufResultText.append("\nЛот №" + numberLot + " - " + resultText));
+
+                        result.forEach((numberLot, resultText) -> bufResultText.append("\nЛот №" + numberLot + " - " + resultText + ";"));
+
                         textMessage = textMessage.concat(bufResultText.toString());
+
+                        List<Applicant> bufResultLotApplicant = new ArrayList<>();
+                        result.forEach((numberLot, resultText) -> bufResultLotApplicant.add(
+                                (applicantService.findByNameA(resultText)!=null)?applicantService.findByNameA(resultText):null));
+                        if (bufResultLotApplicant.contains(documents.getApplicant())) {
+                            StringBuilder bufConclusionContract = new StringBuilder();
+                            bufConclusionContract.append("\n    Просим заключить договор на поставку ");
+                            for(int i = 0; i < bufResultLotApplicant.size(); i++){
+                                if(bufResultLotApplicant.get(i) != null && bufResultLotApplicant.get(i).equals(documents.getApplicant())){
+                                    bufConclusionContract.append("\" " + "\" (лот №" + (i+1) + ") стоимостью * руб за * без учета НДС в объеме * ,");
+                                }
+                            }
+                            bufConclusionContract.append(" по истечению 5 дней с момента получения извещения (дата договора от 10 января), с КСУП «Агрокомбинат «Холмеч» на следующих условиях:\n"
+                                    + "срок и условия поставки — склад покупателя;\n"
+                                    + "условия оплаты — отсрочка платежа 60 календарных дней.");
+                            textMessage = textMessage.concat(bufConclusionContract.toString());
+                        }
+
 
                         FBnewFill fBnewFill = FBnewFill.builder()
                                 .numberM(String.valueOf("№" + numberMessage++))
