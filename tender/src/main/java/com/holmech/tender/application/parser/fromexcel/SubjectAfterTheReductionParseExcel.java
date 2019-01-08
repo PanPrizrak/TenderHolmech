@@ -24,7 +24,6 @@ public class SubjectAfterTheReductionParseExcel {
 
     @Value("${upload.path")
     private static String uploadPath;
-
     private final SubjectService subjectService;
 
     public SubjectAfterTheReductionParseExcel(SubjectService subjectService) {

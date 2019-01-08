@@ -26,7 +26,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public class Generator {
      String pathForSaving = "D:\\Учеба\\pNetBeans\\WordParserFB\\reports\\FB1.pdf"; 
-    String pathForPattern = "D:\\Учеба\\pNetBeans\\WordParserFB\\reports\\FB.jrxml"; 
+    String pathForPattern = "D:\\Учеба\\pNetBeans\\WordParserFB\\reports\\Letterhead.jrxml";
  
     public void create() throws JRException { 
         DAOStub dataBeanMaker = new DAOStub(); 

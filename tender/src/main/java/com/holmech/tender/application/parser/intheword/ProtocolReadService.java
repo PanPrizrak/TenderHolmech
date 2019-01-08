@@ -38,7 +38,7 @@ public class ProtocolReadService {
             this.fill();
             this.docx();
         } catch (IOException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Начало генерации отчёта");
     }
@@ -79,7 +79,7 @@ public class ProtocolReadService {
             JRSaver.saveObject(pageOne, templatePath + templateName + ".jrprint");
             System.err.println(templatePath + templateName + ".jasper" + "!!!Filling time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -92,7 +92,7 @@ public class ProtocolReadService {
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @Builder
-public class FBnewFill {
+public class LetterheadFill {
 
     private String numberM;
     private String nameA;
@@ -16,7 +16,7 @@ public class FBnewFill {
     private String signature;
     private String worker;
 
-    public Map<String,Object> FBnewFilltoMap(){
+    public Map<String,Object> LetterheadFillToMap(){
         Map<String,Object> bufMap = new HashMap<>();
         bufMap.put("numberM",this.numberM);
         bufMap.put("nameA",this.nameA);

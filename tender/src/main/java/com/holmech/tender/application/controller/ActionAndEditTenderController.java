@@ -3,21 +3,18 @@ package com.holmech.tender.application.controller;
 import com.holmech.tender.application.entity.*;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.parser.fromexcel.ResultParseExcel;
-import com.holmech.tender.application.parser.intheword.FB;
-import com.holmech.tender.application.parser.intheword.FBnewFill;
-import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.parser.intheword.Letterhead;
+import com.holmech.tender.application.parser.intheword.LetterheadFill;
 import com.holmech.tender.application.service.*;
+import com.holmech.tender.application.utilities.PathFromOS;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static jdk.nashorn.internal.objects.NativeString.concat;
-
 @Controller
 public class ActionAndEditTenderController {
 
@@ -35,7 +30,7 @@ public class ActionAndEditTenderController {
     String uploadPath;
 
     private final TenderService tenderService;
-    private final FB fbbService;
+    private final Letterhead fbbService;
     private final DocumentsService documentsService;
     private final WorkerRService workerRService;
     private final SubjectService subjectService;
@@ -44,7 +39,7 @@ public class ActionAndEditTenderController {
     private final ApplicantService applicantService;
 
     public ActionAndEditTenderController(TenderService tenderService,
-                                         FB fbbService,
+                                         Letterhead fbbService,
                                          DocumentsService documentsService,
                                          WorkerRService workerRService,
                                          SubjectService subjectService,
@@ -146,7 +141,7 @@ public class ActionAndEditTenderController {
                             textMessage = textMessage.concat("  Предложения предоставить по факсу или на электронную почту, в срок до " + dateOfDecline + ".");
                         }
 
-                        FBnewFill fBnewFill = FBnewFill.builder()
+                        LetterheadFill letterheadFill = LetterheadFill.builder()
                                 .numberM(String.valueOf("№" + numberMessage++))
                                 .nameA(documents.getApplicant().getNameA())
                                 .textM(textMessage)
@@ -155,7 +150,7 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            fileAttachment = fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "price reductionK" + PathFromOS.getPath());
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
@@ -220,7 +215,7 @@ public class ActionAndEditTenderController {
                         }
 
 
-                        FBnewFill fBnewFill = FBnewFill.builder()
+                        LetterheadFill letterheadFill = LetterheadFill.builder()
                                 .numberM(String.valueOf("№" + numberMessage++))
                                 .nameA(documents.getApplicant().getNameA())
                                 .textM(textMessage)
@@ -229,11 +224,11 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            fileAttachment = fbbService.run(fBnewFill.FBnewFilltoMap(), "FBnew");
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "results" + PathFromOS.getPath());
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
-                        String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
+                        String subject = " Холмеч! Результат! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
                         List<String> attachments = new ArrayList<>();
                         attachments.add(fileAttachment);
                        // sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);

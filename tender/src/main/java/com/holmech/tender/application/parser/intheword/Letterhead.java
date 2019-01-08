@@ -36,17 +36,18 @@ import java.util.logging.Logger;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FB {
+public class Letterhead {
 
     @Value("${template.path}")
     private String templatePath;
     private Map<String,Object> parameters;
-    private String templateName;
+    private String outPath;
+    private static String templateName = new String("FBnew");
 
-    public String run(Map<String,Object> parameters, String templateName) throws JRException {
+    public String run(Map<String,Object> parameters, String outPath) throws JRException {
         try {
 
-            this.templateName = templateName;
+            this.outPath = outPath;
             this.parameters = parameters;
             this.compile();
             this.fill();
@@ -55,7 +56,7 @@ public class FB {
             //this.odt();
             //this.viewer();
         } catch (IOException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -84,7 +85,7 @@ public class FB {
             JasperFillManager.fillReportToFile(jReport, templatePath + templateName + ".jrprint", parameters,beanColDataSource);
             System.err.println(templatePath + templateName + ".jasper" + "!!!Filling time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,12 +94,12 @@ public class FB {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
             exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + parameters.get("numberM") + ".docx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outPath + parameters.get("numberM") + ".docx"));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
             return templatePath + templateName + parameters.get("numberM") + ".docx";
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -112,7 +113,7 @@ public class FB {
             exporter.exportReport();
             System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -127,7 +128,7 @@ public class FB {
             //jasperViewer.setVisible(true);
             System.err.println("Viewer creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
-            Logger.getLogger(FB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
