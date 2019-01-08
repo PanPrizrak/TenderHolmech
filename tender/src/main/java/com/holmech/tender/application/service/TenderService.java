@@ -8,6 +8,7 @@ import com.holmech.tender.application.entity.calculations.Znach;
 import com.holmech.tender.application.parser.fromexcel.ApplicantParseExcel;
 import com.holmech.tender.application.repository.OrderRepository;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.utilities.PathFromOS;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,14 +73,14 @@ public class TenderService {
 
     private void saveFile(Tender tender, @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {//getOriginalFilename work  only in chrome
-            File uploadDir = new File(uploadPath);
+            File uploadDir = new File(uploadPath + tender.getNumberT() + PathFromOS.getPath());
             if (!uploadDir.isDirectory()) {
                 uploadDir.mkdirs();
             }
            // String uuidFile = UUID.randomUUID().toString();
             String fileOriginName = file.getOriginalFilename();
             String resultFilename = tender.getNumberT() + "." + fileOriginName.substring(fileOriginName.lastIndexOf('.'));
-            file.transferTo(new File(uploadPath + resultFilename));
+            file.transferTo(new File(uploadPath + tender.getNumberT() + PathFromOS.getPath() + resultFilename));
             tender.setFilename(resultFilename);
         }
     }

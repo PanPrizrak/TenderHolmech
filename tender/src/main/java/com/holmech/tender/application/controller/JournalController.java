@@ -24,6 +24,7 @@ public class JournalController {
 
     @GetMapping()
     public ModelAndView journal() {
+        System.out.println(System.getProperty("os.name"));
         List<Tender> tenders;
         tenders = tenderService.findAll();
         return new ModelAndView("journal", "tenderForm", new TenderForm(tenders));

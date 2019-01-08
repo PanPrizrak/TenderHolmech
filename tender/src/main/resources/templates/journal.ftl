@@ -34,7 +34,8 @@
         <td> <a href="/tender/${tender.numberT}">${tender.nameT}</a></td>
         <td>${tender.stage}</td>
         <td><a href="/orderedit/${tender.numberT}">№ ${tender.order.numberO} от ${tender.order.dateO?date}</a></td>
-        <td><#if tender.filename??> <a href="/xlsx/${tender.filename}" download="">${tender.filename?keep_after(".")}</a><#else>
+        <!--?keep_after(".")-->
+        <td><#if tender.filename??> <a href="/xlsx/${tender.numberT}/${tender.filename}" download="">${tender.filename}</a><#else>
           Нет документов </#if>
         </td>
     </tr>
