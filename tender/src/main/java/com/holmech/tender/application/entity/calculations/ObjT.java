@@ -5,6 +5,7 @@
  */
 package com.holmech.tender.application.entity.calculations;
 
+import com.holmech.tender.application.entity.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class ObjT {
     private float balOk;
     private float balOb;
     private int rang;
+    private Subject subject;
     
     public ObjT (ObjT t) {
         this.setLot(t.getLot());

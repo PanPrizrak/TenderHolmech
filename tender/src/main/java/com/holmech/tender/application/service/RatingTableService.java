@@ -58,6 +58,7 @@ public class RatingTableService {
                 objT.setCenS((float) 0.0);
                 objT.setCenO(objT.getCen());
             }
+            objT.setSubject(subject);
             objTArrayList.add(objT);
         }
         return objTArrayList;
