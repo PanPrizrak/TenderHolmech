@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Data
 @Service
@@ -40,7 +42,7 @@ public class RatingTableParserExcel {
     private ArrayList<ObjT> objTs;
     private ArrayList<ObjT> parSravs;
     private ArrayList<Znach> znachs;
-
+    private ArrayList<ObjT> resultLot;
 
     private void getRaschet(ObjT t, float maxPrice, float minPrice, int maxPayment, int minPayment) {
 
@@ -262,6 +264,18 @@ public class RatingTableParserExcel {
             for (int z = posN; z < pos; z++) {
                 bals.get(z).setRang(r);
                 r++;
+            }
+        }
+    }
+
+    private void getResultLot(){
+        for(int i = 1; i<=znachs.size();i++) {
+            int finalI = i;
+            ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI);
+            List<Integer> bufCountNumberOneInRaitingTable = new ArrayList<Integer>();
+            ArrayList<ObjT> bufRezult = (ArrayList<ObjT>) objTs.stream().filter((p) -> p.getLot() == finalI);
+            for(ObjT rezultObjT: bufLotObjT){
+
             }
         }
     }
