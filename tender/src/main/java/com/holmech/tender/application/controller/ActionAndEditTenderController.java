@@ -190,10 +190,10 @@ public class ActionAndEditTenderController {
                             textMessage = buf.append("  Коммунальное сельскохозяйственное унитарное предприятие «Агрокомбинат ")
                                     .append("\n «Холмеч» сообщает, что результат процедуры запроса")
                                     .append(" ценовых предложений " + bufTenderFromDB.getNumberAndNameTender() + " следующий: ").toString();
-                        Map<Integer,String> result = ResultParseExcel.readFromExcel(getFileFromTender(bufTenderFromDB));
+                        List<Subject> result = ResultParseExcel.readFromExcel(getFileFromTender(bufTenderFromDB));
                         StringBuilder bufResultText = new StringBuilder();
 
-                        result.forEach((numberLot, resultText) -> bufResultText.append("\nЛот №" + numberLot + " - " + resultText + ";"));
+                        result.forEach(s -> bufResultText.append("\nЛот №" + s.getNumberS() + " - " + s.getApplicantNameA() + ";"));
 
                         textMessage = textMessage.concat(bufResultText.toString());
 

@@ -271,22 +271,25 @@ public class RatingTableParserExcel {
     private void getResultLot(){
         for(int i = 1; i<=znachs.size();i++) {
             int finalI = i;
-            ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI);
             List<Integer> bufCountNumberOneInRaitingTable = new ArrayList<Integer>();
             ArrayList<ObjT> bufRezult = (ArrayList<ObjT>) objTs.stream().filter((p) -> p.getLot() == finalI);
-            for(ObjT rezultObjT: bufLotObjT){
-
+            for(ObjT rezultObjT: bufRezult){
+                ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI)
+                        .filter((o)->o.getSubject().equals(rezultObjT.getSubject()));
+                bufCountNumberOneInRaitingTable.add(bufLotObjT.stream().mapToInt(o->o.getRang()).sum());
             }
+            resultLot.add(bufRezult.get(bufCountNumberOneInRaitingTable.indexOf(
+                    bufCountNumberOneInRaitingTable.stream().mapToInt(c->c.intValue()).min().getAsInt())));
         }
     }
 
     private void writeResultInExcel() {
 
         XSSFWorkbook workbook = ParseExcel.getSheets(fileJournal);
-        Write writeTab = new Write (objTs,parSravs,znachs,workbook);
-        writeTab.writeObj();
-        writeTab.writePar();
-        writeTab.writeZnach();
+        Write writeTab = new Write (workbook);
+        writeTab.writeObj(objTs);
+        writeTab.writePar(parSravs);
+        writeTab.writeZnach(znachs);
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(fileJournal);

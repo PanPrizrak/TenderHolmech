@@ -40,7 +40,7 @@ public class Write {
 
 
     //Запись оценочной таблицы
-    public void writeObj() {
+    public void writeObj(ArrayList<ObjT> objTs) {
         XSSFSheet sheet;
         if (workbook.getSheet("MinCena") != null) {
             sheet = workbook.getSheet("Оценка общая");
@@ -177,7 +177,7 @@ public class Write {
     }
 
     //Запись попарного сравнения
-    public void writePar() {
+    public void writePar(ArrayList<ObjT> parSravs) {
         XSSFSheet sheetP;
         if (workbook.getSheet("MinCena") != null) {
             sheetP = workbook.getSheet("Оценка попарная");
@@ -313,8 +313,89 @@ public class Write {
         }
     }
 
+    //Запись Результата
+    public void writeResult(ArrayList<ObjT> resultObjT) {
+        XSSFSheet sheetP;
+        if (workbook.getSheet("MinCena") != null) {
+            sheetP = workbook.getSheet("Результат");
+        } else {
+            sheetP = workbook.createSheet("Результат");
+        }
+        String buf = "№ лота!" +
+                "Название предприятия!" +
+                "Отсрочка!" +
+                "Название продукта!" +
+                "Ед. изм.!" +
+                "Цена за ед. без НДС!" +
+                "Количество!";
+        String[] bufTopName = buf.split("!");
+        for (int i = 0;
+             i <= resultObjT.size();
+             i++) {
+            Row row = sheetP.createRow(i);
+            ObjT bufO = new ObjT();
+            if (i > 0) {
+                bufO = new ObjT(resultObjT.get(i-1));
+            }
+            for (int j = 0; j < 6; j++) {
+                Cell cell = row.createCell(j);
+                switch (j) {
+                    case 0:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getLot());
+                        }
+                        break;
+                    case 1:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getNameC());
+                        }
+                        break;
+                    case 2:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getOts());
+                        }
+                        break;
+                    case 3:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getNameO());
+                        }
+                        break;
+                    case 4:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getEd());
+                        }
+                        break;
+                    case 5:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            cell.setCellValue(bufO.getCenO());
+                        }
+                        break;
+                    case 6:
+                        if (i == 0) {
+                            cell.setCellValue(bufTopName[j]);
+                        } else {
+                            //cell.setCellValue((float) bufO.getCenS());
+                        }
+                        break;
+                }//switch
+            }
+        }
+    }
+
     //Запись минимальной цены по лоту
-    public void writeZnach() {
+    public void writeZnach(ArrayList<Znach> znachs) {
         XSSFSheet znachM;
         if (workbook.getSheet("MinCena") != null) {
             znachM = workbook.getSheet("MinCena");

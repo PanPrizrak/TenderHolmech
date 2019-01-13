@@ -43,18 +43,18 @@ public class ResultParseExcel {
         }
     }
 
-    public static Map<Integer,String> readFromExcel(File fileJournal){
+    public static List<Subject> readFromExcel(File fileJournal){
         ApplicantService applicantService = new ApplicantService();
         XSSFSheet spreadsheet = ParseExcel.getSheets(fileJournal).getSheet("Результат");
         Iterator<Row> rowIterator = spreadsheet.iterator();
         ArrayList<Subject> subjects = new ArrayList<Subject>();
         int i = 0;
         int bufNum = 0;
-        Map<Integer,String> result = new HashMap<>();
+        List<Subject> result = new ArrayList<>();
         while (rowIterator.hasNext()) {
             row = (XSSFRow) rowIterator.next();
 
-            Subject bufSubject = new Subject();
+            Subject bufResultSubject = new Subject();
             if (bufNum > 0 ) {//&& !row.getCell(0).getStringCellValue().contains("№ Лота")
                 i = 0;
                 Integer numberLot = null;// = new Integer();
@@ -63,21 +63,54 @@ public class ResultParseExcel {
                     switch (i) {
                         case 0:
                             if (row.getCell(i) != null) {
-                                numberLot = Double.valueOf(row.getCell(i).getNumericCellValue()).intValue();
-
+                                bufResultSubject.setNumberS((int) row.getCell(i).getNumericCellValue());
                             } else {
-                                numberLot = 999;
+                                bufResultSubject.setNumberS(0);
                             }
                             break;
                         case 1:
                             if (row.getCell(i) != null) {
-                                resultText = row.getCell(i).getStringCellValue();
+                                String bufApplicantName = row.getCell(i).getStringCellValue();
+                                bufResultSubject.setApplicantNameA(bufApplicantName);
+                            }
+                            break;
+                        case 2:
+                            if (row.getCell(i) != null) {
+                                bufResultSubject.setPayment(String.valueOf((int) row.getCell(i).getNumericCellValue()));
                             } else {
-                                resultText = "Ошибка в чтении!!";
+                                bufResultSubject.setPayment("");
+                            }
+                            break;
+                        case 3:
+                            if (row.getCell(i) != null) {
+                                bufResultSubject.setNameS(row.getCell(i).getStringCellValue());
+                            } else {
+                                bufResultSubject.setNameS("");
+                            }
+                            break;
+                        case 4:
+                            if (row.getCell(i) != null) {
+                                bufResultSubject.setUnits(row.getCell(i).getStringCellValue());
+                            } else {
+                                bufResultSubject.setUnits("");
+                            }
+                            break;
+                        case 5:
+                            if (row.getCell(i) != null) {
+                                bufResultSubject.setPrice(row.getCell(i).getNumericCellValue());
+                            } else {
+                                bufResultSubject.setPrice(0.0);
+                            }
+                            break;
+                        case 6:
+                            if (row.getCell(i) != null) {
+                                bufResultSubject.setAmount((int) row.getCell(i).getNumericCellValue());
+                            } else {
+                                bufResultSubject.setAmount(0);
                             }
                             break;
                     }//switch
-                    result.put(numberLot, resultText);
+                    result.add(bufResultSubject);
                     i++;
                 }
             } else {
