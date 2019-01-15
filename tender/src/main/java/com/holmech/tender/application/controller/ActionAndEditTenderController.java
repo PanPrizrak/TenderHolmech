@@ -1,6 +1,7 @@
 package com.holmech.tender.application.controller;
 
 import com.holmech.tender.application.entity.*;
+import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.parser.fromexcel.ResultParseExcel;
 import com.holmech.tender.application.parser.intheword.Letterhead;
@@ -198,14 +199,24 @@ public class ActionAndEditTenderController {
                         textMessage = textMessage.concat(bufResultText.toString());
 
                         List<Applicant> bufResultLotApplicant = new ArrayList<>();
-                        result.forEach((numberLot, resultText) -> bufResultLotApplicant.add(
-                                (applicantService.findByNameA(resultText)!=null)?applicantService.findByNameA(resultText):null));
+                        result.forEach(s -> bufResultLotApplicant.add(
+                                (applicantService.findByNameA(s.getApplicantNameA())!=null)?applicantService.findByNameA(s.getApplicantNameA()):null));
                         if (bufResultLotApplicant.contains(documents.getApplicant())) {
                             StringBuilder bufConclusionContract = new StringBuilder();
                             bufConclusionContract.append("\n    Просим заключить договор на поставку ");
                             for(int i = 0; i < bufResultLotApplicant.size(); i++){
                                 if(bufResultLotApplicant.get(i) != null && bufResultLotApplicant.get(i).equals(documents.getApplicant())){
-                                    bufConclusionContract.append("\" " + "\" (лот №" + (i+1) + ") стоимостью * руб за * без учета НДС в объеме * ,");
+                                    int bufNumberLot = i + 1;
+                                    Subject bufSubjectResult = (Subject) result.stream().filter(p->p.getNumberS()== bufNumberLot);
+                                    bufConclusionContract.append("\"" + bufSubjectResult.getNameS()
+                                            + "\" (лот №" + (i+1)
+                                            + ") стоимостью "
+                                            + bufSubjectResult.getPrice()
+                                            + " руб за "
+                                            + bufSubjectResult.getUnits()
+                                            + " без учета НДС в объеме "
+                                            + bufSubjectResult.getAmount()
+                                            + ",");
                                 }
                             }
                             bufConclusionContract.append(" по истечению 5 дней с момента получения извещения (дата договора от 10 января), с КСУП «Агрокомбинат «Холмеч» на следующих условиях:\n"
