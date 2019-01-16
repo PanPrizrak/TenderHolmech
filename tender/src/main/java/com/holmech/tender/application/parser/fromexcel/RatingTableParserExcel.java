@@ -21,10 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
 @Service
 public class RatingTableParserExcel {
 
@@ -43,6 +42,82 @@ public class RatingTableParserExcel {
     private ArrayList<ObjT> parSravs;
     private ArrayList<Znach> znachs;
     private ArrayList<ObjT> resultLot;
+
+    public String getUploadPath() {
+        return uploadPath;
+    }
+
+    public void setUploadPath(String uploadPath) {
+        this.uploadPath = uploadPath;
+    }
+
+    public static XSSFRow getRow() {
+        return row;
+    }
+
+    public static void setRow(XSSFRow row) {
+        RatingTableParserExcel.row = row;
+    }
+
+    public float getCenaK() {
+        return cenaK;
+    }
+
+    public void setCenaK(float cenaK) {
+        this.cenaK = cenaK;
+    }
+
+    public float getOtsK() {
+        return otsK;
+    }
+
+    public void setOtsK(float otsK) {
+        this.otsK = otsK;
+    }
+
+    public ApplicantRepository getApplicantRepository() {
+        return applicantRepository;
+    }
+
+    public void setApplicantRepository(ApplicantRepository applicantRepository) {
+        this.applicantRepository = applicantRepository;
+    }
+
+    public File getFileJournal() {
+        return fileJournal;
+    }
+
+    public void setFileJournal(File fileJournal) {
+        this.fileJournal = fileJournal;
+    }
+
+    public ArrayList<ObjT> getObjTs() {
+        return objTs;
+    }
+
+    public void setObjTs(ArrayList<ObjT> objTs) {
+        this.objTs = objTs;
+    }
+
+    public ArrayList<ObjT> getParSravs() {
+        return parSravs;
+    }
+
+    public void setParSravs(ArrayList<ObjT> parSravs) {
+        this.parSravs = parSravs;
+    }
+
+    public ArrayList<Znach> getZnachs() {
+        return znachs;
+    }
+
+    public void setZnachs(ArrayList<Znach> znachs) {
+        this.znachs = znachs;
+    }
+
+    public void setResultLot(ArrayList<ObjT> resultLot) {
+        this.resultLot = resultLot;
+    }
 
     private void getRaschet(ObjT t, float maxPrice, float minPrice, int maxPayment, int minPayment) {
 
@@ -124,6 +199,7 @@ public class RatingTableParserExcel {
             objTList.get(bals.get(i).getPos()).setRang((int) bals.get(i).getRang());
         }
         setObjTs(objTList);
+        getResultLot();
 
         writeResultInExcel();
 
@@ -271,11 +347,11 @@ public class RatingTableParserExcel {
     private void getResultLot(){
         for(int i = 1; i<=znachs.size();i++) {
             int finalI = i;
-            List<Integer> bufCountNumberOneInRaitingTable = new ArrayList<Integer>();
-            ArrayList<ObjT> bufRezult = (ArrayList<ObjT>) objTs.stream().filter((p) -> p.getLot() == finalI);
+            List<Integer> bufCountNumberOneInRaitingTable = new ArrayList<>();
+            ArrayList<ObjT> bufRezult = (ArrayList<ObjT>) objTs.stream().filter((p) -> p.getLot() == finalI).collect(Collectors.toList());
             for(ObjT rezultObjT: bufRezult){
                 ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI)
-                        .filter((o)->o.getSubject().equals(rezultObjT.getSubject()));
+                        .filter((o)->o.getSubject().equals(rezultObjT.getSubject())).collect(Collectors.toList());
                 bufCountNumberOneInRaitingTable.add(bufLotObjT.stream().mapToInt(o->o.getRang()).sum());
             }
             resultLot.add(bufRezult.get(bufCountNumberOneInRaitingTable.indexOf(
@@ -290,6 +366,7 @@ public class RatingTableParserExcel {
         writeTab.writeObj(objTs);
         writeTab.writePar(parSravs);
         writeTab.writeZnach(znachs);
+        writeTab.writeResult(resultLot);
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(fileJournal);

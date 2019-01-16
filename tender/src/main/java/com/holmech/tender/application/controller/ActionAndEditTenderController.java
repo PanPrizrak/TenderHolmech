@@ -215,7 +215,7 @@ public class ActionAndEditTenderController {
                                             + " руб за "
                                             + bufSubjectResult.getUnits()
                                             + " без учета НДС в объеме "
-                                            + bufSubjectResult.getAmount()
+                                            + bufSubjectResult.getAmount() + " " + bufSubjectResult.getUnits()
                                             + ",");
                                 }
                             }

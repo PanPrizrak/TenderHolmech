@@ -49,7 +49,7 @@ public class RatingTableService {
             objT.setCen(subject.getPrice().floatValue());
 
             SubjectAfterTheReduction subjectAfterTheReduction = subjectAfterTheReductionService.findBySubject(subject);
-            if(subjectAfterTheReduction.getPrice() != 0.0) {
+            if(subjectAfterTheReduction != null && subjectAfterTheReduction.getPrice() != 0.0) {
                 objT.setOts(Integer.parseInt(subjectAfterTheReduction.getPayment()));
                 objT.setCenS(subjectAfterTheReduction.getPrice().floatValue());
                 objT.setCenO(objT.getCenS());
