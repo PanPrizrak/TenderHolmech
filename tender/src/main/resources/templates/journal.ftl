@@ -18,10 +18,10 @@
     </tr>
     </thead>
 
+
+
+    <tbody id="tender-list">
     <#list tenderForm.tenderList as tender>
-
-    <tbody>
-
     <tr>
         <th scope="row">
         <#if tender.documents>
@@ -39,9 +39,9 @@
           Нет документов </#if>
         </td>
     </tr>
-
+    </#list>
     </tbody>
-</#list>
+
 </table>
 </form>
 

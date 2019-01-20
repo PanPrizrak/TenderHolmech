@@ -6,7 +6,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <form method="get" action="/add" class="form-inline">
-            <input type="text" name="filterName" class="form-control" value="${filterName?ifExists}" placeholder="Поиск по имени">
+            <input type="text" name="filterName" class="form-control" value="${filterName?ifExists}" placeholder="Поиск по имени"/>
             <button type="submit" class="btn btn-primary ml-2">Поиск</button>
         </form>
     </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile" name="file">
+                    <input type="file" class="custom-file-input" id="customFile" name="file"/>
                     <label class="custom-file-label col-sm-4" for="customFile">Choose file</label>
                 </div>
             </div>

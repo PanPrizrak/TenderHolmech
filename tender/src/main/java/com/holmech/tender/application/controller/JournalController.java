@@ -40,4 +40,4 @@ public class JournalController {
         return new ModelAndView("redirect:/journal", "tenderForm", new TenderForm(tenderService.findAll()));
     }
 
-}//JournalController
+}

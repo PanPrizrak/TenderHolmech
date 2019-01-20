@@ -156,7 +156,7 @@
     <!--filename-->
     <div class="form-group">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile" name="file">
+            <input type="file" class="custom-file-input" id="customFile" name="file"/>
             <label class="custom-file-label col-sm-4" for="customFile">Выберите файл</label>
         </div>
     </div>

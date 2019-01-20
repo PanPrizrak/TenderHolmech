@@ -39,7 +39,7 @@
 
 
     <div class="form-group">
-        <input type="date" value="${tenderForm.tenderList[0].dateT?iso_local?date}"  class="form-control col-sm-2" id="date" name="tenderList[0].dateT" required>
+        <input type="date" value="${tenderForm.tenderList[0].dateT?iso_local?date}" required="true" class="form-control col-sm-2" id="date" name="tenderList[0].dateT" />
     </div>
 <!--stage-->
 <div class="form-group">
@@ -74,7 +74,7 @@
 <!--filename-->
     <div class="form-group">
     <div class="custom-file">
-        <input type="file" class="custom-file-input" id="customFile" name="file">
+        <input type="file" class="custom-file-input" id="customFile" name="file"/>
         <label class="custom-file-label col-sm-4" for="customFile">Выберите файл</label>
     </div>
 </div>
@@ -93,7 +93,7 @@
 <div class="form-group">
     <div class="container">
         <div class="row">
-            <input type="date" value="${tenderForm.tenderList[0].order.dateO?iso_local?date}" class="form-control col-sm-2" id="date" name="tenderList[0].order.dateO" required/>
+            <input type="date" value="${tenderForm.tenderList[0].order.dateO?iso_local?date}" required="true" class="form-control col-sm-2" id="date" name="tenderList[0].order.dateO" />
         </div>
     </div>
 </div>

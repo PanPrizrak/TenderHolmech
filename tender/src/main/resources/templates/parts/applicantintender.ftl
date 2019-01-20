@@ -1,7 +1,8 @@
 <form modelAttribute="subjectAndDocumentsForm" method="post">
 
     <#list subjectAndDocumentsForm.documentsList as documents>
-    <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#collapseExample${documents?index}" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <a class="btn btn-primary btn-lg col-sm-5" data-toggle="collapse" href="#collapseExample${documents?index}"
+    role="button" aria-expanded="false" aria-controls="collapseExample">
         ${documents.applicant.nameA}
     </a>
 <!--Applicant-->
@@ -15,7 +16,7 @@
                         <input type="text" value='${documents.applicant.nameA?if_exists}'
                                name="documentsList[${documents?index}].applicant.nameA"
                                class="form-control form-control-lg" id="applicantNameA"
-                               placeholder="Наименование предприятия">
+                               placeholder="Наименование предприятия"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -24,7 +25,7 @@
                         <input type="text" value='${documents.applicant.address?if_exists}'
                                name="documentsList[${documents?index}].applicant.address"
                                class="form-control form-control-lg" id="applicantAddress"
-                               placeholder="Адрес предприятия">
+                               placeholder="Адрес предприятия"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -33,7 +34,7 @@
                         <input type="text" value='${documents.applicant.pan?if_exists}'
                                name="documentsList[${documents?index}].applicant.pan"
                                class="form-control form-control-lg" id="applicantPAN"
-                               placeholder="УНП предприятия">
+                               placeholder="УНП предприятия"/>
                     </div>
                 </div>
 
@@ -46,7 +47,8 @@
                 <tr>
                     <td> <input type="hidden" value="#{documents.idD}" name="documentsList[${documents?index}].idD" />
                         <input type="hidden" value="#{documents.tender.idT}" name="documentsList[${documents?index}].tender.idT" />
-                        <label>Сертификат регистрации:</label></td>
+                        <label>Сертификат регистрации:</label>
+                    </td>
                     <td>
                         <#assign trueBuf = "${documents.registration?then('checked',' ')}"
                         falseBuf = "${documents.registration?then(' ','checked')}"
@@ -54,7 +56,8 @@
                         <input type="radio" name="documentsList[${documents?index}].registration"
                                 value="true" ${trueBuf}>Да</input>
                         <input type="radio" name="documentsList[${documents?index}].registration"
-                               value="false" ${falseBuf}>Нет</input></td>
+                               value="false" ${falseBuf}>Нет</input>
+                    </td>
                 </tr>
                 <tr>
                     <td><label >Устав предприятия:</label></td>
