@@ -8,6 +8,7 @@ import com.holmech.tender.application.parser.fromexcel.ParseExcel;
 import com.holmech.tender.application.parser.fromexcel.SubjectAfterTheReductionParseExcel;
 import com.holmech.tender.application.parser.fromexcel.Write;
 import com.holmech.tender.application.repository.SubjectAfterTheReductionRepository;
+import com.holmech.tender.application.utilities.PathFromOS;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,8 @@ public class SubjectAfterTheReductionService {
         } else {
             emptySubjectAfterTheReduction(subjectList, subjectAfterTheReductionList);
         }
-        subjectAfterTheReductionParseExcel.saveInExcel(subjectAfterTheReductionList,new File(uploadPath + tenderFromDB.getFilename()));
+        subjectAfterTheReductionParseExcel.saveInExcel(subjectAfterTheReductionList,new File(uploadPath +
+                tenderFromDB.getNumberT() + PathFromOS.getPath() + tenderFromDB.getFilename()));
     }
 
     public void emptySubjectAfterTheReduction(List<Subject> subjectList, List<SubjectAfterTheReduction> subjectAfterTheReductionList) {

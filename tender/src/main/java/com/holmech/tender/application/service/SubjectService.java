@@ -7,6 +7,7 @@ import com.holmech.tender.application.entity.calculations.Znach;
 import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.repository.SubjectRepository;
 import com.holmech.tender.application.repository.TenderRepository;
+import com.holmech.tender.application.utilities.PathFromOS;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,8 @@ public class SubjectService {
                 }
             }
         }
-        SubjectParseExcel.saveInExcel(findByTenderSortNumberT(bufTender), new File(uploadPath + bufTender.getFilename()));
+        SubjectParseExcel.saveInExcel(findByTenderSortNumberT(bufTender), new File(uploadPath +
+                bufTender.getNumberT() + PathFromOS.getPath() + bufTender.getFilename()));
     }
 
     public List<Subject> findByTenderSortNumberT(Tender tenderFromDB) {
@@ -83,7 +85,8 @@ public class SubjectService {
 
             subjectRepository.save(subject);
         }
-        SubjectParseExcel.saveInExcel(findByTenderSortNumberT(bufTender), new File(new String(uploadPath + bufTender.getFilename())));
+        SubjectParseExcel.saveInExcel(findByTenderSortNumberT(bufTender), new File(new String(uploadPath +
+                bufTender.getNumberT() + PathFromOS.getPath() + bufTender.getFilename())));
     }
 
     public ArrayList<Subject> setApplicantInSubjectList(List<Subject> subjectList, List<Subject> subjectListWithId) throws IOException {

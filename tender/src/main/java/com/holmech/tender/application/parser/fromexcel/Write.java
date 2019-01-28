@@ -316,7 +316,7 @@ public class Write {
     //Запись Результата
     public void writeResult(ArrayList<ObjT> resultObjT) {
         XSSFSheet sheetP;
-        if (workbook.getSheet("MinCena") != null) {
+        if (workbook.getSheet("Результат") != null) {
             sheetP = workbook.getSheet("Результат");
         } else {
             sheetP = workbook.createSheet("Результат");

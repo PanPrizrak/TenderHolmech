@@ -49,6 +49,7 @@ public class ObjT {
         this.setBalOk(t.getBalOk());
         this.setBalOb(t.getBalOb());
         this.setRang(t.getRang());
+        this.setSubject(t.getSubject());
     }
 
 }//ObjT

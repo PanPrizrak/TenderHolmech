@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 @Service
@@ -345,18 +346,24 @@ public class RatingTableParserExcel {
     }
 
     private void getResultLot(){
+        ArrayList<ObjT> bufRezultLot = new ArrayList<>();
         for(int i = 1; i<=znachs.size();i++) {
             int finalI = i;
             List<Integer> bufCountNumberOneInRaitingTable = new ArrayList<>();
             ArrayList<ObjT> bufRezult = (ArrayList<ObjT>) objTs.stream().filter((p) -> p.getLot() == finalI).collect(Collectors.toList());
             for(ObjT rezultObjT: bufRezult){
-                ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI)
-                        .filter((o)->o.getSubject().equals(rezultObjT.getSubject())).collect(Collectors.toList());
-                bufCountNumberOneInRaitingTable.add(bufLotObjT.stream().mapToInt(o->o.getRang()).sum());
+                System.out.println(finalI + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+                ArrayList<ObjT> bufLotObjT = (ArrayList<ObjT>) parSravs.stream().filter((p) -> p.getLot() == finalI).collect(Collectors.toList());
+                Long finalIdS = rezultObjT.getSubject().getIdS();
+                ArrayList<ObjT> bufLotResultObjT =(ArrayList<ObjT>) bufLotObjT.stream().filter((o) -> o.getSubject().getIdS() == finalIdS).collect(Collectors.toList());
+                bufCountNumberOneInRaitingTable.add(bufLotResultObjT.stream().mapToInt(o->o.getRang()).sum());
             }
-            resultLot.add(bufRezult.get(bufCountNumberOneInRaitingTable.indexOf(
-                    bufCountNumberOneInRaitingTable.stream().mapToInt(c->c.intValue()).min().getAsInt())));
+            OptionalInt bufIndexFinal = bufCountNumberOneInRaitingTable.stream().mapToInt(c->c.intValue()).min();
+            int indexFinal = bufCountNumberOneInRaitingTable.indexOf(Integer.valueOf(bufIndexFinal.getAsInt()));
+            ObjT bufObjTResultZaebh = bufRezult.get(indexFinal);
+            bufRezultLot.add(bufObjTResultZaebh);
         }
+        this.setResultLot(bufRezultLot);
     }
 
     private void writeResultInExcel() {

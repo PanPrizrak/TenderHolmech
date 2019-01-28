@@ -36,7 +36,7 @@ public class OrderController {
 
     @PostMapping("/{numberT}")
     public String add(@PathVariable String numberT,
-                      @ModelAttribute Order editedOrder,
+                      @ModelAttribute("editedOrder") Order editedOrder,
                       Model model) {
         orderRepository.save(editedOrder);
         addOrderInModel(numberT, model);

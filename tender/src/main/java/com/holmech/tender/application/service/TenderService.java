@@ -86,7 +86,7 @@ public class TenderService {
     }
 
     private void ImportFromExcel(Tender bufTender) throws IOException {
-        String bufPath = new String(uploadPath + bufTender.getFilename());
+        String bufPath = new String(uploadPath + bufTender.getNumberT() + PathFromOS.getPath() + bufTender.getFilename());
         if (!documentsService.isDocuments(bufTender)) {
             ArrayList<Applicant> applicantArrayList = ApplicantParseExcel.parse(new File(bufPath));
             applicantService.addApplicants(applicantArrayList);//save applicants
