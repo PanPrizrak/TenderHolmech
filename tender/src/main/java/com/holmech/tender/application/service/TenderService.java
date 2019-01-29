@@ -79,7 +79,7 @@ public class TenderService {
             }
            // String uuidFile = UUID.randomUUID().toString();
             String fileOriginName = file.getOriginalFilename();
-            String resultFilename = tender.getNumberT() + "." + fileOriginName.substring(fileOriginName.lastIndexOf('.'));
+            String resultFilename = tender.getNumberT() + fileOriginName.substring(fileOriginName.lastIndexOf('.'));
             file.transferTo(new File(uploadPath + tender.getNumberT() + PathFromOS.getPath() + resultFilename));
             tender.setFilename(resultFilename);
         }
