@@ -28,12 +28,12 @@ public class ProtocolReadService {
     @Value("${template.path}")
     private String templatePath;
     private Map<String,Object> parameters;
-    private String templateName;
+    private String templateName = "PR";
 
-    public void run(Map<String,Object> parameters, String templateName) throws JRException {
+    public void run(Map<String,Object> parameters) throws JRException {
         try {
             this.templateName = templateName;
-            this.parameters = parameters;
+            //this.parameters = parameters;
             this.compile();
             this.fill();
             this.docx();
