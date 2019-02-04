@@ -57,9 +57,17 @@ public class TenderService {
             orderBuf.setIdO(idBuf);
             orderRepository.save(orderBuf);
         } else {
-            orderRepository.save(orderBuf);
-            Order orderFromDBBuf = orderRepository.findByNumberO(orderBuf.getNumberO());
-            tenderBuf.setOrder(orderFromDBBuf);
+            Order bufOrderFromDB = orderRepository.findByNumberO(orderBuf.getNumberO());
+            if(bufOrderFromDB!= null){
+                if(bufOrderFromDB.getDateO().getDate() == orderBuf.getDateO().getDate()){
+                    tenderBuf.setOrder(bufOrderFromDB);
+                } else {
+                    orderRepository.save(orderBuf);
+                    Order orderFromDBBuf = orderRepository.findByNumberO(orderBuf.getNumberO());
+                    tenderBuf.setOrder(orderFromDBBuf);
+                }
+            }
+
         }
         if (!file.isEmpty()) {
             saveFile(tenderBuf, file);
