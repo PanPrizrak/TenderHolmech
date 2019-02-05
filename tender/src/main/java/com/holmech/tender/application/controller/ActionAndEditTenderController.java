@@ -4,6 +4,7 @@ import com.holmech.tender.application.entity.*;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.parser.fromexcel.ResultParseExcel;
+import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.parser.intheword.Letterhead;
 import com.holmech.tender.application.parser.intheword.LetterheadFill;
 import com.holmech.tender.application.service.*;
@@ -82,7 +83,8 @@ public class ActionAndEditTenderController {
             switch (action) {
                 case "Generate autopsy protocol": {
                     //bufTenderFromDB.setStage("Снижение цены");
-                    subjectAfterTheReductionService.writeFromExcel(numberT,null);
+                    subjectAfterTheReductionService.writeFromExcel(numberT, null);
+                    //SubjectParseExcel.saveInExcel(subjectService.findByTenderSortNumberT(bufTenderFromDB), new File(uploadPath + bufTenderFromDB.getNumberT() + "\\" + bufTenderFromDB.getFilename()));
                     //createAutopsyProtocol();
                     //
                     break;
@@ -151,14 +153,18 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "price reductionK" + PathFromOS.getPath());
+                            String outPath = uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "price reductionK" + PathFromOS.getPath();
+                            if (!new File(outPath).isDirectory()) {
+                                new File(outPath).mkdirs();
+                            }
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), outPath);
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
                         String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
                         List<String> attachments = new ArrayList<>();
                         attachments.add(fileAttachment);
-                        sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
+                        //sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
                     }
                     break;
                 }

@@ -11,6 +11,7 @@ import com.holmech.tender.application.entity.calculations.Bal;
 import com.holmech.tender.application.entity.calculations.ObjT;
 import com.holmech.tender.application.entity.calculations.Znach;
 import com.holmech.tender.application.repository.ApplicantRepository;
+import com.holmech.tender.application.utilities.PathFromOS;
 import lombok.Data;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -160,7 +161,7 @@ public class RatingTableParserExcel {
         setCenaK(bufCenaK);
         setOtsK(bufOtsK);
 
-        setFileJournal(new File(uploadPath+tender.getFilename()));
+        setFileJournal(new File(uploadPath + tender.getNumberT() + PathFromOS.getPath() + tender.getFilename()));
 
         znachs = definitionOfExternsOfValues(objTList);
 

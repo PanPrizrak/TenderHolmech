@@ -40,26 +40,28 @@ public class RatingTableService {
         List<Subject> subjectList = subjectService.findByNumberT(tenderFromDB.getNumberT())
                 .stream().sorted(Comparator.comparing(Subject::getNumberS)).collect(Collectors.toList());
 
-        for(Subject subject: subjectList){
-            ObjT objT = new ObjT();
-            objT.setLot(subject.getNumberS());
-            objT.setNameC(subject.getApplicant().getNameA());
-            objT.setNameO(subject.getNameS());
-            objT.setEd(subject.getUnits());
-            objT.setCen(subject.getPrice().floatValue());
+        for(Subject subject: subjectList) {
+            if (subject.getMeet() != null && subject.getMeet() == true) {
+                ObjT objT = new ObjT();
+                objT.setLot(subject.getNumberS());
+                objT.setNameC(subject.getApplicant().getNameA());
+                objT.setNameO(subject.getNameS());
+                objT.setEd(subject.getUnits());
+                objT.setCen(subject.getPrice().floatValue());
 
-            SubjectAfterTheReduction subjectAfterTheReduction = subjectAfterTheReductionService.findBySubject(subject);
-            if(subjectAfterTheReduction != null && subjectAfterTheReduction.getPrice() != 0.0) {
-                objT.setOts(Integer.parseInt(subjectAfterTheReduction.getPayment()));
-                objT.setCenS(subjectAfterTheReduction.getPrice().floatValue());
-                objT.setCenO(objT.getCenS());
-            } else {
-                objT.setOts(Integer.parseInt(subject.getPayment()));
-                objT.setCenS((float) 0.0);
-                objT.setCenO(objT.getCen());
+                SubjectAfterTheReduction subjectAfterTheReduction = subjectAfterTheReductionService.findBySubject(subject);
+                if (subjectAfterTheReduction != null && subjectAfterTheReduction.getPrice() != 0.0) {
+                    objT.setOts(Integer.parseInt(subjectAfterTheReduction.getPayment()));
+                    objT.setCenS(subjectAfterTheReduction.getPrice().floatValue());
+                    objT.setCenO(objT.getCenS());
+                } else {
+                    objT.setOts(Integer.parseInt(subject.getPayment()));
+                    objT.setCenS((float) 0.0);
+                    objT.setCenO(objT.getCen());
+                }
+                objT.setSubject(subject);
+                objTArrayList.add(objT);
             }
-            objT.setSubject(subject);
-            objTArrayList.add(objT);
         }
         return objTArrayList;
     }
