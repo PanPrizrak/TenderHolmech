@@ -37,7 +37,11 @@
                                placeholder="УНП предприятия"/>
                     </div>
                 </div>
+                <#if documents.applicant.contactsList[0]??>
 
+                <p>Контакты</p>
+                <p>${documents.applicant.contactsList[0].email} ${documents.applicant.contactsList[0].phone}</p>
+                </#if>
             <a href="/addcontactfor/applicant/#{documents.applicant.idA}">Добавить контакт</a>
 
 <!--documents-->
