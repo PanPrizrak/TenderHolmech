@@ -27,7 +27,7 @@ public class SubjectService {
     private final ApplicantService applicantService;
     private final TenderRepository tenderRepository;
 
-    private List<Subject> meetSubjectList = new ArrayList<>();
+
 
     public SubjectService(SubjectRepository subjectRepository,
                           ApplicantService applicantService,
@@ -123,6 +123,7 @@ public class SubjectService {
 
 
     public List<Subject> getMeetSubject(Tender tender) {
+        List<Subject> meetSubjectList = new ArrayList<>();
         List<Subject> subjectFromDB = findByTenderSortNumberT(tender);
         for (Subject subject : subjectFromDB) {
             if (subject.getMeet() != null && subject.getMeet()) {

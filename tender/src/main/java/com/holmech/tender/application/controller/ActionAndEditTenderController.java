@@ -7,6 +7,7 @@ import com.holmech.tender.application.parser.fromexcel.ResultParseExcel;
 import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.parser.intheword.Letterhead;
 import com.holmech.tender.application.parser.intheword.LetterheadFill;
+import com.holmech.tender.application.parser.intheword.ProtocolReadFill;
 import com.holmech.tender.application.service.*;
 import com.holmech.tender.application.utilities.PathFromOS;
 import net.sf.jasperreports.engine.JRException;
@@ -84,6 +85,20 @@ public class ActionAndEditTenderController {
                 case "Generate autopsy protocol": {
                     //bufTenderFromDB.setStage("Снижение цены");
                     subjectAfterTheReductionService.writeFromExcel(numberT, null);
+
+                    String order = "№" + bufTenderFromDB.getOrder().getNumberO()
+                            + " от " + bufTenderFromDB.getOrder().getDateO().getDate();
+                    String dateAndNameTender = "объявленный " + bufTenderFromDB.getDateT().getDate()
+                            + " по закупке " + bufTenderFromDB.getNameT();
+
+
+                    ProtocolReadFill protocolReadFill = ProtocolReadFill
+                            .builder()
+                            .order(order)
+                            .tender(bufTenderFromDB.getNumberT())
+                            .dateAndNameTender(dateAndNameTender)
+                            .membersCommission()
+                            .build();
                     //SubjectParseExcel.saveInExcel(subjectService.findByTenderSortNumberT(bufTenderFromDB), new File(uploadPath + bufTenderFromDB.getNumberT() + "\\" + bufTenderFromDB.getFilename()));
                     //createAutopsyProtocol();
                     //
