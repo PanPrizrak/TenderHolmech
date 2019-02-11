@@ -1,8 +1,11 @@
 package com.holmech.tender.application.parser.intheword;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -13,6 +16,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.swing.table.TableModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class ProtocolReadService {
 
@@ -33,10 +39,10 @@ public class ProtocolReadService {
     public void run(Map<String,Object> parameters) throws JRException {
         try {
             this.templateName = templateName;
-            //this.parameters = parameters;
+            this.parameters = parameters;
             this.compile();
             this.fill();
-            this.docx();
+           // this.docx();
         } catch (IOException ex) {
             Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,8 +75,8 @@ public class ProtocolReadService {
             File bsFile2 = new File(templatePath + templateName + "2.jasper");
             JasperReport jReport = (JasperReport) JRLoader.loadObject(bsFile);
             JasperReport jReport2 = (JasperReport) JRLoader.loadObject(bsFile2);
-            JasperPrint pageOne =  JasperFillManager.fillReport(jReport, parameters,beanColDataSource);
-            JasperPrint pageOther = JasperFillManager.fillReport(jReport2,parameters);
+            JasperPrint pageOne = JasperFillManager.fillReport(jReport, parameters,new JRTableModelDataSource((TableModel) parameters.get("tableModelProtocolRead")));
+            JasperPrint pageOther = JasperFillManager.fillReport(jReport2,parameters,beanColDataSource);
             List pages = pageOther.getPages();
             for (int j = 0; j < pages.size(); j++) {
                 JRPrintPage object = (JRPrintPage)pages.get(j);

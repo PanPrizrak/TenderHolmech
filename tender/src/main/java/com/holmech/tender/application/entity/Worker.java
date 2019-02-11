@@ -26,9 +26,24 @@ public class Worker {
     @JoinColumn(name = "workwer_id")
     private List<Contacts> contactsList;
 
-    public String getInitialsWorker(){
-        String initials = this.getNameW().charAt(0) + ". " + this.getPatronymic().charAt(0) + ". " + this.getSurname();
+
+    public String getSNPWorker(){
+        String SNPorker = this.getSurname() + " " + getInitialsWorker();
+        return SNPorker;
+    }
+
+    public String getNPSWorker(){
+        String NPSWorker = getInitialsWorker() + " " + this.getSurname();
+        return NPSWorker;
+    }
+
+
+
+    private String getInitialsWorker(){
+        String initials = this.getNameW().charAt(0) + ". " + this.getPatronymic().charAt(0) + ".";
         return initials;
     }
+
+
 
 }

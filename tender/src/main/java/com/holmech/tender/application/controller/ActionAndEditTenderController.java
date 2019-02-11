@@ -8,6 +8,7 @@ import com.holmech.tender.application.parser.fromexcel.SubjectParseExcel;
 import com.holmech.tender.application.parser.intheword.Letterhead;
 import com.holmech.tender.application.parser.intheword.LetterheadFill;
 import com.holmech.tender.application.parser.intheword.ProtocolReadFill;
+import com.holmech.tender.application.parser.intheword.ProtocolReadService;
 import com.holmech.tender.application.service.*;
 import com.holmech.tender.application.utilities.PathFromOS;
 import net.sf.jasperreports.engine.JRException;
@@ -34,6 +35,7 @@ public class ActionAndEditTenderController {
 
     private final TenderService tenderService;
     private final Letterhead fbbService;
+    private final ProtocolReadService protocolReadService;
     private final DocumentsService documentsService;
     private final WorkerRService workerRService;
     private final SubjectService subjectService;
@@ -48,7 +50,8 @@ public class ActionAndEditTenderController {
                                          SubjectService subjectService,
                                          SendMessageWithAnAttachmentService sendMessageService,
                                          SubjectAfterTheReductionService subjectAfterTheReductionService,
-                                         ApplicantService applicantService) {
+                                         ApplicantService applicantService,
+                                         ProtocolReadService protocolReadService) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
@@ -57,6 +60,7 @@ public class ActionAndEditTenderController {
         this.sendMessageService = sendMessageService;
         this.subjectAfterTheReductionService = subjectAfterTheReductionService;
         this.applicantService = applicantService;
+        this.protocolReadService = protocolReadService;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -84,12 +88,30 @@ public class ActionAndEditTenderController {
             switch (action) {
                 case "Generate autopsy protocol": {
                     //bufTenderFromDB.setStage("Снижение цены");
-                    subjectAfterTheReductionService.writeFromExcel(numberT, null);
+//                    subjectAfterTheReductionService.writeFromExcel(numberT, null);
 
                     String order = "№" + bufTenderFromDB.getOrder().getNumberO()
                             + " от " + bufTenderFromDB.getOrder().getDateO().getDate();
                     String dateAndNameTender = "объявленный " + bufTenderFromDB.getDateT().getDate()
                             + " по закупке " + bufTenderFromDB.getNameT();
+                    String membersCommission = new String();
+                    String theChairman = new String();
+                    String secretary = new String();
+
+                    List<String> membersCommissionList = new ArrayList<>();
+                    for (WorkerR workerR : workerRService.findByOrder(bufTenderFromDB.getOrder())) {
+                        membersCommissionList.add(workerR.getWorker().getSNPWorker());
+                        if(workerR.getRole() == WorkerRole.THECHAIRMAN) {
+                            theChairman = workerR.getWorker().getSNPWorker();
+                        }
+                        else if (workerR.getRole() == WorkerRole.SECRETARY) {
+                            secretary = workerR.getWorker().getNPSWorker();
+                        }
+                    }
+
+                    membersCommission = membersCommissionList.stream().sorted().toString();
+
+
 
 
                     ProtocolReadFill protocolReadFill = ProtocolReadFill
@@ -97,8 +119,25 @@ public class ActionAndEditTenderController {
                             .order(order)
                             .tender(bufTenderFromDB.getNumberT())
                             .dateAndNameTender(dateAndNameTender)
-                            .membersCommission()
+                            .membersCommission(membersCommission)
+                            .theChairman(theChairman)
+                            .presentMembersCommission("Присутствующие члены комисии")
+                            .decided("Решили")
+                            .declaredInvalid("")
+                            .secretary(secretary)
                             .build();
+                    protocolReadFill.fillTableModelProtocolRead(subjectService.findByNumberT(numberT));
+
+                    try {
+                        String outPath = uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "protocol" + PathFromOS.getPath();
+                        if (!new File(outPath).isDirectory()) {
+                            new File(outPath).mkdirs();
+                        }
+                        protocolReadService.run(protocolReadFill.protocolReadFillToMapForPR()) ;
+                    } catch (JRException e) {
+                        e.printStackTrace();
+                    }
+
                     //SubjectParseExcel.saveInExcel(subjectService.findByTenderSortNumberT(bufTenderFromDB), new File(uploadPath + bufTenderFromDB.getNumberT() + "\\" + bufTenderFromDB.getFilename()));
                     //createAutopsyProtocol();
                     //
@@ -113,9 +152,9 @@ public class ActionAndEditTenderController {
                         if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
                             signature = signature.concat(workerR.getWorker().getPosition());
                             signature = signature.concat("                                 ");
-                            signature = signature.concat(workerR.getWorker().getInitialsWorker());
+                            signature = signature.concat(workerR.getWorker().getNPSWorker());
                         } else if (workerR.getRole() == WorkerRole.SECRETARY) {
-                            secretary = secretary.concat(workerR.getWorker().getInitialsWorker());
+                            secretary = secretary.concat(workerR.getWorker().getNPSWorker());
                             int lastIndexContakts = workerR.getWorker().getContactsList().size() - 1;
                             secretary = secretary.concat("\n +375447722687");//workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone()todo
                         }
@@ -197,9 +236,9 @@ public class ActionAndEditTenderController {
                         if (workerR.getRole() == WorkerRole.THECHAIRMAN) {
                             signature = signature.concat(workerR.getWorker().getPosition());
                             signature = signature.concat("                                 ");
-                            signature = signature.concat(workerR.getWorker().getInitialsWorker());
+                            signature = signature.concat(workerR.getWorker().getNPSWorker());
                         } else if (workerR.getRole() == WorkerRole.SECRETARY) {
-                            secretary = secretary.concat(workerR.getWorker().getInitialsWorker());
+                            secretary = secretary.concat(workerR.getWorker().getNPSWorker());
                             int lastIndexContakts = workerR.getWorker().getContactsList().size() - 1;
                             secretary = secretary.concat("\n +375447722687");//workerR.getWorker().getContactsList().get(lastIndexContakts).getPhone()todo
                         }

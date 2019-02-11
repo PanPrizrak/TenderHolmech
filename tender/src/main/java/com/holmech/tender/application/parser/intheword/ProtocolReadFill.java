@@ -35,10 +35,13 @@ public class ProtocolReadFill {
         bufMap.put("thechairman", getTheChairman());
         bufMap.put("presentmemberscommission", getPresentMembersCommission());
         bufMap.put("decided", getDecided());
+        bufMap.put("declaredinvalid",getDeclaredInvalid());
+        bufMap.put("secretary", getSecretary());
+        bufMap.put("tableModelProtocolRead",getTableModelProtocolRead());
         return bufMap;
     }
 
-    public Map<String,Object> protocolReadFillToMapForPRSecondPage(){
+    /*public Map<String,Object> protocolReadFillToMapForPRSecondPage(){
         Map<String,Object> bufMap = new HashMap<>();
         bufMap.put("declaredinvalid",getDeclaredInvalid());
         bufMap.put("tender",getTender());
@@ -46,7 +49,7 @@ public class ProtocolReadFill {
         bufMap.put("secretary", getSecretary());
         bufMap.put("presentmemberscommission", getPresentMembersCommission());
         return bufMap;
-    }
+    }*/
 
     public void fillTableModelProtocolRead(List<Subject> subjectListFromDB){
         String[] columnNames = {"Npp", "RegistrationNumber", "nameA", "addresA", "PAN", "nlot", "price", "paymentAndDelivery"};
