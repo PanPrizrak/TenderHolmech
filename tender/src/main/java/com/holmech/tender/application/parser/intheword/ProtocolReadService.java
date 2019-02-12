@@ -42,7 +42,7 @@ public class ProtocolReadService {
             this.parameters = parameters;
             this.compile();
             this.fill();
-           // this.docx();
+            this.docx();
         } catch (IOException ex) {
             Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
