@@ -109,10 +109,9 @@ public class ActionAndEditTenderController {
                         }
                     }
 
-                    membersCommission = membersCommissionList.stream().sorted().toString();
-
-
-
+                    for (String bufMemberCommission: membersCommissionList.stream().sorted().collect(Collectors.toList())){
+                        membersCommission += bufMemberCommission + "; ";
+                    }
 
                     ProtocolReadFill protocolReadFill = ProtocolReadFill
                             .builder()
