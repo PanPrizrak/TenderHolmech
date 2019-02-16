@@ -88,6 +88,7 @@ public class ProtocolReadFill {
                         break;
                 }//switch
             }
+            j++;
         }
         tableModelProtocolRead = new DefaultTableModel(data, columnNames);
     }
