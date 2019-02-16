@@ -261,7 +261,7 @@ public class ActionAndEditTenderController {
                         List<Applicant> bufResultLotApplicant = new ArrayList<>();
                         result.forEach(s -> bufResultLotApplicant.add(
                                 (applicantService.findByNameA(s.getApplicantNameA())!=null)?applicantService.findByNameA(s.getApplicantNameA()):null));
-                        if (bufResultLotApplicant.contains(documents.getApplicant())) {
+                        /*if (bufResultLotApplicant.contains(documents.getApplicant())) {
                             StringBuilder bufConclusionContract = new StringBuilder();
                             bufConclusionContract.append("\n    Просим заключить договор на поставку ");
                             for(int i = 0; i < bufResultLotApplicant.size(); i++){
@@ -283,7 +283,7 @@ public class ActionAndEditTenderController {
                                     + "срок и условия поставки — склад покупателя;\n"
                                     + "условия оплаты — отсрочка платежа 60 календарных дней.");
                             textMessage = textMessage.concat(bufConclusionContract.toString());
-                        }
+                        }*/
 
 
                         LetterheadFill letterheadFill = LetterheadFill.builder()
@@ -295,7 +295,11 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "results" + PathFromOS.getPath());
+                            String outPath = uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "results" + PathFromOS.getPath();
+                            if (!new File(outPath).isDirectory()) {
+                                new File(outPath).mkdirs();
+                            }
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), outPath);
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
