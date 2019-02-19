@@ -7,6 +7,8 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
@@ -43,6 +45,7 @@ public class ProtocolReadService {
             this.compile();
             this.fill();
             this.docx();
+            this.odt();
         } catch (IOException ex) {
             Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,6 +100,19 @@ public class ProtocolReadService {
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + ".docx"));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+        } catch (JRException ex) {
+            Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void odt() {
+        try {
+            long start = System.currentTimeMillis();
+            JROdtExporter exporter = new JROdtExporter();
+            exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + ".odt"));
+            exporter.exportReport();
+            System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
             Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
         }
