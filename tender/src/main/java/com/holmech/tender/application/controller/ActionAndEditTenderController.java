@@ -132,7 +132,7 @@ public class ActionAndEditTenderController {
                         if (!new File(outPath).isDirectory()) {
                             new File(outPath).mkdirs();
                         }
-                        protocolReadService.run(protocolReadFill.protocolReadFillToMapForPR()) ;
+                        protocolReadService.run(protocolReadFill.protocolReadFillToMapForPR(),outPath) ;
                     } catch (JRException e) {
                         e.printStackTrace();
                     }

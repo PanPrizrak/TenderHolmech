@@ -5,6 +5,7 @@
  */
 package com.holmech.tender.application.parser.intheword;
 
+import com.holmech.tender.application.service.ApplicantService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,15 +35,21 @@ import java.util.logging.Logger;
  */
 @Service
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Letterhead {
 
     @Value("${template.path}")
     private String templatePath;
+
+    private ApplicantService applicantService;
     private Map<String,Object> parameters;
     private String outPath;
     private static String templateName = new String("FBnew");
+
+
+    public Letterhead(ApplicantService applicantService) {
+        this.applicantService = applicantService;
+    }
 
     public String run(Map<String,Object> parameters, String outPath) throws JRException {
         try {
@@ -94,7 +101,11 @@ public class Letterhead {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
             exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outPath + parameters.get("numberM") + ".docx"));
+            //todo
+            String bufApplicantName = applicantService.getFirstWordName((String) parameters.get("nameA"));
+            String bufPath = outPath + parameters.get("numberM")
+                    + ".docx";
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(bufPath));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
             return templatePath + templateName + parameters.get("numberM") + ".docx";

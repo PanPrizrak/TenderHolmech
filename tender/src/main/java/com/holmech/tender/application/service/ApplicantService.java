@@ -39,6 +39,12 @@ public class ApplicantService  {
         return applicantReposirory.findByNameA(bufApplicantNameA);
     }
 
+    public String getFirstWordName(String nameApplicant){
+        int firstIndexChar = nameApplicant.indexOf("\"");
+        int lastIndexChar = nameApplicant.indexOf(" ",firstIndexChar);
+        return nameApplicant.substring(firstIndexChar,lastIndexChar);
+    }
+
     public Applicant findByIdA(Long idA){
         return applicantReposirory.findById(idA).get();
     }

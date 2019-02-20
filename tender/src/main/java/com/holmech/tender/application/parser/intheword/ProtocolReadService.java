@@ -37,11 +37,13 @@ public class ProtocolReadService {
     private String templatePath;
     private Map<String,Object> parameters;
     private String templateName = "PR";
+    private String outPath;
 
-    public void run(Map<String,Object> parameters) throws JRException {
+    public void run(Map<String,Object> parameters, String outPath) throws JRException {
         try {
             this.templateName = templateName;
             this.parameters = parameters;
+            this.outPath = outPath;
             this.compile();
             this.fill();
             this.docx();
@@ -97,7 +99,7 @@ public class ProtocolReadService {
             long start = System.currentTimeMillis();
             JRDocxExporter exporter = new JRDocxExporter();
             exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(templatePath + templateName + ".docx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(getOutPath() + templateName + "_" + parameters.get("tender") + ".docx"));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
         } catch (JRException ex) {
