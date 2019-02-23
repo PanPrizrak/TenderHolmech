@@ -40,12 +40,17 @@ public class ApplicantService {
     }
 
     public String getFirstWordName(String nameApplicant) {
-        int firstIndexChar = nameApplicant.indexOf("\"");
-        int lastIndexChar = nameApplicant.indexOf(" ", firstIndexChar);
-        int lastIndexCharTwo = nameApplicant.lastIndexOf("\"", firstIndexChar);
-        if (lastIndexChar < 0)
-            lastIndexChar = lastIndexCharTwo;
-        return nameApplicant.substring(firstIndexChar, lastIndexChar);
+        if(nameApplicant.equalsIgnoreCase("\"")) {
+            int firstIndexChar = nameApplicant.indexOf("\"");
+            int lastIndexChar = nameApplicant.indexOf(" ", firstIndexChar);
+            int lastIndexCharTwo = nameApplicant.lastIndexOf("\"");
+            if (lastIndexChar < 0)
+                lastIndexChar = lastIndexCharTwo;
+            return nameApplicant.substring(firstIndexChar, lastIndexChar);
+        } else {
+            int lastIndexChar = nameApplicant.indexOf(" ", 2);
+            return nameApplicant.substring(2, lastIndexChar);
+        }
     }
 
     public Applicant findByIdA(Long idA) {
