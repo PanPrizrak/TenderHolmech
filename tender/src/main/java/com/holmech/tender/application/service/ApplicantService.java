@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class ApplicantService  {
+public class ApplicantService {
     @Autowired
     ApplicantRepository applicantReposirory;
 
     public void addApplicants(ArrayList<Applicant> applicants) {
-        for(int i = 0 ; i < applicants.size();i++){
+        for (int i = 0; i < applicants.size(); i++) {
             addApplicant(applicants.get(i));
         }
     }
@@ -34,22 +34,25 @@ public class ApplicantService  {
         return false;
     }
 
-    public Applicant findByNameA(String bufApplicantNameA){
+    public Applicant findByNameA(String bufApplicantNameA) {
         bufApplicantNameA = bufApplicantNameA.replace('"', '\"');
         return applicantReposirory.findByNameA(bufApplicantNameA);
     }
 
-    public String getFirstWordName(String nameApplicant){
+    public String getFirstWordName(String nameApplicant) {
         int firstIndexChar = nameApplicant.indexOf("\"");
-        int lastIndexChar = nameApplicant.indexOf(" ",firstIndexChar);
-        return nameApplicant.substring(firstIndexChar,lastIndexChar);
+        int lastIndexChar = nameApplicant.indexOf(" ", firstIndexChar);
+        int lastIndexCharTwo = nameApplicant.lastIndexOf("\"", firstIndexChar);
+        if (lastIndexChar < 0)
+            lastIndexChar = lastIndexCharTwo;
+        return nameApplicant.substring(firstIndexChar, lastIndexChar);
     }
 
-    public Applicant findByIdA(Long idA){
+    public Applicant findByIdA(Long idA) {
         return applicantReposirory.findById(idA).get();
     }
 
-    public void updateApplicant(Applicant applicant){
+    public void updateApplicant(Applicant applicant) {
         applicantReposirory.save(applicant);
     }
 }

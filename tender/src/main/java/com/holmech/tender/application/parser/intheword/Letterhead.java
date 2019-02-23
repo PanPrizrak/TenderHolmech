@@ -19,6 +19,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JasperViewer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -41,15 +42,12 @@ public class Letterhead {
     @Value("${template.path}")
     private String templatePath;
 
+    @Autowired
     private ApplicantService applicantService;
     private Map<String,Object> parameters;
     private String outPath;
     private static String templateName = new String("FBnew");
 
-
-    public Letterhead(ApplicantService applicantService) {
-        this.applicantService = applicantService;
-    }
 
     public String run(Map<String,Object> parameters, String outPath) throws JRException {
         try {
@@ -102,13 +100,15 @@ public class Letterhead {
             JRDocxExporter exporter = new JRDocxExporter();
             exporter.setExporterInput(new SimpleExporterInput(templatePath + templateName + ".jrprint"));
             //todo
-            String bufApplicantName = applicantService.getFirstWordName((String) parameters.get("nameA"));
+            String bufNameA = (String) parameters.get("nameA");
+            String bufApplicantName = applicantService.getFirstWordName(bufNameA);
             String bufPath = outPath + parameters.get("numberM")
+                    + bufApplicantName
                     + ".docx";
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(bufPath));
             exporter.exportReport();
             System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
-            return templatePath + templateName + parameters.get("numberM") + ".docx";
+            return bufPath;
         } catch (JRException ex) {
             Logger.getLogger(Letterhead.class.getName()).log(Level.SEVERE, null, ex);
             return null;
