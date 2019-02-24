@@ -6,7 +6,6 @@
 package com.holmech.tender.application.parser.intheword;
 
 import com.holmech.tender.application.service.ApplicantService;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.jasperreports.engine.*;
@@ -19,6 +18,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JasperViewer;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,6 @@ public class Letterhead {
     private Map<String,Object> parameters;
     private String outPath;
     private static String templateName = new String("FBnew");
-
 
     public String run(Map<String,Object> parameters, String outPath) throws JRException {
         try {
@@ -102,7 +101,7 @@ public class Letterhead {
             //todo
             String bufNameA = (String) parameters.get("nameA");
             String bufApplicantName = applicantService.getFirstWordName(bufNameA);
-            String bufPath = outPath + parameters.get("numberM")
+            String bufPath = outPath
                     + bufApplicantName
                     + ".docx";
             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(bufPath));

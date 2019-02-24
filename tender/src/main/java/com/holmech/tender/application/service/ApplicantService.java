@@ -2,6 +2,8 @@ package com.holmech.tender.application.service;
 
 import com.holmech.tender.application.entity.Applicant;
 import com.holmech.tender.application.repository.ApplicantRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 public class ApplicantService {
     @Autowired
     ApplicantRepository applicantReposirory;
+    final Logger logger = LoggerFactory.getLogger(ApplicantService.class);
 
     public void addApplicants(ArrayList<Applicant> applicants) {
         for (int i = 0; i < applicants.size(); i++) {
@@ -40,16 +43,21 @@ public class ApplicantService {
     }
 
     public String getFirstWordName(String nameApplicant) {
-        if(nameApplicant.equalsIgnoreCase("\"")) {
+        String bufResult = new String();
+        if(nameApplicant.contains( "\"")) {
             int firstIndexChar = nameApplicant.indexOf("\"");
             int lastIndexChar = nameApplicant.indexOf(" ", firstIndexChar);
             int lastIndexCharTwo = nameApplicant.lastIndexOf("\"");
             if (lastIndexChar < 0)
                 lastIndexChar = lastIndexCharTwo;
-            return nameApplicant.substring(firstIndexChar, lastIndexChar);
+            bufResult = nameApplicant.substring(firstIndexChar+1, lastIndexChar);
+            logger.info("Ishodnaya stroka --{}   Result stroka --{}",nameApplicant,bufResult);
+            return bufResult;
         } else {
-            int lastIndexChar = nameApplicant.indexOf(" ", 2);
-            return nameApplicant.substring(2, lastIndexChar);
+            int lastIndexChar = nameApplicant.indexOf(" ", 3);
+            bufResult = nameApplicant.substring(2, lastIndexChar);
+            logger.info("Ishodnaya stroka --{}   Result stroka --{}",nameApplicant,bufResult);
+            return bufResult;
         }
     }
 

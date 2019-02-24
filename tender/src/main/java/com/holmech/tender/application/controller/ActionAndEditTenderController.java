@@ -161,6 +161,7 @@ public class ActionAndEditTenderController {
                     }
 
                     subjectAfterTheReductionService.writeFromExcel(numberT, null);
+                    int bufNumberInOrder = 1;
 
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());
@@ -206,11 +207,20 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            String outPath = uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + "price reductionK" + PathFromOS.getPath();
+                            String outPath = uploadPath
+                                    + bufTenderFromDB.getNumberT()
+                                    + PathFromOS.getPath()
+                                    + "price reductionK"
+                                    + PathFromOS.getPath();
                             if (!new File(outPath).isDirectory()) {
                                 new File(outPath).mkdirs();
                             }
-                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), outPath);
+                            String fileName = outPath
+                                    + String.valueOf(bufNumberInOrder++)
+                                    +"еСц_"
+                                    +numberT.substring(5)
+                                    +"_";
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), fileName);
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
@@ -243,6 +253,7 @@ public class ActionAndEditTenderController {
                         }
 
                     }
+                    int bufNumberInOrder =1;
 
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB).stream().sorted(Comparator.comparing(Documents::getIdD)).collect(Collectors.toList())) {
                         String textMessage = new String();
@@ -298,7 +309,12 @@ public class ActionAndEditTenderController {
                             if (!new File(outPath).isDirectory()) {
                                 new File(outPath).mkdirs();
                             }
-                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), outPath);
+                            String fileName = outPath
+                                    + String.valueOf(bufNumberInOrder++)
+                                    +"еРез_"
+                                    +numberT.substring(5)
+                                    +"_";
+                            fileAttachment = fbbService.run(letterheadFill.LetterheadFillToMap(), fileName);
                         } catch (JRException e) {
                             e.printStackTrace();
                         }
@@ -318,6 +334,6 @@ public class ActionAndEditTenderController {
     }
 
     private File getFileFromTender(Tender bufTenderFromDB) {
-        return new File(uploadPath + bufTenderFromDB.getFilename());
+        return new File(uploadPath + bufTenderFromDB.getNumberT() + PathFromOS.getPath() + bufTenderFromDB.getFilename());
     }
 }
