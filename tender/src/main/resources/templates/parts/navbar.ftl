@@ -22,6 +22,9 @@
             <li class="nav-item ">
                 <a class="nav-link" href="/user">UserList</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="/mailtest">MailTest</a>
+            </li>
         </#if>
 
         <#if user??>
