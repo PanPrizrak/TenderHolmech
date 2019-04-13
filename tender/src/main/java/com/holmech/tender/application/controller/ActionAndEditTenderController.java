@@ -20,12 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.zip.ZipOutputStream;
 
 @Controller
 public class ActionAndEditTenderController {
@@ -42,6 +44,7 @@ public class ActionAndEditTenderController {
     private final SendMessageWithAnAttachmentService sendMessageService;
     private final SubjectAfterTheReductionService subjectAfterTheReductionService;
     private final ApplicantService applicantService;
+    private final CreateZipArchiv createZipArchiv;
 
     public ActionAndEditTenderController(TenderService tenderService,
                                          Letterhead fbbService,
@@ -51,7 +54,8 @@ public class ActionAndEditTenderController {
                                          SendMessageWithAnAttachmentService sendMessageService,
                                          SubjectAfterTheReductionService subjectAfterTheReductionService,
                                          ApplicantService applicantService,
-                                         ProtocolReadService protocolReadService) {
+                                         ProtocolReadService protocolReadService,
+                                         CreateZipArchiv createZipArchiv) {
         this.tenderService = tenderService;
         this.fbbService = fbbService;
         this.documentsService = documentsService;
@@ -61,6 +65,7 @@ public class ActionAndEditTenderController {
         this.subjectAfterTheReductionService = subjectAfterTheReductionService;
         this.applicantService = applicantService;
         this.protocolReadService = protocolReadService;
+        this.createZipArchiv = createZipArchiv;
     }
 
     @GetMapping("/tender/{numberT}")
@@ -227,6 +232,11 @@ public class ActionAndEditTenderController {
                         String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
                         List<String> attachments = new ArrayList<>();
                         attachments.add(fileAttachment);
+                        createZipArchiv.setFile(new File(uploadPath
+                                + bufTenderFromDB.getNumberT()
+                                + PathFromOS.getPath()
+                                + "price reductionK"));
+                        createZipArchiv.setOut(new ZipOutputStream(new FileOutputStream("reductionK.zip")));
                         //sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
                     }
                     break;
