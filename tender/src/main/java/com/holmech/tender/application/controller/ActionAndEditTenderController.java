@@ -236,6 +236,7 @@ public class ActionAndEditTenderController {
                                 + bufTenderFromDB.getNumberT()
                                 + PathFromOS.getPath()
                                 + "price reductionK"));
+
                         createZipArchiv.setOut(new ZipOutputStream(new FileOutputStream("reductionK.zip")));
                         //sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
                     }

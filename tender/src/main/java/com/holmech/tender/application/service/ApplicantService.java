@@ -47,8 +47,8 @@ public class ApplicantService {
         if(nameApplicant.contains( "\"")) {
             int firstIndexChar = nameApplicant.indexOf("\"");
             int lastIndexChar = nameApplicant.indexOf(" ", firstIndexChar);
-            int lastIndexCharTwo = nameApplicant.lastIndexOf("\"");
-            if (lastIndexChar < 0)
+            int lastIndexCharTwo = nameApplicant.indexOf("\"", firstIndexChar+1);
+            if (lastIndexChar < 0 || lastIndexChar > lastIndexCharTwo)
                 lastIndexChar = lastIndexCharTwo;
             bufResult = nameApplicant.substring(firstIndexChar+1, lastIndexChar);
             logger.info("Ishodnaya stroka --{}   Result stroka --{}",nameApplicant,bufResult);
