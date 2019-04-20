@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -16,10 +18,36 @@ public class CreateZipArchiv {
     File file;
     ZipOutputStream out;
 
-    public void createZip(String[] args) throws Exception {
+    public void createZip() throws Exception {
         /*out = new ZipOutputStream(new FileOutputStream("archive.zip"));
 
         File file = new File("folder");*/
+        List<File> arraysFile = new ArrayList<>();
+        for (File f : file.listFiles()) {
+            if (f.isDirectory()){}
+            else {
+                arraysFile.add(f);
+            }
+        }
+
+        List<File> srcFiles = arraysFile; //Arrays.asList("test1.txt", "test2.txt");
+        FileOutputStream fos = new FileOutputStream("multiCompressed.zip");
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for (File srcFile : srcFiles) {
+            File fileToZip = srcFile;
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
+        }
+        zipOut.close();
+        fos.close();
 
         doZip(file, out);
 

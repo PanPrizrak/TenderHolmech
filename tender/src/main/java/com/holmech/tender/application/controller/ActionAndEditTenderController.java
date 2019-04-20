@@ -238,6 +238,11 @@ public class ActionAndEditTenderController {
                                 + "price reductionK"));
 
                         createZipArchiv.setOut(new ZipOutputStream(new FileOutputStream("reductionK.zip")));
+                        try {
+                            createZipArchiv.createZip();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         //sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
                     }
                     break;
