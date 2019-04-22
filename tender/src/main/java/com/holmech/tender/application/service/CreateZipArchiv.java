@@ -15,26 +15,29 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class CreateZipArchiv {
 
-    File file;
-    ZipOutputStream out;
+    File directory;
+    String fileOut;
 
     public void createZip() throws Exception {
-        /*out = new ZipOutputStream(new FileOutputStream("archive.zip"));
 
-        File file = new File("folder");*/
-        List<File> arraysFile = new ArrayList<>();
-        for (File f : file.listFiles()) {
+        //TODO
+        List<String> arraysFile = new ArrayList<>();
+        for (File f : directory.listFiles()) {
             if (f.isDirectory()){}
             else {
-                arraysFile.add(f);
+                String bufAbsolutePath = f.getAbsolutePath();
+                if(bufAbsolutePath.contains("zip")) {
+                } else {
+                    arraysFile.add(bufAbsolutePath);
+                }
             }
         }
 
-        List<File> srcFiles = arraysFile; //Arrays.asList("test1.txt", "test2.txt");
-        FileOutputStream fos = new FileOutputStream("multiCompressed.zip");
+        List<String> srcFiles = arraysFile;
+        FileOutputStream fos = new FileOutputStream(fileOut);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
-        for (File srcFile : srcFiles) {
-            File fileToZip = srcFile;
+        for (String srcFile : srcFiles) {
+            File fileToZip = new File(srcFile);
             FileInputStream fis = new FileInputStream(fileToZip);
             ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
             zipOut.putNextEntry(zipEntry);
@@ -48,10 +51,13 @@ public class CreateZipArchiv {
         }
         zipOut.close();
         fos.close();
+    }
 
-        doZip(file, out);
-
-        out.close();
+    public void createZipSaveTree() throws Exception {
+        FileOutputStream fos = new FileOutputStream(fileOut);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        doZip(directory, zipOut);
+        zipOut.close();
     }
 
     private void doZip(File dir, ZipOutputStream out) throws IOException {

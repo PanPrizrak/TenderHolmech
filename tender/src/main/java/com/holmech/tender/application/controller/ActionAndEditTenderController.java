@@ -168,6 +168,12 @@ public class ActionAndEditTenderController {
                     subjectAfterTheReductionService.writeFromExcel(numberT, null);
                     int bufNumberInOrder = 1;
 
+                    String outPath = uploadPath
+                            + bufTenderFromDB.getNumberT()
+                            + PathFromOS.getPath()
+                            + "price reductionK"
+                            + PathFromOS.getPath();
+
                     for (Documents documents : documentsService.isTheTenderDocuments(bufTenderFromDB)) {
                         String noMeet = subjectService.getNoMeetSubject(bufTenderFromDB, documents.getApplicant());
 
@@ -212,11 +218,7 @@ public class ActionAndEditTenderController {
                                 .build();
                         String fileAttachment = new String();
                         try {
-                            String outPath = uploadPath
-                                    + bufTenderFromDB.getNumberT()
-                                    + PathFromOS.getPath()
-                                    + "price reductionK"
-                                    + PathFromOS.getPath();
+
                             if (!new File(outPath).isDirectory()) {
                                 new File(outPath).mkdirs();
                             }
@@ -232,18 +234,19 @@ public class ActionAndEditTenderController {
                         String subject = " Холмеч! Приглашение на снижение цены! Запрос ценовых предложений №" + bufTenderFromDB.getNumberT();
                         List<String> attachments = new ArrayList<>();
                         attachments.add(fileAttachment);
-                        createZipArchiv.setFile(new File(uploadPath
-                                + bufTenderFromDB.getNumberT()
-                                + PathFromOS.getPath()
-                                + "price reductionK"));
 
-                        createZipArchiv.setOut(new ZipOutputStream(new FileOutputStream("reductionK.zip")));
-                        try {
-                            createZipArchiv.createZip();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                         //sendMessageService.sendAttachmentEmail(documents.getApplicant().getContactsList().get(0).getEmail(),subject,"Просим подтвердить получение сообщения ответным письмом",attachments);
+                    }
+                    createZipArchiv.setDirectory(new File(uploadPath
+                            + bufTenderFromDB.getNumberT()
+                            + PathFromOS.getPath()
+                            + "price reductionK"));
+
+                    createZipArchiv.setFileOut(outPath + bufTenderFromDB.getNumberT() + "_reductionK.zip");
+                    try {
+                        createZipArchiv.createZip();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 }
