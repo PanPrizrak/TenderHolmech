@@ -12,7 +12,7 @@
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-tender" role="tabpanel" aria-labelledby="nav-tender-tab">
-        <form id="myForm" method="post">
+        <form modelAttribute="tenderForm" id="myForm" method="post">
             <table class="table table-bordered table-hover table-sm table-primary">
                 <thead>
                 <tr>
@@ -45,7 +45,12 @@
                         </button>
                         </td>
 
-                    <td>Приглашения</td>
+                    <td>
+                        <#if tenderForm.tenderList[0].filename??> <a href="/xlsx/${tenderForm.tenderList[0].numberT}/price reductionK/${tenderForm.tenderList[0].numberT}_reductionK.zip" download="">${tenderForm.tenderList[0].numberT}_reductionK.zip</a>
+                        <#else>
+                        Приглашение
+                    </#if>
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan="2">Принятия решения</td>
