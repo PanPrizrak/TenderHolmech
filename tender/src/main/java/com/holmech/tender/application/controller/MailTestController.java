@@ -1,17 +1,16 @@
 package com.holmech.tender.application.controller;
 
-import com.holmech.tender.application.entity.Tender;
-import com.holmech.tender.application.form.TenderForm;
 import com.holmech.tender.application.service.MailSender;
-import com.holmech.tender.application.service.TenderService;
+import com.holmech.tender.application.utilities.CreateDumpDatabase;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
 
 
 @Controller
@@ -19,9 +18,12 @@ import java.util.List;
 public class MailTestController {
 
     private final MailSender mailSender;
+    private final CreateDumpDatabase createDumpDatabase;
 
-    public MailTestController(MailSender mailSender) {
+    public MailTestController(MailSender mailSender,
+                                CreateDumpDatabase createDumpDatabase) {
         this.mailSender = mailSender;
+        this.createDumpDatabase = createDumpDatabase;
     }
 
     @GetMapping()
@@ -31,9 +33,10 @@ public class MailTestController {
     }
 
     @PostMapping()
-    public String sendMail(@RequestParam("sendTo") String sendTo,Model model) {
-        mailSender.send(sendTo,"Test sender email", "Prover otpravlennie");
+    public String sendMail(@RequestParam("sendTo") String sendTo,Model model) throws SQLException, IOException, ClassNotFoundException {
+        //mailSender.send(sendTo,"Test sender email", "Prover otpravlennie");
         model.addAttribute("sendTo", "asirozh@gmail.com");
+            createDumpDatabase.createDump();
         return "mailtest";
     }
 

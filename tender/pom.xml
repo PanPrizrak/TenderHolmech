@@ -57,13 +57,20 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.0.1.RELEASE</version>
         </dependency>
 
-        <!-- Use MySQL Connector-J -->
+        <!-- Use MySQL Connector-J-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+
         </dependency>
 
         <!-- Migration DB
@@ -155,6 +162,13 @@
             <version>${logback.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Dump Datatabase -->
+        <dependency>
+            <groupId>com.smattme</groupId>
+            <artifactId>mysql-backup4j</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
 
 
     </dependencies>
