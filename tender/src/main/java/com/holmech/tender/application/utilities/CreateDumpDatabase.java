@@ -19,10 +19,11 @@ public class CreateDumpDatabase {
         Properties properties = new Properties();
         properties.setProperty(MysqlExportService.DB_NAME,"tender");
         properties.setProperty(MysqlExportService.JDBC_DRIVER_NAME,"com.mysql.jdbc.Driver");
-        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING,"jdbc:mysql://localhost:3307/tender");
+        properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING,"jdbc:mysql://localhost:3306/tender");
         properties.setProperty(MysqlExportService.DB_USERNAME,"root");
         properties.setProperty(MysqlExportService.DB_PASSWORD,"root");
         //properties.setProperty(MysqlExportService.JDBC_DRIVER_NAME,"jdbc");
+        properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
 
 
 //properties relating to email config
@@ -34,6 +35,7 @@ public class CreateDumpDatabase {
         properties.setProperty(MysqlExportService.EMAIL_TO,"backup@smattme.com");*/
 
 //set the outputs temp dir
+        System.out.println(new File("external").getPath());
         properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
 
         MysqlExportService mysqlExportService = new MysqlExportService(properties);

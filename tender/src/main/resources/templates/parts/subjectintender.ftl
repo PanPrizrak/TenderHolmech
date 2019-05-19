@@ -4,7 +4,7 @@
 
     <#if subjectAndDocumentsForm.subjectList[0].tender.stage=="Снижение цены">
     <a href="/satrintender/${subjectAndDocumentsForm.subjectList[0].tender.numberT}">Снижение цены</a>
-    </#if>
+        </#if>
 
     <thead>
     <tr >

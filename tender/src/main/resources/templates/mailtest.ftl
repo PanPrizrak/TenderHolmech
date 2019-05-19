@@ -2,13 +2,31 @@
 
 <@ht.page>
 <h5>Проверка отправления почты</h5>
-<form method="post">
+<form method="post" id="testForm">
     <div>
         <input type="text" id="sendTo" value="${sendTo}" name="sendTo" placeholder="Введите номер"/>
     </div>
     <div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
+        <button type="button" class="btn btn-outline-primary"
+                onclick="document.getElementById('valueActions').value='1'; document.getElementById('testForm').submit()">
+            Отправить</button>
     </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary"
+                onclick="document.getElementById('valueActions').value='2'; document.getElementById('testForm').submit()">
+            Тест дампа БД</button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary"
+                onclick="document.getElementById('valueActions').value='3'; document.getElementById('testForm').submit()">
+            Тест разархивирования</button>
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary"
+                onclick="document.getElementById('valueActions').value='4'; document.getElementById('testForm').submit()">
+            Тест востановления БД</button>
+    </div>
+    <input type="hidden" name="action" id="valueActions" value=""/>
     <input type="hidden" name="_csrf" value="${_csrf.token}"/>
 </form>
 </@ht.page>
