@@ -21,6 +21,13 @@
                 onclick="document.getElementById('valueActions').value='3'; document.getElementById('testForm').submit()">
             Тест разархивирования</button>
     </div>
+    <!--filename-->
+    <div class="form-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" name="file"/>
+            <label class="custom-file-label col-sm-4" for="customFile">Выберите файл</label>
+        </div>
+    </div>
     <div>
         <button type="button" class="btn btn-outline-primary"
                 onclick="document.getElementById('valueActions').value='4'; document.getElementById('testForm').submit()">
