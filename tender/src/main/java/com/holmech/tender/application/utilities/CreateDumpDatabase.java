@@ -35,7 +35,7 @@ public class CreateDumpDatabase {
 
 
 
-    public void createDump() throws SQLException, IOException, ClassNotFoundException {
+    public File createDump() throws SQLException, IOException, ClassNotFoundException {
         //required properties for exporting of db
         //Properties properties = new Properties();
 
@@ -49,12 +49,12 @@ public class CreateDumpDatabase {
 
 
 //properties relating to email config
-        properties.setProperty(MysqlExportService.EMAIL_HOST,mailHost);
-        properties.setProperty(MysqlExportService.EMAIL_PORT,mailPort);
+        /*properties.setProperty(MysqlExportService.EMAIL_HOST,mailHost);
+        properties.setProperty(MysqlExportService.EMAIL_PORT,"587");
         properties.setProperty(MysqlExportService.EMAIL_USERNAME,mailUserName);
         properties.setProperty(MysqlExportService.EMAIL_PASSWORD,mailUserPassword);
         properties.setProperty(MysqlExportService.EMAIL_FROM,mailUserName);
-        properties.setProperty(MysqlExportService.EMAIL_TO,"webfbtest@yandex.ru");
+        properties.setProperty(MysqlExportService.EMAIL_TO,"webfbtest@yandex.ru");*/
 
 //set the outputs temp dir
         System.out.println(new File("external").getPath());
@@ -62,6 +62,7 @@ public class CreateDumpDatabase {
 
         MysqlExportService mysqlExportService = new MysqlExportService(properties);
         mysqlExportService.export();
+        return mysqlExportService.getGeneratedZipFile();
     }
 
 }

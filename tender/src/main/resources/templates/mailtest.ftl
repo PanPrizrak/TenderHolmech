@@ -2,7 +2,7 @@
 
 <@ht.page>
 <h5>Проверка отправления почты</h5>
-<form method="post" id="testForm">
+<form method="post" id="testForm" enctype="multipart/form-data">
     <div>
         <input type="text" id="sendTo" value="${sendTo}" name="sendTo" placeholder="Введите номер"/>
     </div>

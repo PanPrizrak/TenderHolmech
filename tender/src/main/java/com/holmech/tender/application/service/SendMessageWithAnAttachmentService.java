@@ -1,5 +1,6 @@
 package com.holmech.tender.application.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,6 +15,9 @@ import java.util.List;
 
 @Service
 public class SendMessageWithAnAttachmentService {
+
+    @Value("${spring.mail.username}")
+    private String username;
 
     private final JavaMailSender emailSender;
 
@@ -50,7 +54,7 @@ public class SendMessageWithAnAttachmentService {
             FileSystemResource fileAttachment = new FileSystemResource(new File(pathFile));
             helper.addAttachment(nameFileAtaachment, fileAttachment);
         }
-        helper.setFrom("holmechagro@tut.by");
+        helper.setFrom(username);
 
         emailSender.send(message);
     }
