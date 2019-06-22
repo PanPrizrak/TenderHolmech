@@ -91,13 +91,15 @@ public class MailTestController {
                         System.out.println(uploadDir.mkdirs()); //;
                     }
                     // String uuidFile = UUID.randomUUID().toString();
-                    String bufNameFile = uploadPath + "Dump" + PathFromOS.getPath() + file.getName();
+                    String bufNameFile = uploadPath + "Unzip" + PathFromOS.getPath() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(PathFromOS.getPath().charAt(0))+1);
+                    System.out.println("!!!!!!!!!!!!!!!!!"+bufNameFile);
                     file.transferTo(new File(bufNameFile));
 
                     unzipFile.setZipFile(bufNameFile);
                     unzipFile.setDestinationFolder(uploadPath + "Unzip" + PathFromOS.getPath());
                     unzipFile.run();
                 }
+                break;
 
             }
             case 4:{
@@ -114,7 +116,7 @@ public class MailTestController {
                     unzipFile.run();
                     //importingDatabase.importing();
                 }
-
+                break;
             }
 
         }
