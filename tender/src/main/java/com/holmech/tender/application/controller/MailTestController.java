@@ -104,17 +104,30 @@ public class MailTestController {
             }
             case 4:{
                 if (file != null && !file.getOriginalFilename().isEmpty()) {//getOriginalFilename work  only in chrome
-                    File uploadDir = new File(uploadPath + "Unzip" + PathFromOS.getPath());
-                    if (!uploadDir.isDirectory()) {
-                        uploadDir.mkdirs();
-                    }
-                    String bufNameFile = uploadPath + "Dump" + PathFromOS.getPath() + file.getName();
-                    file.transferTo(new File(bufNameFile));
+                    String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')+1);
+                    System.out.println("!!!!!!!!!!!!" + fileType);
+                    if(fileType.equalsIgnoreCase("zip")){
+                        File unzipDir = new File(uploadPath + "Unzip" + PathFromOS.getPath());
+                        if (!unzipDir.isDirectory()) {
+                            unzipDir.mkdirs();
+                        }
 
-                    unzipFile.setZipFile(bufNameFile);
-                    unzipFile.setDestinationFolder(uploadPath + "Unzip" + PathFromOS.getPath());
-                    unzipFile.run();
-                    //importingDatabase.importing();
+                        String bufNameFile = uploadPath + "Unzip" + PathFromOS.getPath() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(PathFromOS.getPath().charAt(0))+1);
+                        file.transferTo(new File(bufNameFile));
+
+                        unzipFile.setZipFile(bufNameFile);
+                        unzipFile.setDestinationFolder(uploadPath + "Dump" + PathFromOS.getPath());
+                        importingDatabase.importing(uploadPath + "Dump" + PathFromOS.getPath()+ unzipFile.run());
+
+                    } else if (fileType.equalsIgnoreCase("sql")){
+                        File dumpDir = new File(uploadPath + "Dump" + PathFromOS.getPath());
+                        if (!dumpDir.isDirectory()) {
+                            dumpDir.mkdirs();
+                        }
+                        String bufNameFile = uploadPath + "Dump" + PathFromOS.getPath() + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(PathFromOS.getPath().charAt(0))+1);
+                        file.transferTo(new File(bufNameFile));
+                        importingDatabase.importing(bufNameFile);
+                    }
                 }
                 break;
             }

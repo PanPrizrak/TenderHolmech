@@ -13,13 +13,13 @@ public class UnzipFile {
 
     String zipFile = null;
     String destinationFolder = null;
-    public void run() {
-                unzipFunction(destinationFolder,zipFile);
+    public String run() {
+            return unzipFunction(destinationFolder,zipFile);
     }
 
-    private void unzipFunction(String destinationFolder, String zipFile) {
+    private String unzipFunction(String destinationFolder, String zipFile) {
         File directory = new File(destinationFolder);
-
+        String lastUnzipFile = "";
         // if the output directory doesn't exist, create it
         if(!directory.exists())
             directory.mkdirs();
@@ -61,6 +61,7 @@ public class UnzipFile {
                 // close ZipEntry and take the next one
                 zipInput.closeEntry();
                 entry = zipInput.getNextEntry();
+                lastUnzipFile = entryName;
             }
 
             // close the last ZipEntry
@@ -68,11 +69,13 @@ public class UnzipFile {
 
             zipInput.close();
             fInput.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return lastUnzipFile;
     }
 
 

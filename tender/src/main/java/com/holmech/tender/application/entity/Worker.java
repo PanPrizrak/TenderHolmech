@@ -23,7 +23,7 @@ public class Worker {
     private Boolean memberofcommission;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "workwer_id")
+    @JoinColumn(name = "worker_id")
     private List<Contacts> contactsList;
 
 
